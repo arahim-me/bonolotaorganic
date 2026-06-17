@@ -1,0 +1,171 @@
+@extends('layouts.master')
+@section('master')
+    <main id="main">
+        <!-- contact-banner-touch start -->
+        <section class="contact-banner-touch section-pt">
+            <div class="container">
+                <div class="row row-mtm align-items-lg-center">
+                    <div class="col-12 col-lg-7" data-animate="animate__fadeIn">
+                        <!-- contact-banner start -->
+                        <div class="contact-banner">
+                            <div class="banner-hover">
+                                <span class="d-block banner-img br-hidden">
+                                    <img src="assets/image/other/contact.jpg" class="w-100 img-fluid" alt="contact">
+                                </span>
+                            </div>
+                        </div>
+                        <!-- contact-banner end -->
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <!-- contact-touch start -->
+                        <div class="col-xl-10 ms-xl-auto contact-touch">
+                            <div class="section-capture text-center text-lg-start" data-animate="animate__fadeIn">
+                                <div class="section-title d-lg-none">
+                                    <h2 class="section-heading">Get in touch</h2>
+                                </div>
+                                <h2 class="section-heading d-none d-lg-block">Get in touch</h2>
+                            </div>
+                            <ul class="ul-mt30">
+                                <li>
+                                    <div class="d-flex" data-animate="animate__fadeIn">
+                                        <span class="width-24 primary-color icon-24"><i
+                                                class="ri-map-pin-range-line"></i></span>
+                                        <div class="psl-15">
+                                            <span class="d-block heading-color heading-weight">Address</span>
+                                            <span class="d-block mst-6">1234 MG road, Bengaluru</span>
+                                            <span class="d-block mst-6">Karnataka 560001, India</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex" data-animate="animate__fadeIn">
+                                        <span class="width-24 primary-color icon-24"><i class="ri-phone-line"></i></span>
+                                        <div class="psl-15">
+                                            <span class="d-block heading-color heading-weight">Phone</span>
+                                            <span class="d-block mst-6"><a href="tel:+919876543210"
+                                                    class="d-inline-block body-primary-color">+91 98765-43210</a></span>
+                                            <span class="d-block mst-6"><a href="tel:+919988765432"
+                                                    class="d-inline-block body-primary-color">+91 99887-65432</a></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex" data-animate="animate__fadeIn">
+                                        <span class="width-24 primary-color icon-24"><i class="ri-mail-line"></i></span>
+                                        <div class="psl-15">
+                                            <span class="d-block heading-color heading-weight">Email</span>
+                                            <span class="d-block mst-6"><a href="mailto:info@demowebsite.com"
+                                                    class="d-inline-block body-primary-color">info@demowebsite.com</a></span>
+                                            <span class="d-block mst-6"><a href="mailto:hello@demowebsite.com"
+                                                    class="d-inline-block body-primary-color">hello@demowebsite.com</a></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- contact-touch end -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- contact-banner-touch end -->
+        <!-- contact-service start -->
+        <section class="contact-service section-pt text-center">
+            <div class="container">
+                <div class="row row-mtm justify-content-md-center">
+                    <div class="col-12 col-lg-4" data-animate="animate__fadeIn">
+                        <div class="col-xxl-10 mx-xxl-auto">
+                            <h6 class="font-18">Outlet locale</h6>
+                            <p class="mst-18">"Branch site" represents the physical location of a business, where customers
+                                can visit and make purchases or inquiries.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4" data-animate="animate__fadeIn">
+                        <div class="col-xxl-10 mx-xxl-auto">
+                            <h6 class="font-18">Store funds</h6>
+                            <p class="mst-18">Secure and manage your finances effortlessly, ensuring your transactions are
+                                both protected and easily accessible.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4" data-animate="animate__fadeIn">
+                        <div class="col-xxl-10 mx-xxl-auto">
+                            <h6 class="font-18">Round help</h6>
+                            <p class="mst-18">Always available to assist, our team ensures constant, reliable assistance
+                                whenever you need it, day or night.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- contact-service end -->
+        <!-- contact-map start -->
+        <div class="contact-map section-pt" data-animate="animate__fadeIn">
+            <div class="container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093743!2d144.9556513156168!3d-37.81731367975168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1b1f5b3%3A0x2f3e10c62b5d1b8b!2sMelbourne%20Central!5e0!3m2!1sen!2sau!4v1690839464351!5m2!1sen!2sau"
+                    class="d-block w-100" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    title="Location"></iframe>
+            </div>
+        </div>
+        <!-- contact-map end -->
+        <!-- contact-form start -->
+        <section class="contact-form section-ptb">
+            <div class="container">
+                <div class="section-capture text-center">
+                    <div class="section-title" data-animate="animate__fadeIn">
+                        <h2 class="section-heading">Reach out today</h2>
+                    </div>
+                </div>
+                <form method="post" action="javascript:void(0)">
+                    <div class="row field-row">
+                        <div class="col-12 col-md-6 field-col d-flex">
+                            <div class="row field-row">
+                                <div class="col-12 field-col" data-animate="animate__fadeIn">
+                                    <label for="name" class="field-label">Name</label>
+                                    <input type="text" id="name" name="name" class="w-100"
+                                        placeholder="Full name" autocomplete="name">
+                                </div>
+                                <div class="col-12 field-col" data-animate="animate__fadeIn">
+                                    <label for="email" class="field-label">Email</label>
+                                    <input type="email" id="email" name="email" class="w-100"
+                                        placeholder="Email" autocomplete="email">
+                                </div>
+                                <div class="col-12 field-col" data-animate="animate__fadeIn">
+                                    <label for="phone" class="field-label">Phone number</label>
+                                    <input type="text" id="phone" name="phone" class="w-100"
+                                        placeholder="Phone number" autocomplete="tel">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 field-col d-flex" data-animate="animate__fadeIn">
+                            <div class="d-flex flex-column w-100">
+                                <label for="message" class="field-label">Message</label>
+                                <textarea rows="5" id="message" name="message" class="w-100 height-md-100" placeholder="Message"
+                                    autocomplete="off"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-form-btn mst-15 mst-md-30">
+                        <div class="row">
+                            <div class="col-12 col-md-6 meb-11 meb-md-0" data-animate="animate__fadeIn">
+                                <label class="cust-checkbox-label checkbox-agree">
+                                    <input type="checkbox" class="cust-checkbox checkboxbtn">
+                                    <span class="d-block cust-check"></span>
+                                    <span class="login-read">I agree to the <a href="terms-condition.html"
+                                            class="body-secondary-color text-decoration-underline">rules & policies</a> and
+                                        acknowledge that my info will be stored safely following the data guidelines.</span>
+                                </label>
+                            </div>
+                            <div class="col-12 col-md-6" data-animate="animate__fadeIn">
+                                <button type="submit"
+                                    class="w-100 btn-style secondary-btn hide-btn opacity-50 disabled pe-none">Submit
+                                    now</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- contact-form-touch end -->
+    </main>
+@endsection
