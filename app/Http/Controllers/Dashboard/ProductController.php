@@ -6,24 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
     public function index()
     {
         $products = Product::with('category')->get();
+
         return view('dashboard.products.index', compact('products'));
     }
 
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+
         return view('dashboard.products.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+        $user = auth()->user();
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
@@ -34,20 +39,36 @@ class ProductController extends Controller
             'images.*' => 'nullable|image|max:5120',
         ]);
 
+        $validated['user_id'] = $user?->id;
+        $validated['thumbnail'] = null;
+        $validated['images'] = [];
+
         if ($request->hasFile('thumbnail')) {
-            $validated['thumbnail'] = $request->file('thumbnail')->store('products', 'public');
+            $validated['thumbnail'] = $this->storeProductImage(
+                $request->file('thumbnail'),
+                'uploads/products/thumbnails',
+                $user?->id ?? 0,
+            );
         }
 
-        $images = [];
         if ($request->hasFile('images')) {
+            $imagePaths = [];
+
             foreach ($request->file('images') as $file) {
-                $images[] = $file->store('products', 'public');
+                $imagePaths[] = $this->storeProductImage(
+                    $file,
+                    'uploads/products/images',
+                    $user?->id ?? 0,
+                );
             }
+
+            $validated['images'] = $imagePaths;
         }
 
-        $validated['images'] = $images;
-
-        Product::create($validated);
+        $created = Product::create($validated);
+        if (! $created) {
+            return redirect()->back()->with('error', 'Failed to create product. Please try again.');
+        }
 
         return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
@@ -55,6 +76,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product = Product::where('id', $product->id)->first();
+
         return view('dashboard.products.show', compact('product'));
     }
 
@@ -78,13 +100,16 @@ class ProductController extends Controller
             'thumbnail' => 'nullable|image|max:2048',
         ]);
 
-
         if ($request->hasFile('thumbnail')) {
-            // remove old thumbnail
-            if ($product->thumbnail) {
-                Storage::disk('public')->delete($product->thumbnail);
+            if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
+                unlink(public_path($product->thumbnail));
             }
-            $validated['thumbnail'] = $request->file('thumbnail')->store('products', 'public');
+
+            $validated['thumbnail'] = $this->storeProductImage(
+                $request->file('thumbnail'),
+                'uploads/products/thumbnails',
+                $product->user_id ?? 0,
+            );
         }
 
         $product->update($validated);
@@ -94,12 +119,15 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->thumbnail) {
-            Storage::disk('public')->delete($product->thumbnail);
+        if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
+            unlink(public_path($product->thumbnail));
         }
-        if (!empty($product->images) && is_array($product->images)) {
+
+        if (! empty($product->images) && is_array($product->images)) {
             foreach ($product->images as $img) {
-                Storage::disk('public')->delete($img);
+                if ($img && file_exists(public_path($img))) {
+                    unlink(public_path($img));
+                }
             }
         }
 
@@ -117,13 +145,33 @@ class ProductController extends Controller
             'file' => 'required|image|max:5120',
         ]);
 
-        $path = $request->file('file')->store('products', 'public');
+        $path = $this->storeProductImage(
+            $request->file('file'),
+            'uploads/products/images',
+            $product->user_id ?? 0,
+        );
 
         $images = $product->images ?? [];
         $images[] = $path;
         $product->images = $images;
         $product->save();
 
-        return response()->json(['success' => true, 'path' => asset('storage/' . $path)]);
+        return response()->json(['success' => true, 'path' => asset($path)]);
+    }
+
+    private function storeProductImage($file, string $directory, int $userId): string
+    {
+        $manager = new ImageManager(new Driver);
+        $image = $manager->read($file);
+        $image->scale(600);
+
+        $extension = $file->getClientOriginalExtension() ?: 'jpg';
+        $filename = 'uid' . $userId . '-' . time() . '-' . random_int(10, 100) . '.' . $extension;
+        $absolutePath = public_path($directory . '/' . $filename);
+
+        File::ensureDirectoryExists(dirname($absolutePath));
+        $image->save($absolutePath, quality: 90);
+
+        return $filename;
     }
 }

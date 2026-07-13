@@ -4,15 +4,19 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\FacilityController;
+use App\Http\Controllers\Dashboard\OrderController;
+use App\Http\Controllers\Dashboard\PaymentGwatewayController;
+use App\Http\Controllers\Dashboard\PaymentMethodController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-require __DIR__ . '/frontend.php';
+require __DIR__.'/frontend.php';
 
 // Route::get('/', [\App\Http\Controllers\FrontEnd\HomeController::class, 'index'])->name('home');
 
@@ -30,32 +34,35 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Management Routes (only role_id 1 and 2)
-    Route::middleware(\App\Http\Middleware\AdminRoleMiddleware::class.':1,2')->group(function () {
+    Route::middleware(AdminRoleMiddleware::class.':1,2')->group(function () {
         // User Management Routes
         Route::patch('users/{user}/avatar', [UserController::class, 'updateAvatar'])->name('users.avatar.update');
         Route::patch('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.password.update');
         Route::resource('users', UserController::class);
 
         // Category Management Routes
-        Route::resource('categories', CategoryController::class);
+        Route::get('dashboard/categories/{category}/toggle-status', [CategoryController::class, 'toggleStatus'])->name('categories.toggle-status');
+        Route::resource('dashboard/categories', CategoryController::class);
 
         // Product Management Routes
-        Route::resource('products', ProductController::class);
-        Route::post('products/{product}/images', [ProductController::class, 'uploadImages'])->name('products.images.upload');
+        Route::resource('dashboard/products', ProductController::class);
+        Route::post('dashboard/products/{product}/images', [ProductController::class, 'uploadImages'])->name('products.images.upload');
+
+        // Review Management Routes
+        Route::resource('dashboard/reviews', \App\Http\Controllers\Dashboard\ReviewController::class);
 
         // Facility Management Routes
-        Route::resource('facilities', FacilityController::class);
+        Route::resource('dashboard/facilities', FacilityController::class);
 
         // Orders Management
-        Route::resource('orders', \App\Http\Controllers\Dashboard\OrderController::class);
+        Route::resource('dashboard/orders', OrderController::class);
         // Payment Methods Management
-        Route::resource('payment-methods', \App\Http\Controllers\Dashboard\PaymentMethodController::class);
-        Route::get('payment-methods/{payment_method}/toggle', [\App\Http\Controllers\Dashboard\PaymentMethodController::class, 'toggle'])->name('payment-methods.toggle');
+        Route::resource('dashboard/payment-methods', PaymentMethodController::class);
+        Route::get('dashboard/payment-methods/{payment_method}/toggle', [PaymentMethodController::class, 'toggle'])->name('payment-methods.toggle');
         // Payment Gateway Settings (admin & super-admin only) - simple forms
-        Route::resource('payment-gateways', \App\Http\Controllers\Dashboard\PaymentGwatewayController::class);
+        Route::resource('dashboard/payment-gateways', PaymentGwatewayController::class);
 
     });
 });
 
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/auth.php';

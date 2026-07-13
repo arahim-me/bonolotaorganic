@@ -31,6 +31,7 @@
                 <table class="table table-centered table-striped table-nowrap mb-0">
                     <thead>
                         <tr>
+                            <th>Product Thumbnail</th>
                             <th>Product Name</th>
                             <th>Category</th>
                             <th>Price</th>
@@ -42,6 +43,9 @@
                     <tbody>
                         @forelse($products as $product)
                             <tr>
+                                <td>
+                                    <img src="{{ $product->thumbnail ? asset('uploads/products/thumbnails/' . $product->thumbnail) : asset('uploads/products/default.png') }}" class="avatar-sm">
+                                </td>
                                 <td>
                                     <strong>{{ $product->name ?? 'N/A' }}</strong>
                                 </td>

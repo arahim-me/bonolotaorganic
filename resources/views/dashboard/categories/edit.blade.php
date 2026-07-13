@@ -18,11 +18,11 @@
         </div>
     </div>
 
-    @if($errors->any())
+    @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Error!</strong>
             <ul class="mb-0">
-                @foreach($errors->all() as $error)
+                @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
@@ -33,44 +33,35 @@
     <div class="row">
         <div class="col-xl-8">
             <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Category Information</h5>
-                </div>
                 <div class="card-body">
-                    <form action="{{ route('categories.update', $category->id) }}" method="POST">
+                    <form action="{{ route('categories.update', $category->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+                        <div class="d-flex">
+                            <img id="image-preview"
+                                src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
+                                alt="{{ $category->name }}" class="img-thumbnail mb-3" style="max-width: 150px;">
+                            <div class="d-flex justify-content-center align-items-center ms-3">
+                                <div><label for="image" class="form-label">Change Image</label>
+                                    <input onchange="document.getElementById('image-preview').src = window.URL.createObjectURL(this.files[0])" type="file" class="form-control" id="image" name="image">
+                                </div>
 
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Category Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $category->name) }}" required>
-                            @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <input type="text" class="form-control" id="name" name="name"
+                                value="{{ old('name', $category->name) }}" required>
                         </div>
-
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="4">{{ old('description', $category->description) }}</textarea>
-                            @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $category->description) }}</textarea>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bx bx-check"></i> Update Category
-                            </button>
-                            <button type="reset" class="btn btn-secondary">
-                                <i class="bx bx-refresh"></i> Reset
-                            </button>
-                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">
-                                    <i class="bx bx-trash"></i> Delete Category
-                                </button>
-                            </form>
-                        </div>
+                        <button type="submit" class="btn btn-primary">Update Category</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection

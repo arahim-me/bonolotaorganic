@@ -23,11 +23,10 @@
             <div class="row g-4">
                 <div class="col-xl-4">
                     <div class="border rounded p-3 text-center">
-                        @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-fluid rounded mb-3">
-                        @else
-                            <div class="bg-light rounded p-5 text-muted">No image available</div>
-                        @endif
+
+                        <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                            alt="{{ $product->name }}" class="img-fluid rounded mb-3">
+
                     </div>
                 </div>
                 <div class="col-xl-8">

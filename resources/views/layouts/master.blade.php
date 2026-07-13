@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>Erona - Fashion eCommerce HTML5 Template with Bootstrap 5</title>
+        <title>{{$title?? 'A beautiful Bangladeshi Fashion Website.'}}</title>
         <meta name="description" content="Erona is a modern fashion eCommerce HTML5 template built with Bootstrap 5, perfect for clothing stores, boutiques, and online apparel shops.">
         <meta name="keywords" content="fashion eCommerce template, clothing store HTML5, Bootstrap 5 fashion shop, online boutique HTML, apparel shop website, responsive fashion template">
         <meta name="author" content="spacingtech_webify">
@@ -32,7 +32,7 @@
         </div>
         <!-- preloader end -->
         <!-- newsletter-modal start -->
-        <div class="newsletter-modal modal fade" id="newslettermodal">
+        {{-- <div class="newsletter-modal modal fade" id="newslettermodal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content body-bg border-0 br-hidden">
                     <div class="modal-body p-0">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- newsletter-modal end -->
         <!-- header start -->
         <header id="header" class="main-header">
@@ -148,323 +148,29 @@
                                     <div class="main-wrap">
                                         <ul class="menu-ul d-flex flex-wrap">
                                             <li class="menu-li">
-                                                <a href="index-2.html" class="menu-link d-flex align-items-center ptb-5 plr-15">
+                                                <a href="/" class="menu-link d-flex align-items-center ptb-5 plr-15">
                                                     <span class="menu-title text-uppercase heading-weight">Home</span>
-                                                    <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
                                                 </a>
-                                                <div class="menu-dropdown collapse position-absolute top-auto start-0 end-0 body-bg z-2 DropDownSlide box-shadow">
-                                                    <div class="container ptb-30 text-center">
-                                                        <div class="row">
-                                                            <div class="col-xl-2">
-                                                                <div class="banner-hover">
-                                                                    <a href="index-2.html" class="d-block banner-img br-hidden">
-                                                                        <img src="{{ asset('frontend') }}/assets/image/menu/menu-banner1.jpg" class="w-100 img-fluid" alt="menu-banner1">
-                                                                    </a>
-                                                                </div>
-                                                                <a href="index-2.html" class="d-inline-block primary-link mst-15 heading-weight">01 Classic fashion</a>
-                                                            </div>
-                                                            <div class="col-xl-2">
-                                                                <div class="banner-hover">
-                                                                    <a href="index2.html" class="d-block banner-img br-hidden">
-                                                                        <img src="{{ asset('frontend') }}/assets/image/menu/menu-banner2.jpg" class="w-100 img-fluid" alt="menu-banner2">
-                                                                    </a>
-                                                                </div>
-                                                                <a href="index2.html" class="d-inline-block primary-link mst-15 heading-weight">02 Modern fashion</a>
-                                                            </div>
-                                                            <div class="col-xl-2">
-                                                                <div class="banner-hover">
-                                                                    <a href="index3.html" class="d-block banner-img br-hidden">
-                                                                        <img src="{{ asset('frontend') }}/assets/image/menu/menu-banner3.jpg" class="w-100 img-fluid" alt="menu-banner3">
-                                                                    </a>
-                                                                </div>
-                                                                <a href="index3.html" class="d-inline-block primary-link mst-15 heading-weight">03 Elegant boutique</a>
-                                                            </div>
-                                                            <div class="col-xl-2">
-                                                                <div class="banner-hover">
-                                                                    <a href="index4.html" class="d-block banner-img br-hidden">
-                                                                        <img src="{{ asset('frontend') }}/assets/image/menu/menu-banner4.jpg" class="w-100 img-fluid" alt="menu-banner4">
-                                                                    </a>
-                                                                </div>
-                                                                <a href="index4.html" class="d-inline-block primary-link mst-15 heading-weight">04 Minimal clothing</a>
-                                                            </div>
-                                                            <div class="col-xl-2">
-                                                                <div class="banner-hover">
-                                                                    <a href="index5.html" class="d-block banner-img br-hidden">
-                                                                        <img src="{{ asset('frontend') }}/assets/image/menu/menu-banner5.jpg" class="w-100 img-fluid" alt="menu-banner5">
-                                                                    </a>
-                                                                </div>
-                                                                <a href="index5.html" class="d-inline-block primary-link mst-15 heading-weight">05 Lifestyle & Support</a>
-                                                            </div>
-                                                            <div class="col-xl-2">
-                                                                <div class="banner-hover">
-                                                                    <a href="index6.html" class="d-block banner-img br-hidden">
-                                                                        <img src="{{ asset('frontend') }}/assets/image/menu/menu-banner6.jpg" class="w-100 img-fluid" alt="menu-banner6">
-                                                                    </a>
-                                                                </div>
-                                                                <a href="index5.html" class="d-inline-block primary-link mst-15 heading-weight">06 Visual fashion</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </li>
                                             <li class="menu-li">
-                                                <a href="collection.html" class="menu-link d-flex align-items-center ptb-5 plr-15">
-                                                    <span class="menu-title text-uppercase heading-weight">Product</span>
-                                                    <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
+                                                <a href="{{route('products')}}" class="menu-link d-flex align-items-center ptb-5 plr-15">
+                                                    <span class="menu-title text-uppercase heading-weight">Products</span>
                                                 </a>
-                                                <div class="menu-dropdown collapse position-absolute top-auto start-0 end-0 body-bg z-2 DropDownSlide box-shadow">
-                                                    <div class="container ptb-25">
-                                                        <div class="row">
-                                                            <div class="col-3">
-                                                                <div class="shop-title">
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection.html" class="d-inline-block primary-link">01 Classic card style</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection2.html" class="d-inline-block primary-link">02 Modern card style</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection3.html" class="d-inline-block primary-link">03 Elegant card style</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection4.html" class="d-inline-block primary-link">04 Minimal card style</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection5.html" class="d-inline-block primary-link">05 Lifestyle card style</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection6.html" class="d-inline-block primary-link">06 Visual card style</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collections.html" class="d-inline-block primary-link">Collections</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection-category.html" class="d-inline-block primary-link">Collection category</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection-without.html" class="d-inline-block primary-link">Collection full</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection.html" class="d-inline-block primary-link">Collection left</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection-right.html" class="d-inline-block primary-link">Collection right</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection-list-without.html" class="d-inline-block primary-link">Collection-list full</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection-list.html" class="d-inline-block primary-link">Collection-list left</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="collection-list-right.html" class="d-inline-block primary-link">Collection-list right</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="search-empty.html" class="d-inline-block primary-link">Search empty</a></span>
-                                                                    <span class="d-block ptb-5 heading-weight"><a href="search-product.html" class="d-inline-block primary-link">Search product</a></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <div class="d-block heading-color ptb-5 heading-weight">Product layout</div>
-                                                                <div class="mst-11">
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">01 Bottom thumbnail details</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product2.html" class="d-inline-block body-primary-color">02 Left thumbnail accordion</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product3.html" class="d-inline-block body-primary-color">03 Right thumbnail simple layout</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product4.html" class="d-inline-block body-primary-color">04 Single grid thumbnail details</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product5.html" class="d-inline-block body-primary-color">05 Two grid thumbnail accordion</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product6.html" class="d-inline-block body-primary-color">06 Solo thumbnail tab details</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product7.html" class="d-inline-block body-primary-color">07 Creative template</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product8.html" class="d-inline-block body-primary-color">08 Classic full layout</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product9.html" class="d-inline-block body-primary-color">09 Modern full layout</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product-comparison.html" class="d-inline-block body-primary-color">Product comparision</a></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <div class="d-block heading-color ptb-5 heading-weight">Product features</div>
-                                                                <div class="mst-11">
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Special promotions offers</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Size guide</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product9.html" class="d-inline-block body-primary-color">Back in stock</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Quick buy now button</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product wishlist</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product compare option</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Ask a question</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Top social buzz</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product8.html" class="d-inline-block body-primary-color">Pre-order</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Pincode service availability</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Frequently bought together</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Pickup availability option</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product warranty info</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Delivery options details</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Trusted payment badge</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Recommended product</a></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-3">
-                                                                <div class="d-block heading-color ptb-5 heading-weight">Product details</div>
-                                                                <div class="mst-11">
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Currently views count</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Deal count down timer</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Stock count down</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Items sold count</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product short description</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Color swatch option</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product2.html" class="d-inline-block body-primary-color">Image swatch option</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product3.html" class="d-inline-block body-primary-color">Dropdown select option</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product sku code</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product flat inline description</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product2.html" class="d-inline-block body-primary-color">Accordian description</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product3.html" class="d-inline-block body-primary-color">Product detailed inline description</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product6.html" class="d-inline-block body-primary-color">Tab description</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product7.html" class="d-inline-block body-primary-color">Vertical-tab description</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product video</a></span>
-                                                                    <span class="d-block ptb-5"><a href="product.html" class="d-inline-block body-primary-color">Product review</a></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </li>
                                             <li class="menu-li">
-                                                <a href="collection.html" class="menu-link d-flex align-items-center ptb-5 plr-15">
-                                                    <span class="menu-title text-uppercase heading-weight">Shop</span>
-                                                    <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
+                                                <a href="{{route('categories')}}" class="menu-link d-flex align-items-center ptb-5 plr-15">
+                                                    <span class="menu-title text-uppercase heading-weight">Categories</span>
                                                 </a>
-                                                <div class="menu-dropdown menu-mega collapse position-absolute top-auto start-0 end-0 body-bg z-2 DropDownSlide box-shadow">
-                                                    <div class="container ptb-25">
-                                                        <div class="menu-overview">
-                                                            <div class="heading-color ptb-5 heading-weight">Account</div>
-                                                            <span class="d-block ptb-5"><a href="{{route('login')}}" class="d-inline-block body-primary-color">Login</a></span>
-                                                            <span class="d-block ptb-5"><a href="forgot-password.html" class="d-inline-block body-primary-color">Forgot password</a></span>
-                                                            <span class="d-block ptb-5"><a href="{{route('register')}}" class="d-inline-block body-primary-color">Register</a></span>
-                                                            <div class="heading-color ptb-5 heading-weight">Other</div>
-                                                            <span class="d-block ptb-5"><a href="404.html" class="d-inline-block body-primary-color">404</a></span>
-                                                            <span class="d-block ptb-5"><a href="cart-empty.html" class="d-inline-block body-primary-color">Cart empty</a></span>
-                                                            <span class="d-block ptb-5"><a href="cart-page.html" class="d-inline-block body-primary-color">Cart</a></span>
-                                                            <span class="d-block ptb-5"><a href="checkout.html" class="d-inline-block body-primary-color">Checkout</a></span>
-                                                            <span class="d-block ptb-5"><a href="coming-soon.html" class="d-inline-block body-primary-color">Comingsoon</a></span>
-                                                            <span class="d-block ptb-5"><a href="invoice.html" class="d-inline-block body-primary-color">Invoice</a></span>
-                                                            <div class="heading-color ptb-5 heading-weight">Order</div>
-                                                            <span class="d-block ptb-5"><a href="order-complete.html" class="d-inline-block body-primary-color">Order complete</a></span>
-                                                            <span class="d-block ptb-5"><a href="order.html" class="d-inline-block body-primary-color">Order</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info.html" class="d-inline-block body-primary-color">Order info</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-default.html" class="d-inline-block body-primary-color">Order default</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-unfulfilled.html" class="d-inline-block body-primary-color">Order unfulfilled</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-fulfilled.html" class="d-inline-block body-primary-color">Order fulfilled</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-inprogress.html" class="d-inline-block body-primary-color">Order inprogress</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-intransit.html" class="d-inline-block body-primary-color">Order intransit</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-indelivery.html" class="d-inline-block body-primary-color">Order indelivery</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-delivered.html" class="d-inline-block body-primary-color">Order delivered</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-pickup.html" class="d-inline-block body-primary-color">Order pickup</a></span>
-                                                            <span class="d-block ptb-5"><a href="order-info-cancel.html" class="d-inline-block body-primary-color">Order cancel</a></span>
-                                                            <div class="heading-color ptb-5 heading-weight">Profile</div>
-                                                            <span class="d-block ptb-5"><a href="profile.html" class="d-inline-block body-primary-color">Profile</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-address.html" class="d-inline-block body-primary-color">Profile address</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-notification.html" class="d-inline-block body-primary-color">Profile notification</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-order.html" class="d-inline-block body-primary-color">Profile order</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-order-empty.html" class="d-inline-block body-primary-color">Profile order empty</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-ticket.html" class="d-inline-block body-primary-color">Profile ticket</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-ticket-empty.html" class="d-inline-block body-primary-color">Profile ticket empty</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-wishlist.html" class="d-inline-block body-primary-color">Profile wishlist</a></span>
-                                                            <span class="d-block ptb-5"><a href="profile-wishlist-empty.html" class="d-inline-block body-primary-color">Profile wishlist empty</a></span>
-                                                            <div class="heading-color ptb-5 heading-weight">Ticket</div>
-                                                            <span class="d-block ptb-5"><a href="ticket.html" class="d-inline-block body-primary-color">Ticket</a></span>
-                                                            <span class="d-block ptb-5"><a href="ticket-create.html" class="d-inline-block body-primary-color">Ticket create</a></span>
-                                                            <span class="d-block ptb-5"><a href="ticket-edit.html" class="d-inline-block body-primary-color">Ticket edit</a></span>
-                                                            <span class="d-block ptb-5"><a href="ticket-info.html" class="d-inline-block body-primary-color">Ticket info</a></span>
-                                                            <div class="heading-color ptb-5 heading-weight">Policies</div>
-                                                            <span class="d-block ptb-5"><a href="cancellation.html" class="d-inline-block body-primary-color">Cancellation</a></span>
-                                                            <span class="d-block ptb-5"><a href="cookie.html" class="d-inline-block body-primary-color">Cookie</a></span>
-                                                            <span class="d-block ptb-5"><a href="legal.html" class="d-inline-block body-primary-color">Legal</a></span>
-                                                            <span class="d-block ptb-5"><a href="payment-policy.html" class="d-inline-block body-primary-color">Payment policy</a></span>
-                                                            <span class="d-block ptb-5"><a href="privacy-policy.html" class="d-inline-block body-primary-color">Privacy policy</a></span>
-                                                            <span class="d-block ptb-5"><a href="return-policy.html" class="d-inline-block body-primary-color">Return policy</a></span>
-                                                            <span class="d-block ptb-5"><a href="shipping-policy.html" class="d-inline-block body-primary-color">Shipping policy</a></span>
-                                                            <span class="d-block ptb-5"><a href="terms-condition.html" class="d-inline-block body-primary-color">Terms & condition</a></span>
-                                                            <div class="heading-color ptb-5 heading-weight">Features</div>
-                                                            <span class="d-block ptb-5"><a href="button.html" class="d-inline-block body-primary-color">Button</a></span>
-                                                            <span class="d-block ptb-5"><a href="cart-drawer-empty.html" class="d-inline-block body-primary-color">Cart drawer empty</a></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </li>
                                             <li class="menu-li">
-                                                <a href="blog.html" class="menu-link d-flex align-items-center ptb-5 plr-15">
-                                                    <span class="menu-title text-uppercase heading-weight">Blog</span>
-                                                    <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
+                                                <a href="{{ route('about') }}" class="menu-link d-flex align-items-center ptb-5 plr-15">
+                                                    <span class="menu-title text-uppercase heading-weight">About</span>
                                                 </a>
-                                                <div class="menu-dropdown menu-sub collapse position-absolute top-auto body-bg z-2 DropDownSlide box-shadow">
-                                                    <ul class="menudrop-ul ptb-25">
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="blog-without.html" class="d-inline-block body-primary-color">Blog</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="blog.html" class="d-inline-block body-primary-color">Blog left</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="blog-right.html" class="d-inline-block body-primary-color">Blog right</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="article-without.html" class="d-inline-block body-primary-color">Article</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="article.html" class="d-inline-block body-primary-color">Article left</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="article-right.html" class="d-inline-block body-primary-color">Article right</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li">
-                                                            <div class="ptb-5 plr-30"><a href="search-blog.html" class="d-inline-block body-primary-color">Search blog</a></div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
                                             </li>
                                             <li class="menu-li">
-                                                <a href="javascript:void(0)" class="menu-link d-flex align-items-center ptb-5 plr-15">
-                                                    <span class="menu-title text-uppercase heading-weight">Page</span>
-                                                    <span class="icon-16 fw-normal"><i class="ri-arrow-down-s-line d-block lh-1"></i></span>
+                                                <a href="{{ route('contact') }}" class="menu-link d-flex align-items-center ptb-5 plr-15">
+                                                    <span class="menu-title text-uppercase heading-weight">Contact</span>
                                                 </a>
-                                                <div class="menu-dropdown menu-sub collapse position-absolute top-auto body-bg z-2 DropDownSlide box-shadow">
-                                                    <ul class="menudrop-ul ptb-25">
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30">
-                                                                <a href="about-us.html" class="d-flex flex-wrap align-items-center">
-                                                                    <span class="menusub-title width-calc-16">About us</span>
-                                                                    <span class="width-16 icon-16 fw-normal"><i class="ri-arrow-right-s-line d-block lh-1"></i></span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="menusub-dropdown collapse position-absolute w-100 body-bg DropDownSlide box-shadow">
-                                                                <ul class="menusub-ul ptb-25">
-                                                                    <li class="menusub-li">
-                                                                        <span class="d-block ptb-5 plr-30"><a href="about-us.html" class="d-inline-block body-primary-color">01 Modern aboutus</a></span>
-                                                                    </li>
-                                                                    <li class="menusub-li">
-                                                                        <span class="d-block ptb-5 plr-30"><a href="about-us2.html" class="d-inline-block body-primary-color">02 Creative aboutus</a></span>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30">
-                                                                <a href="contact-us.html" class="d-flex flex-wrap align-items-center">
-                                                                    <span class="menusub-title width-calc-16">Contact us</span>
-                                                                    <span class="width-16 icon-16 fw-normal"><i class="ri-arrow-right-s-line d-block lh-1"></i></span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="menusub-dropdown collapse position-absolute w-100 body-bg DropDownSlide box-shadow">
-                                                                <ul class="menusub-ul ptb-25">
-                                                                    <li class="menusub-li">
-                                                                        <span class="d-block ptb-5 plr-30"><a href="contact-us.html" class="d-inline-block body-primary-color">01 Creative contactus</a></span>
-                                                                    </li>
-                                                                    <li class="menusub-li">
-                                                                        <span class="d-block ptb-5 plr-30"><a href="contact-us2.html" class="d-inline-block body-primary-color">02 Standard contactus</a></span>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30"><a href="faqs.html" class="d-block">Faqs</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30"><a href="sitemap.html" class="d-block">Sitemap</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30"><a href="store.html" class="d-block">Store</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30"><a href="track-order.html" class="d-block">Track order</a></div>
-                                                        </li>
-                                                        <li class="menudrop-li position-relative">
-                                                            <div class="menu-sublink ptb-5 plr-30">
-                                                                <a href="wishlist.html" class="d-flex flex-wrap align-items-center">
-                                                                    <span class="menusub-title width-calc-16">Wishlist</span>
-                                                                    <span class="width-16 icon-16 fw-normal"><i class="ri-arrow-right-s-line d-block lh-1"></i></span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="menusub-dropdown collapse position-absolute w-100 body-bg DropDownSlide box-shadow">
-                                                                <ul class="menusub-ul ptb-25">
-                                                                    <li class="menusub-li">
-                                                                        <span class="d-block ptb-5 plr-30"><a href="wishlist.html" class="d-inline-block body-primary-color">Wishlist</a></span>
-                                                                    </li>
-                                                                    <li class="menusub-li">
-                                                                        <span class="d-block ptb-5 plr-30"><a href="wishlist-empty.html" class="d-inline-block body-primary-color">Wishlist empty</a></span>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
                                             </li>
                                         </ul>
                                     </div>

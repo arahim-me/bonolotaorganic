@@ -31,6 +31,7 @@
                 <table class="table table-centered table-striped table-nowrap mb-0">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Category Name</th>
                             <th>Description</th>
                             <th>Products</th>
@@ -42,6 +43,9 @@
                         @forelse($categories as $category)
                             <tr>
                                 <td>
+                                    <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}" class="avatar-sm">
+                                </td>
+                                <td>
                                     <strong>{{ $category->name }}</strong>
                                 </td>
                                 <td>
@@ -51,7 +55,13 @@
                                     <span class="badge bg-info">{{ $category->products_count ?? 0 }}</span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-success"><i class="{{ $category->status->icon }} me-1"></i>{{ $category->status->name ?? '-' }}</span>
+                                    <a href="{{ route('categories.toggle-status', $category->id) }}" class="text-decoration-none">
+                                        <button type="button" class="btn btn-sm status-toggle-btn"
+                                            style="background-color: {{ $category->status_id == 1 ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
+                                            <i class="{{ $category->status->icon }} me-1"></i><span
+                                                class="status-text">{{ $category->status->name ?? '-' }}</span>
+                                        </button>
+                                    </a>
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2" width="100px">

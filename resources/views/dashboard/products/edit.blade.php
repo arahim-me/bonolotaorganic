@@ -84,7 +84,7 @@
                                 @error('thumbnail')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 <div class="mt-2">
                                     @if($product->thumbnail)
-                                        <img id="thumbnailPreview" src="{{ asset('storage/' . $product->thumbnail) }}" alt="thumbnail" class="img-thumbnail" style="max-width:200px">
+                                        <img id="thumbnailPreview" src="{{ asset('uploads/products/thumbnails/' . $product->thumbnail) }}" alt="thumbnail" class="img-thumbnail" style="max-width:200px">
                                     @else
                                         <img id="thumbnailPreview" src="" alt="thumbnail preview" class="img-thumbnail d-none" style="max-width:200px">
                                     @endif
@@ -117,7 +117,7 @@
                             @if(!empty($product->images))
                                 @foreach($product->images as $img)
                                     <div class="position-relative">
-                                        <img src="{{ asset('storage/' . $img) }}" class="img-thumbnail" style="max-width:120px;">
+                                        <img src="{{ asset('uploads/products/images/' . $img) }}" class="img-thumbnail" style="max-width:120px;">
                                     </div>
                                 @endforeach
                             @endif
