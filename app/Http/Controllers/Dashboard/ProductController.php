@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductModel;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -21,9 +24,13 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $active_status_id = Status::where('name', 'Active')->first()?->id;
+        $categories = Category::where('status_id', $active_status_id)->latest()->get();
+        $brands = Brand::where('status_id', $active_status_id)->latest()->get();
+        $models = ProductModel::where('status_id', $active_status_id)->latest()->get();
+        $statuses = Status::all();
 
-        return view('dashboard.products.create', compact('categories'));
+        return view('dashboard.products.create', compact('categories', 'brands', 'models', 'statuses'));
     }
 
     public function store(Request $request)
@@ -32,14 +39,33 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'nullable|exists:categories,id',
+            'type' => 'nullable|string|max:255',
+            'brand_id' => 'nullable|exists:brands,id',
+            'model_id' => 'nullable|exists:product_models,id',
+            'colors' => 'nullable|string',
+            'sizes' => 'nullable|string',
+            'pack_size' => 'nullable|string|max:255',
+            'short_description' => 'nullable|string',
             'description' => 'nullable|string',
+            'old_price' => 'nullable|string|max:255',
+            'discount' => 'nullable|string|max:50',
+            'highlight' => 'nullable|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'nullable|integer|min:0',
+            'status_id' => 'nullable|exists:statuses,id',
             'thumbnail' => 'nullable|image|max:2048',
             'images.*' => 'nullable|image|max:5120',
         ]);
 
         $validated['user_id'] = $user?->id;
+        $validated['colors'] = $request->filled('colors')
+            ? array_values(array_filter(array_map('trim', explode(',', $request->input('colors')))))
+            : null;
+        $validated['sizes'] = $request->filled('sizes')
+            ? array_values(array_filter(array_map('trim', explode(',', $request->input('sizes')))))
+            : null;
+        $validated['status_id'] = $validated['status_id'] ?? 1;
+        $validated['discount'] = $validated['discount'] ?? '%';
         $validated['thumbnail'] = null;
         $validated['images'] = [];
 
@@ -66,7 +92,7 @@ class ProductController extends Controller
         }
 
         $created = Product::create($validated);
-        if (! $created) {
+        if (!$created) {
             return redirect()->back()->with('error', 'Failed to create product. Please try again.');
         }
 
@@ -75,15 +101,17 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $title = $product->name;
         $product = Product::where('id', $product->id)->first();
-
-        return view('dashboard.products.show', compact('product'));
+        return view('dashboard.products.show', compact('product', 'title'));
     }
 
     public function edit(Product $product)
     {
+        $active_status_id = Status::where('name', 'Active')->first()?->id;
+        $title = 'Edit || ' . $product->name;
         $product = Product::where('id', $product->id)->first();
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where('status_id', $active_status_id)->latest()->get();
 
         return view('dashboard.products.edit', compact('product', 'categories'));
     }
@@ -123,7 +151,7 @@ class ProductController extends Controller
             unlink(public_path($product->thumbnail));
         }
 
-        if (! empty($product->images) && is_array($product->images)) {
+        if (!empty($product->images) && is_array($product->images)) {
             foreach ($product->images as $img) {
                 if ($img && file_exists(public_path($img))) {
                     unlink(public_path($img));

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('type')->nullable();
             $table->foreignId('brand_id')->nullable();
             $table->foreignId('model_id')->nullable();
             $table->json('colors')->nullable();

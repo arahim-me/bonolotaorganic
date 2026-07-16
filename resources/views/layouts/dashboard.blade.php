@@ -83,6 +83,34 @@
                                 <span class="menu-text">Products</span>
                             </a>
                         </li>
+                        <li class="menu-item">
+                            <a href="#menuTables" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                                <span class="menu-icon"><i class="bx bx-layer"></i></span>
+                                <span class="menu-text"> Section Management </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="menuTables">
+                                <ul class="sub-menu">
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('product-sections.index') }}'>
+                                            <span class="menu-text">Product Sections</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('payment-gateways.index') }}'>
+                                            <span class="menu-text">Payment Gateways</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="menu-item">
+                            <a class='menu-link waves-effect waves-light' href='{{ route('reviews.index') }}'>
+                                <span class="menu-icon"><i class="bx bx-star"></i></span>
+                                <span class="menu-text">Reviews</span>
+                            </a>
+                        </li>
 
                         <li class="menu-item">
                             <a class='menu-link waves-effect waves-light' href='{{ route('facilities.index') }}'>
@@ -107,7 +135,7 @@
                             <div class="collapse" id="menuTables">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{route('payment-methods.index')}}'>
+                                        <a class='menu-link' href='{{ route('payment-methods.index') }}'>
                                             <span class="menu-text">Payment Methods</span>
                                         </a>
                                     </li>

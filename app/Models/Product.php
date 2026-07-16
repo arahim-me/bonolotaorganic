@@ -13,6 +13,7 @@ class Product extends Model
         'user_id',
         'name',
         'slug',
+        'type',
         'brand_id',
         'model_id',
         'colors',
@@ -66,7 +67,7 @@ class Product extends Model
     // Relation with Model
     public function model()
     {
-        return $this->belongsTo(Model::class, 'model_id', 'id');
+        return $this->belongsTo(ProductModel::class, 'model_id', 'id');
     }
 
     public function status()

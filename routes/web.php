@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\PaymentGwatewayController;
 use App\Http\Controllers\Dashboard\PaymentMethodController;
 use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminRoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -48,8 +49,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('dashboard/products', ProductController::class);
         Route::post('dashboard/products/{product}/images', [ProductController::class, 'uploadImages'])->name('products.images.upload');
 
+        // Section Management Routes
+        Route::resource('dashboard/product-sections', \App\Http\Controllers\Dashboard\ProductSectionController::class);
+
         // Review Management Routes
-        Route::resource('dashboard/reviews', \App\Http\Controllers\Dashboard\ReviewController::class);
+        Route::get('dashboard/reviews/{review}/toggle-status', [ReviewController::class, 'toggleStatus'])->name('reviews.toggle-status');
+        Route::resource('dashboard/reviews', ReviewController::class);
 
         // Facility Management Routes
         Route::resource('dashboard/facilities', FacilityController::class);

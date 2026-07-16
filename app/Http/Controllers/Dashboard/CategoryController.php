@@ -44,6 +44,8 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        $user = auth()->user()?->id ?? null;
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -53,7 +55,8 @@ class CategoryController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = 'uid' . $user . '-' . time() . '-' . random_int(10, 100) . '.' . $extension;
             $file->move(public_path('uploads/categories'), $filename);
             $validated['image'] = $filename;
         }

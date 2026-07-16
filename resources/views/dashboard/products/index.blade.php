@@ -44,7 +44,7 @@
                         @forelse($products as $product)
                             <tr>
                                 <td>
-                                    <img src="{{ $product->thumbnail ? asset('uploads/products/thumbnails/' . $product->thumbnail) : asset('uploads/products/default.png') }}" class="avatar-sm">
+                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}" class="avatar-sm">
                                 </td>
                                 <td>
                                     <strong>{{ $product->name ?? 'N/A' }}</strong>

@@ -13,4 +13,4 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/faqs', [FaqsController::class, 'index'])->name('faqs');
 Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
 Route::get('/products', [ProductsController::class, 'index'])->name('products');
-Route::get('/products/{id}', [ProductsController::class, 'show'])->name('products.show');
+// Route::get('/products/{id}', [ProductsController::class, 'show'])->name('products.show');

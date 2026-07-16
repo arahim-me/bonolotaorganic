@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('shipping_address')->nullable();
             $table->string('payment_method')->nullable();
             $table->timestamp('placed_at')->nullable();
+            $table->foreignId('status_id')->nullable();
             $table->timestamps();
         });
     }
