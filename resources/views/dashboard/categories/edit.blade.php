@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Edit Category')
+@section('title', $title ?? 'Edit Category')
 
 @section('content')
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <h4 class="page-title mb-0">Edit Category</h4>
+                <h4 class="page-title mb-0">{{$title}}</h4>
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
@@ -44,7 +44,9 @@
                                 alt="{{ $category->name }}" class="img-thumbnail mb-3" style="max-width: 150px;">
                             <div class="d-flex justify-content-center align-items-center ms-3">
                                 <div><label for="image" class="form-label">Change Image</label>
-                                    <input onchange="document.getElementById('image-preview').src = window.URL.createObjectURL(this.files[0])" type="file" class="form-control" id="image" name="image">
+                                    <input
+                                        onchange="document.getElementById('image-preview').src = window.URL.createObjectURL(this.files[0])"
+                                        type="file" class="form-control" id="image" name="image">
                                 </div>
 
                             </div>
@@ -64,4 +66,5 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection

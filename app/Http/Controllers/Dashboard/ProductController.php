@@ -17,7 +17,19 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::latest()->get();
+
+        return view('dashboard.products.index', compact('products'));
+    }
+
+    public function filter(Request $request)
+    {
+        $filter = $request->input('filter');
+        $products = Product::where('name', 'like', "%$filter%")
+            ->orWhere('type', 'like', "%$filter%")
+            ->orWhere('highlight', 'like', "%$filter%")
+            ->orWhere('description', 'like', "%$filter%")
+            ->latest()->get();
 
         return view('dashboard.products.index', compact('products'));
     }

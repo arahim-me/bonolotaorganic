@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 class Order extends Model
 {
@@ -13,9 +12,11 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'product_id',
+        'invoice_id',
         'quantity',
         'price',
         'status_id',
+        'order_number',
         'total',
         'shipping_address',
         'payment_method',
@@ -35,5 +36,15 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
     }
 }

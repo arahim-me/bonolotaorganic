@@ -36,7 +36,8 @@
                             </tbody>
                         </table>
 
-                        <a href="{{ route('orders.index') }}" class="btn btn-secondary">Back</a>
+                        <a href="{{ route('orders.index') }}" class="btn btn-secondary me-2">Back</a>
+                        <a href="{{ route('orders.invoice', $order) }}" class="btn btn-outline-primary">Invoice</a>
                     </div>
                 </div>
             </div>

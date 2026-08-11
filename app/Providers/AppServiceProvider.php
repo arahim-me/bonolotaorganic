@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Policy_type;
+use App\Models\SiteInfo;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::share('siteInfo', SiteInfo::first());
+        View::share('policyTypes', Policy_type::all());
     }
 }

@@ -11,7 +11,8 @@
     <meta content="Myra Studio" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon"
+        href="{{ $siteInfo && $siteInfo->favicon ? asset('uploads/site-info/favicon/' . $siteInfo->favicon) : asset('assets/images/favicon.ico') }}">
 
     <link href="{{ asset('assets/libs/morris.js/morris.css') }}" rel="stylesheet" type="text/css" />
 
@@ -31,19 +32,32 @@
         <div class="main-menu">
             <!-- Brand Logo -->
             <div class="logo-box">
-                <!-- Brand Logo Light -->
                 <a class='logo-light' href='{{ route('dashboard') }}'>
-                    <img src="{{ asset('assets/images/logo-light.png') }}" alt="logo" class="logo-lg"
-                        height="28">
-                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm" height="28">
+                    @if ($siteInfo && $siteInfo->logo)
+                        <img src="{{ asset('uploads/site-info/logo/' . $siteInfo->logo) }}"
+                            alt="{{ $siteInfo->name ?? 'Site logo' }}" class="logo-lg" height="28">
+                        <img src="{{ asset('uploads/site-info/logo/' . $siteInfo->logo) }}"
+                            alt="{{ $siteInfo->name ?? 'Site logo' }}" class="logo-sm" height="28">
+                    @else
+                        <img src="{{ asset('assets/images/logo-light.png') }}" alt="logo" class="logo-lg"
+                            height="28">
+                        <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm"
+                            height="28">
+                    @endif
                 </a>
 
-                <!-- Brand Logo Dark -->
                 <a class='logo-dark' href='{{ route('dashboard') }}'>
-                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" class="logo-lg"
-                        height="28">
-                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm"
-                        height="28">
+                    @if ($siteInfo && $siteInfo->logo)
+                        <img src="{{ asset('uploads/site-info/logo/' . $siteInfo->logo) }}"
+                            alt="{{ $siteInfo->name ?? 'Site logo' }}" class="logo-lg" height="28">
+                        <img src="{{ asset('uploads/site-info/logo/' . $siteInfo->logo) }}"
+                            alt="{{ $siteInfo->name ?? 'Site logo' }}" class="logo-sm" height="28">
+                    @else
+                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" class="logo-lg"
+                            height="28">
+                        <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm"
+                            height="28">
+                    @endif
                 </a>
             </div>
 
@@ -84,21 +98,22 @@
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="#menuTables" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                            <a href="#menuSections" data-bs-toggle="collapse"
+                                class="menu-link waves-effect waves-light">
                                 <span class="menu-icon"><i class="bx bx-layer"></i></span>
-                                <span class="menu-text"> Section Management </span>
+                                <span class="menu-text">Sections</span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="menuTables">
+                            <div class="collapse" id="menuSections">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
                                         <a class='menu-link' href='{{ route('product-sections.index') }}'>
-                                            <span class="menu-text">Product Sections</span>
+                                            <span class="menu-text">Section Management</span>
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('payment-gateways.index') }}'>
-                                            <span class="menu-text">Payment Gateways</span>
+                                        <a class='menu-link' href='#'>
+                                            <span class="menu-text">Product Management</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -120,19 +135,26 @@
                         </li>
 
                         <li class="menu-item">
+                            <a class='menu-link waves-effect waves-light' href='{{ route('policy-types.index') }}'>
+                                <span class="menu-icon"><i class="bx bx-question-mark"></i></span>
+                                <span class="menu-text">Policy Types</span>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
                             <a class='menu-link waves-effect waves-light' href='{{ route('orders.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-cart"></i></span>
                                 <span class="menu-text">Orders</span>
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="#menuTables" data-bs-toggle="collapse"
+                            <a href="#menuPayment" data-bs-toggle="collapse"
                                 class="menu-link waves-effect waves-light">
                                 <span class="menu-icon"><i class="bx bx-credit-card"></i></span>
                                 <span class="menu-text"> Payment Settings </span>
                                 <span class="menu-arrow"></span>
                             </a>
-                            <div class="collapse" id="menuTables">
+                            <div class="collapse" id="menuPayment">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
                                         <a class='menu-link' href='{{ route('payment-methods.index') }}'>
@@ -142,6 +164,45 @@
                                     <li class="menu-item">
                                         <a class='menu-link' href='{{ route('payment-gateways.index') }}'>
                                             <span class="menu-text">Payment Gateways</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#menuSiteSettings" data-bs-toggle="collapse"
+                                class="menu-link waves-effect waves-light">
+                                <span class="menu-icon"><i class="bx bx-cog"></i></span>
+                                <span class="menu-text"> Site Settings </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="menuSiteSettings">
+                                <ul class="sub-menu">
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('site-info.index') }}'>
+                                            <span class="menu-text">Site Information</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#menuCourier" data-bs-toggle="collapse"
+                                class="menu-link waves-effect waves-light">
+                                <span class="menu-icon"><i class="fa-solid fa-truck-fast"></i></i></span>
+                                <span class="menu-text"> Courier Settings </span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <div class="collapse" id="menuCourier">
+                                <ul class="sub-menu">
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('payment-methods.index') }}'>
+                                            <span class="menu-text">Courier Methods</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('payment-gateways.index') }}'>
+                                            <span class="menu-text">Configure Courier</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -878,8 +939,7 @@
                                 data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                 aria-expanded="false">
                                 @if (auth()->check() && auth()->user()->avatar)
-                                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="user-image"
-                                        class="rounded-circle">
+                                    <img src="{{ asset('uploads/') }}" alt="user-image" class="rounded-circle">
                                 @else
                                     <img src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="user-image"
                                         class="rounded-circle">
@@ -993,6 +1053,22 @@
 
     <script src="{{ asset('assets/libs/raphael/raphael.min.js') }}"></script>
 
+    {{-- Database Table Scripts --}}
+    <!-- third party js -->
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <!-- third party js ends -->
     <!-- Dashboard init-->
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
     @stack('scripts')

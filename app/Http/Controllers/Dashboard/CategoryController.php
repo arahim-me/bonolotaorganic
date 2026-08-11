@@ -15,6 +15,16 @@ class CategoryController extends Controller
         return view('dashboard.categories.index', compact('categories'));
     }
 
+    public function filter(Request $request)
+    {
+        $filter = $request->input('filter');
+        $categories = Category::where('name', 'like', "%$filter%")
+            ->orWhere('description', 'like', "%$filter%")
+            ->get();
+
+        return view('dashboard.categories.index', compact('categories'));
+    }
+
     public function create()
     {
         return view('dashboard.categories.create');
@@ -39,7 +49,9 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('dashboard.categories.edit', compact('category'));
+        $title = 'Edit '.$category->name;
+
+        return view('dashboard.categories.edit', compact('category', 'title'));
     }
 
     public function update(Request $request, Category $category)
@@ -56,7 +68,7 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension() ?: 'jpg';
-            $filename = 'uid' . $user . '-' . time() . '-' . random_int(10, 100) . '.' . $extension;
+            $filename = 'uid'.$user.'-'.time().'-'.random_int(10, 100).'.'.$extension;
             $file->move(public_path('uploads/categories'), $filename);
             $validated['image'] = $filename;
         }
@@ -73,11 +85,12 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');
     }
 
-    public function toggleStatus(Category $category)
+    public function toggleStatus($id)
     {
-        $newStatus = $category->status_id === 1 ? 2 : 1;
-        $category->update(['status_id' => $newStatus]);
+        $category = Category::findOrFail($id);
+        $category->is_published = !$category->is_published;
+        $category->save();
 
-        return redirect()->back()->with('success', 'Category status updated successfully!');
+        return redirect()->back()->with('success', 'Category publishable status updated successfully!');
     }
 }

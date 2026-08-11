@@ -5,11 +5,11 @@
 @section('content')
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
-            <div class="col-sm-6">
+            <div class="col">
                 <h4 class="page-title mb-0">Create Product</h4>
             </div>
-            <div class="col-sm-6">
-                <div class="float-end d-none d-sm-block">
+            <div class="col">
+                <div class="float-end">
                     <a href="{{ route('products.index') }}" class="btn btn-secondary">
                         <i class="bx bx-arrow-back"></i> Back
                     </a>

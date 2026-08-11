@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('status_id')->default(1);
+            $table->boolean('is_published')->default(false);
             $table->timestamps();
         });
     }

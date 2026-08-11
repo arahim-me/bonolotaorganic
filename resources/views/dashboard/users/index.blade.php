@@ -18,6 +18,16 @@
         </div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col-md-6 col-sm-12">
+            <form action="{{ route('users.filter') }}" method="GET" class="d-flex justify-content-end">
+                <input type="text" name="filter" class="form-control me-2" placeholder="Search users"
+                    value="{{ request('filter') }}">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -39,8 +49,8 @@
                             <tr>
                                 <td class="table-user">
                                     <a href="{{ route('users.show', $user->id) }}" class="text-body font-weight-semibold">
-                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}"
-                                            alt="{{ $user->name }}" class="rounded-circle" width="32" height="32">
+                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="{{ $user->name }}"
+                                            class="rounded-circle" width="32" height="32">
                                         {{ $user->name }}
                                     </a>
                                 </td>
@@ -92,7 +102,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4">
+                                <td colspan="8" class="text-center py-4">
                                     <p class="text-muted">No users found</p>
                                 </td>
                             </tr>

@@ -19,7 +19,11 @@
     </div>
 
     @if(session('status') == 'profile-updated')
-        <div class="alert alert-success">Profile updated successfully.</div>
+        <div class="alert alert-success">Profile information updated successfully.</div>
+    @elseif(session('status') == 'avatar-updated')
+        <div class="alert alert-success">Profile photo updated successfully.</div>
+    @elseif(session('status') == 'password-updated')
+        <div class="alert alert-success">Password updated successfully.</div>
     @endif
 
     <div class="row">
@@ -28,12 +32,12 @@
                 <div class="card-body text-center">
                     <div class="mb-3">
                         @if($user->avatar)
-                            <img id="avatarPreview" src="{{ asset('storage/' . $user->avatar) }}" alt="avatar" class="rounded-circle avatar-xl mb-3">
+                            <img id="avatarPreview" src="{{ asset('uploads/users/avatars/' . $user->avatar) }}" alt="avatar" class="rounded-circle avatar-xl mb-3">
                         @else
                             <img id="avatarPreview" src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="avatar" class="rounded-circle avatar-xl mb-3">
                         @endif
                     </div>
-                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('profile.avatar.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
 
@@ -52,7 +56,7 @@
         <div class="col-xl-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('profile.info.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
 
@@ -87,8 +91,31 @@
                                 @error('address')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
 
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a href="{{ route('profile.index') }}" class="btn btn-light">Cancel</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-xl-8 offset-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Change Password</h5>
+                    <form action="{{ route('profile.password.update') }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+
+                        <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">New Password (leave blank to keep current)</label>
+                                <label for="password" class="form-label">New Password</label>
                                 <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
                                 @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
@@ -99,12 +126,13 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                            <a href="{{ route('profile.index') }}" class="btn btn-light">Cancel</a>
-                        </div>
-
+                        <button type="submit" class="btn btn-primary">Update Password</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
                 </div>
             </div>
         </div>

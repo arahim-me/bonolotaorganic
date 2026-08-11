@@ -10,7 +10,7 @@
                         <div class="contact-banner">
                             <div class="banner-hover">
                                 <span class="d-block banner-img br-hidden">
-                                    <img src="assets/image/other/contact.jpg" class="w-100 img-fluid" alt="contact">
+                                    <img src="{{ asset('frontend/assets/image/other/contact.jpg') }}" class="w-100 img-fluid" alt="contact">
                                 </span>
                             </div>
                         </div>
@@ -32,8 +32,11 @@
                                                 class="ri-map-pin-range-line"></i></span>
                                         <div class="psl-15">
                                             <span class="d-block heading-color heading-weight">Address</span>
-                                            <span class="d-block mst-6">1234 MG road, Bengaluru</span>
-                                            <span class="d-block mst-6">Karnataka 560001, India</span>
+                                            @forelse ($siteInfo->address ?? [] as $address)
+                                                <span class="d-block mst-6">{{$address}}</span>
+                                            @empty
+                                                <span class="d-block mst-6">No address added</span>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </li>
@@ -42,10 +45,12 @@
                                         <span class="width-24 primary-color icon-24"><i class="ri-phone-line"></i></span>
                                         <div class="psl-15">
                                             <span class="d-block heading-color heading-weight">Phone</span>
-                                            <span class="d-block mst-6"><a href="tel:+919876543210"
-                                                    class="d-inline-block body-primary-color">+91 98765-43210</a></span>
-                                            <span class="d-block mst-6"><a href="tel:+919988765432"
-                                                    class="d-inline-block body-primary-color">+91 99887-65432</a></span>
+                                            @forelse ($siteInfo->phone ?? [] as $phone)
+                                                <span class="d-block mst-6"><a href="tel:{{$phone}}"
+                                                        class="d-inline-block body-primary-color">{{$phone}}</a></span>
+                                            @empty
+                                                <span class="d-block mst-6">No phone number added</span>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </li>
@@ -54,10 +59,12 @@
                                         <span class="width-24 primary-color icon-24"><i class="ri-mail-line"></i></span>
                                         <div class="psl-15">
                                             <span class="d-block heading-color heading-weight">Email</span>
-                                            <span class="d-block mst-6"><a href="mailto:info@demowebsite.com"
-                                                    class="d-inline-block body-primary-color">info@demowebsite.com</a></span>
-                                            <span class="d-block mst-6"><a href="mailto:hello@demowebsite.com"
-                                                    class="d-inline-block body-primary-color">hello@demowebsite.com</a></span>
+                                            @forelse ($siteInfo->email ?? [] as $email)
+                                                <span class="d-block mst-6"><a href="mailto:{{$email}}"
+                                                        class="d-inline-block body-primary-color">{{$email}}</a></span>
+                                            @empty
+                                                <span class="d-block mst-6">No email address added</span>
+                                            @endforelse
                                         </div>
                                     </div>
                                 </li>
@@ -70,7 +77,7 @@
         </section>
         <!-- contact-banner-touch end -->
         <!-- contact-service start -->
-        <section class="contact-service section-pt text-center">
+        {{-- <section class="contact-service section-pt text-center">
             <div class="container">
                 <div class="row row-mtm justify-content-md-center">
                     <div class="col-12 col-lg-4" data-animate="animate__fadeIn">
@@ -96,17 +103,17 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- contact-service end -->
         <!-- contact-map start -->
-        <div class="contact-map section-pt" data-animate="animate__fadeIn">
+        {{-- <div class="contact-map section-pt" data-animate="animate__fadeIn">
             <div class="container">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093743!2d144.9556513156168!3d-37.81731367975168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1b1f5b3%3A0x2f3e10c62b5d1b8b!2sMelbourne%20Central!5e0!3m2!1sen!2sau!4v1690839464351!5m2!1sen!2sau"
                     class="d-block w-100" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                     title="Location"></iframe>
             </div>
-        </div>
+        </div> --}}
         <!-- contact-map end -->
         <!-- contact-form start -->
         <section class="contact-form section-ptb">
@@ -151,7 +158,7 @@
                                 <label class="cust-checkbox-label checkbox-agree">
                                     <input type="checkbox" class="cust-checkbox checkboxbtn">
                                     <span class="d-block cust-check"></span>
-                                    <span class="login-read">I agree to the <a href="terms-condition.html"
+                                    <span class="login-read">I agree to the <a href="{{route('#')}}"
                                             class="body-secondary-color text-decoration-underline">rules & policies</a> and
                                         acknowledge that my info will be stored safely following the data guidelines.</span>
                                 </label>

@@ -1,12 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Create Review')
+@section('title', $title ?? 'Create Review')
 
 @section('content')
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
-            <div class="col-sm-6">
-                <h4 class="page-title mb-0">Create Review</h4>
+            <div class="col">
+                <h4 class="page-title mb-0">{{ $title ?? 'Create Review' }}</h4>
+            </div>
+            <div class="col">
+                <div class="float-end">
+                    <a href="{{ route('reviews.index') }}" class="btn btn-secondary">
+                        <i class="bx bx-arrow-back"></i> Back
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -20,7 +27,7 @@
                         <label class="form-label">User</label>
                         <select name="user_id" class="form-select" required>
                             <option value="">Select user</option>
-                            @foreach($users as $user)
+                            @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
@@ -29,7 +36,7 @@
                         <label class="form-label">Product</label>
                         <select name="product_id" class="form-select" required>
                             <option value="">Select product</option>
-                            @foreach($products as $product)
+                            @foreach ($products as $product)
                                 <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
@@ -41,7 +48,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Rating</label>
                         <select name="rating" class="form-select" required>
-                            @for($i = 1; $i <= 5; $i++)
+                            @for ($i = 1; $i <= 5; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
@@ -53,7 +60,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Status</label>
                         <select name="status_id" class="form-select">
-                            @foreach($statuses as $status)
+                            @foreach ($statuses as $status)
                                 <option value="{{ $status->id }}">{{ $status->name }}</option>
                             @endforeach
                         </select>

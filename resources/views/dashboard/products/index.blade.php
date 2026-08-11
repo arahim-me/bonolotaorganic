@@ -18,12 +18,22 @@
         </div>
     </div>
 
-    @if(session('success'))
+    @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+    <div class="row mb-3">
+        <div class="col-md-6 col-sm-12">
+            <form action="{{ route('dashboard.products.filter') }}" method="GET" class="d-flex justify-content-end">
+                <input type="text" name="filter" class="form-control me-2" placeholder="Search products"
+                    value="{{ request('filter') }}">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </div>
 
     <div class="card">
         <div class="card-body">
@@ -44,7 +54,8 @@
                         @forelse($products as $product)
                             <tr>
                                 <td>
-                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}" class="avatar-sm">
+                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                        class="avatar-sm">
                                 </td>
                                 <td>
                                     <strong>{{ $product->name ?? 'N/A' }}</strong>
@@ -59,7 +70,8 @@
                                     <span class="badge bg-info">{{ $product->stock ?? 0 }}</span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-success"><i class="{{ $product->status->icon }} me-1"></i>{{ $product->status->name ?? '-' }}</span>
+                                    <span class="badge bg-success"><i
+                                            class="{{ $product->status->icon }} me-1"></i>{{ $product->status->name ?? '-' }}</span>
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2" width="100px">
@@ -81,7 +93,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4">
+                                <td colspan="7" class="text-center py-4">
                                     <p class="text-muted">No products found</p>
                                 </td>
                             </tr>

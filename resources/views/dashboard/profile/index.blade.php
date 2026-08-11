@@ -23,7 +23,7 @@
             <div class="card">
                 <div class="card-body text-center">
                     @if(auth()->user()->avatar)
-                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="rounded-circle avatar-xl mb-3">
+                        <img src="{{ asset('uploads/users/avatars/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="rounded-circle avatar-xl mb-3">
                     @else
                         <div class="avatar-xl rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-3">
                             <span class="text-muted fs-3">{{ strtoupper(substr(auth()->user()->name,0,1)) }}</span>

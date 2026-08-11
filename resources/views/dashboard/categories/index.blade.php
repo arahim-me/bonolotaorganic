@@ -25,6 +25,16 @@
         </div>
     @endif
 
+    <div class="row mb-3">
+        <div class="col-md-6 col-sm-12">
+            <form action="{{ route('dashboard.categories.filter') }}" method="GET" class="d-flex justify-content-end">
+                <input type="text" name="filter" class="form-control me-2" placeholder="Search categories"
+                    value="{{ request('filter') }}">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -35,7 +45,7 @@
                             <th>Category Name</th>
                             <th>Description</th>
                             <th>Products</th>
-                            <th>Status</th>
+                            <th>Publishable</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -43,7 +53,8 @@
                         @forelse($categories as $category)
                             <tr>
                                 <td>
-                                    <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}" class="avatar-sm">
+                                    <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
+                                        class="avatar-sm">
                                 </td>
                                 <td>
                                     <strong>{{ $category->name }}</strong>
@@ -55,11 +66,12 @@
                                     <span class="badge bg-info">{{ $category->products_count ?? 0 }}</span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('categories.toggle-status', $category->id) }}" class="text-decoration-none">
+                                    <a href="{{ route('dashboard.categories.toggle-status', $category->id) }}"
+                                        class="text-decoration-none">
                                         <button type="button" class="btn btn-sm status-toggle-btn"
-                                            style="background-color: {{ $category->status_id == 1 ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
-                                            <i class="{{ $category->status->icon }} me-1"></i><span
-                                                class="status-text">{{ $category->status->name ?? '-' }}</span>
+                                            style="background-color: {{ $category->is_published == 1 ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
+                                            <i class="fas fa-{{ $category->is_published == 1 ? 'check' : 'times'}} me-1"></i><span
+                                                class="status-text">{{ $category->is_published == 1 ? 'Published' : 'Not Published' }}</span>
                                         </button>
                                     </a>
                                 </td>
@@ -83,7 +95,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4">
+                                <td colspan="6" class="text-center py-4">
                                     <p class="text-muted">No categories found</p>
                                 </td>
                             </tr>

@@ -17,19 +17,46 @@ class DatabaseSeeder extends Seeder
     {
         // Seed the Status
         $this->call([
-            StatusSeeder::class
+            StatusSeeder::class,
         ]);
         // Seed the Roles
         $this->call([
-            RoleSeeder::class
+            RoleSeeder::class,
         ]);
         // Seed the Users
         $this->call([
-            UserSeeder::class
+            UserSeeder::class,
         ]);
         // Seed the Payment Gateways
         $this->call([
-            PaymentGatewaySeeder::class
+            PaymentGatewaySeeder::class,
+        ]);
+        // Seed the Product Sections
+        $this->call([
+            ProductSectionSeeder::class,
+        ]);
+
+        // Seed the Policy Types
+        $this->call([
+            PolicyTypeSeeder::class,
+        ]);
+
+        // Seed the Site Info
+        $this->call([
+            SiteInfoSeeder::class,
+        ]);
+
+        // Seed the Divisions
+        $this->call([
+            DivisionSeeder::class,
+        ]);
+        // Seed the Districts
+        $this->call([
+            DistrictSeeder::class,
+        ]);
+        // Seed the Upozilas
+        $this->call([
+            UpozilaSeeder::class,
         ]);
         // User::factory(10)->create();
 

@@ -1,21 +1,23 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function index ()
+    public function index()
     {
         return view('dashboard.profile.index');
     }
+
     /**
      * Display the user's profile form.
      */
@@ -32,33 +34,64 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $user = $request->user();
 
-        // Handle avatar upload
-        if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatars', 'public');
-            // delete old avatar if exists
-            if ($request->user()->avatar) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->avatar);
-            }
-            $data['avatar'] = $path;
+        $user->fill($data);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        // Handle password change if provided
-        if (!empty($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
-
-        $request->user()->fill($data);
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    public function updateAvatar(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'avatar' => ['required', 'image', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $extension = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = 'avatar-'.now()->timestamp.'-'.Str::random(6).'.'.$extension;
+            $directory = public_path('uploads/users/avatars');
+
+            if (! is_dir($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            $file->move($directory, $filename);
+
+            if ($user->avatar) {
+                $oldPath = public_path('uploads/users/avatars/'.$user->avatar);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $user->avatar = $filename;
+            $user->save();
+        }
+
+        return Redirect::route('profile.edit')->with('status', 'avatar-updated');
+    }
+
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $request->user()->forceFill([
+            'password' => bcrypt($validated['password']),
+        ])->save();
+
+        return Redirect::route('profile.edit')->with('status', 'password-updated');
     }
 
     /**

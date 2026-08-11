@@ -13,6 +13,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,8 +33,6 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'phone' => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:255'],
-            'avatar' => ['nullable', 'image', 'max:2048'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];
     }
 }

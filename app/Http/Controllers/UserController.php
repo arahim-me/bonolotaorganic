@@ -14,6 +14,17 @@ class UserController extends Controller
         return view('dashboard.users.index', compact('users'));
     }
 
+    public function filter(Request $request)
+    {
+        $filter = $request->input('filter');
+        $users = User::where('name', 'like', "%$filter%")
+            ->orWhere('email', 'like', "%$filter%")
+            ->orWhere('username', 'like', "%$filter%")
+            ->get();
+
+        return view('dashboard.users.index', compact('users'));
+    }
+
     public function create()
     {
         return view('dashboard.users.create');

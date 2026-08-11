@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Faq;
 use App\Http\Controllers\Controller;
+use App\Models\Policy_type;
 use Illuminate\Http\Request;
 
-class FaqController extends Controller
+class PolicyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,6 +27,17 @@ class FaqController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function createPolicy($type)
+    {
+        $title = 'Create Policy';
+        $policy = Policy_type::findOrFail($type);
+
+        return view('dashboard.policies.create', compact('title', 'policy'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         //
@@ -35,7 +46,7 @@ class FaqController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Faq $faq)
+    public function show(string $id)
     {
         //
     }
@@ -43,7 +54,7 @@ class FaqController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Faq $faq)
+    public function edit(string $id)
     {
         //
     }
@@ -51,7 +62,7 @@ class FaqController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Faq $faq)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -59,7 +70,7 @@ class FaqController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Faq $faq)
+    public function destroy(string $id)
     {
         //
     }

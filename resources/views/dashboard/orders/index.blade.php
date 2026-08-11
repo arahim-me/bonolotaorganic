@@ -25,7 +25,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($orders as $order)
+                                @forelse($orders as $order)
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->order_number }}</td>
@@ -42,11 +42,15 @@
                                             </form>
                                         </td>
                                     </tr>
-                                @endforeach
+                                    @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center">No orders found.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
 
-                        {{ $orders->links() }}
+                        @include('dashboard.components.pagination', ['paginator' => $orders])
                     </div>
                 </div>
             </div>

@@ -14,6 +14,7 @@ class Category extends Model
         'image',
         'description',
         'status_id',
+        'is_published',
     ];
 // Relation with Product
     public function products()
@@ -25,6 +26,7 @@ class Category extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
     protected static function booted()
     {
         static::creating(function ($category) {

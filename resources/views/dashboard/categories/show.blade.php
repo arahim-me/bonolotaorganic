@@ -17,34 +17,42 @@
             </div>
         </div>
     </div>
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
+    <div class="card col-md-4 col-sm-12">
+        <img class="card-img-top img-fluid" src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
             alt="Card image cap">
         <div class="card-body">
-            <h4 class="card-title">{{ $category->name }}</h4>
-            <p class="card-text">{{ $category->description ?? 'No description provided.' }}</p>
+            <h5 class="card-title">{{ $category->name }}</h5>
+            <p class="card-text">{{ $category->description }}</p>
+            <div class="row">
+                <div class="col">
+                    <p class="card-text"><small class="text-muted">Products:
+                            {{ $category->products_count ?? 0 }}</small>
+                    </p>
+                </div>
+                <div class="col">
+                    <p class="card-text"><small class="text-muted">Published:
+                            {{ $category->is_published ? 'Yes' : 'No' }}</small>
+                    </p>
+                </div>
+            </div>
+            <p class="card-text"><small class="text-muted">Publishable:
+
         </div>
-        <ul class="list-group list-group-flush mb-0">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Created At:</strong>
-                <span>{{ $category->created_at->format('M d, Y') }}</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <strong>Products Count:</strong>
-                <span>{{ $category->products()->count() }}</span>
-            </li>
-        </ul>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <strong>Status:</strong>
-                <span class="{{ $category->status_id == 1 ? ' text-success' : ' text-danger' }}">
-                    <i class="fa-solid {{ $category->status->icon }}"></i> {{ $category->status->name }}
-                </span>
-            </li>
-        </ul>
-        <div class="card-body">
-            <a href="{{ route('categories.edit', $category->id) }}" class="card-link">Edit</a>
-            <a href="{{ route('categories.index') }}" class="card-link">Back to List</a>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="mx-auto">
+                <a href="{{ route('categories.index') }}" class="btn btn-secondary waves-effect waves-light"><i
+                        class="bx bx-arrow-back"></i> Back</a>
+            </div>
+            <div class="mx-auto">
+                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary waves-effect waves-light"><i
+                        class="bx bx-edit"></i> Edit</a>
+            </div>
+            <div class="mx-auto">
+                <a href="{{ route('categories.destroy', $category->id) }}" class="btn btn-danger waves-effect waves-light"
+                    onclick="return confirm('Are you sure you want to delete this category?')"><i class="bx bx-trash"></i>
+                Delete</a>
+            </div>
         </div>
+    </div>
     </div>
 @endsection

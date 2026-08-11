@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Reviews Management')
+@section('title', $title ?? 'Reviews Management')
 
 @section('content')
     <div class="py-3 py-lg-4">

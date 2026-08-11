@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', $title ?? 'Products Page')
 @section('master')
     <!-- main start -->
     <main id="main">
@@ -11,48 +12,23 @@
                         aria-label="Close"><i class="ri-close-large-line d-block lh-1"></i></button>
                     <form class="shop-form" action="javascript:void(0)" id="shopForm">
                         <!-- shop-categories start -->
-                        <div class="shop-sidebar shop-categories">
-                            <h6 class="font-18">Categories</h6>
-                            <div class="shop-cat-post mst-21">
-                                <div class="shop-cat ul-mtm-15">
-                                    <a href="collection-category.html"
-                                        class="body-primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection category</span>
-                                        <span>12</span>
-                                    </a>
-                                    <a href="javascript:void(0)"
-                                        class="primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection without</span>
-                                        <span>12</span>
-                                    </a>
-                                    <a href="collection.html"
-                                        class="body-primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection left</span>
-                                        <span>12</span>
-                                    </a>
-                                    <a href="collection-right.html"
-                                        class="body-primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection right</span>
-                                        <span>12</span>
-                                    </a>
-                                    <a href="collection-list-without.html"
-                                        class="body-primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection-list without</span>
-                                        <span>12</span>
-                                    </a>
-                                    <a href="collection-list.html"
-                                        class="body-primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection-list left</span>
-                                        <span>12</span>
-                                    </a>
-                                    <a href="collection-list-right.html"
-                                        class="body-primary-color d-flex align-items-center justify-content-between">
-                                        <span>Collection-list right</span>
-                                        <span>12</span>
-                                    </a>
+                        {{-- @if ($categories)
+                            <div class="shop-sidebar shop-categories">
+                                <h6 class="font-18">Categories</h6>
+                                <div class="shop-cat-post mst-21">
+                                    <div class="shop-cat ul-mtm-15">
+                                        @foreach ($categories as $category)
+                                            <a href="collection-category.html"
+                                                class="body-primary-color d-flex align-items-center justify-content-between">
+                                                <span>{{ $category->name }}</span>
+                                                <span>{{ $category->products_count?? 0 }}</span>
+                                            </a>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif --}}
+                        <x-category-card :categories="$categories" />
                         <!-- shop-categories end -->
                         <!-- shop-availability start -->
                         <div class="shop-sidebar availability">
@@ -699,7 +675,7 @@
                             <!-- collection-title end -->
                             <!-- collection-img start -->
                             <div class="collection-img">
-                                <img src="{{asset('frontend')}}/assets/image/collection/collection-banner.jpg"
+                                <img src="{{ asset('frontend') }}/assets/image/collection/collection-banner.jpg"
                                     class="w-100 img-fluid border-radius" alt="collection-banner">
                             </div>
                             <!-- collection-img end -->
@@ -837,9 +813,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-1.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-1.jpg"
                                                             class="w-100 img-fluid img1" alt="p-1">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-2.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-2.jpg"
                                                             class="w-100 img-fluid img2" alt="p-2">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -939,9 +915,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-3.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-3.jpg"
                                                             class="w-100 img-fluid img1" alt="p-3">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-4.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-4.jpg"
                                                             class="w-100 img-fluid img2" alt="p-4">
                                                         <span
                                                             class="product-label product-label-new product-label-left">New</span>
@@ -1043,9 +1019,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-5.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-5.jpg"
                                                             class="w-100 img-fluid img1" alt="p-5">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-6.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-6.jpg"
                                                             class="w-100 img-fluid img2" alt="p-6">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -1145,9 +1121,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-7.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-7.jpg"
                                                             class="w-100 img-fluid img1" alt="p-7">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-8.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-8.jpg"
                                                             class="w-100 img-fluid img2" alt="p-8">
                                                         <span
                                                             class="product-label product-label-discount product-label-left">5%
@@ -1250,9 +1226,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-9.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-9.jpg"
                                                             class="w-100 img-fluid img1" alt="p-9">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-10.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-10.jpg"
                                                             class="w-100 img-fluid img2" alt="p-10">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -1352,9 +1328,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-11.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-11.jpg"
                                                             class="w-100 img-fluid img1" alt="p-11">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-12.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-12.jpg"
                                                             class="w-100 img-fluid img2" alt="p-12">
                                                         <span
                                                             class="product-label product-label-sale product-label-left">Sale</span>
@@ -1456,9 +1432,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-13.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-13.jpg"
                                                             class="w-100 img-fluid img1" alt="p-13">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-14.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-14.jpg"
                                                             class="w-100 img-fluid img2" alt="p-14">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -1558,9 +1534,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-15.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-15.jpg"
                                                             class="w-100 img-fluid img1" alt="p-15">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-16.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-16.jpg"
                                                             class="w-100 img-fluid img2" alt="p-16">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -1660,9 +1636,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-17.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-17.jpg"
                                                             class="w-100 img-fluid img1" alt="p-17">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-18.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-18.jpg"
                                                             class="w-100 img-fluid img2" alt="p-18">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -1762,9 +1738,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-19.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-19.jpg"
                                                             class="w-100 img-fluid img1" alt="p-19">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-20.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-20.jpg"
                                                             class="w-100 img-fluid img2" alt="p-20">
                                                         <span
                                                             class="product-label product-label-sold product-label-left">Sold</span>
@@ -1866,9 +1842,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-21.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-21.jpg"
                                                             class="w-100 img-fluid img1" alt="p-21">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-22.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-22.jpg"
                                                             class="w-100 img-fluid img2" alt="p-22">
                                                     </a>
                                                     <div class="product-action-wrap">
@@ -1968,9 +1944,9 @@
                                             <div class="product-image-col">
                                                 <div class="product-image">
                                                     <a href="product.html" class="pro-img">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-23.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-23.jpg"
                                                             class="w-100 img-fluid img1" alt="p-23">
-                                                        <img src="{{asset('frontend')}}/assets/image/product/p-24.jpg"
+                                                        <img src="{{ asset('frontend') }}/assets/image/product/p-24.jpg"
                                                             class="w-100 img-fluid img2" alt="p-24">
                                                     </a>
                                                     <div class="product-action-wrap">

@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('question');
+            $table->text('answer');
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
+            $table->boolean('is_published')->default(false);
+            $table->foreignId('status_id')->constrained('statuses')->onDelete('cascade');
             $table->timestamps();
         });
     }
