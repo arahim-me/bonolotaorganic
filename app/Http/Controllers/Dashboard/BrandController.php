@@ -13,7 +13,9 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Brands';
+        $brands = Brand::all();
+        return view('dashboard.brands.index', compact('brands', 'title'));
     }
 
     /**
@@ -21,7 +23,8 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        $title = 'Create Brand';
+        return view('dashboard.brands.create', compact('title'));
     }
 
     /**

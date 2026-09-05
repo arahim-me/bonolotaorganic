@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/theme.css">
     <!-- collection css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/collection.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/product.css">
     <!-- blog css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/blog.css">
     <!-- style css -->

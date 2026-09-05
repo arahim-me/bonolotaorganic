@@ -8,6 +8,11 @@ class ProductModel extends Model
 {
     protected $fillable = ['name', 'slug', 'brand_id',  'description', 'category_id', 'status_id'];
 
+    // Relation with Review
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
+    }
     // Relation with Status
     public function status()
     {

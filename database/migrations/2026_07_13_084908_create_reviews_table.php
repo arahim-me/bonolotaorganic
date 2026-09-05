@@ -19,7 +19,8 @@ return new class extends Migration
             $table->json('description')->nullable();
             $table->integer('rating')->default(5);
             $table->json('images')->nullable();
-            $table->foreignId('status_id')->constrained('statuses')->default(2);
+            $table->boolean('is_approved')->default(false);
+            $table->foreignId('status_id')->constrained('statuses')->default(1);
             $table->timestamps();
         });
     }

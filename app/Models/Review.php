@@ -13,11 +13,13 @@ class Review extends Model
         'description',
         'rating',
         'images',
+        'is_approved',
         'status_id',
     ];
 
     protected $casts = [
         'images' => 'array',
+        'is_approved' => 'boolean',
     ];
 
     public function user()

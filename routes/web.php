@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function () {
         // Site Information Routes
         Route::resource('dashboard/site-info', SiteInfoController::class);
 
+        // Policy Types Management Routes
+        Route::get('dashboard/policy-types/{type}/toggle-status', [PolicyTypeController::class, 'toggleStatus'])->name('policy-types.toggle-status');
+        Route::resource('dashboard/policy-types', PolicyTypeController::class);
+
         // Policies Management Routes
         Route::get('dashboard/policies/{type}/create', [PolicyController::class, 'createPolicy'])->name('dashboard.policies.create');
         Route::resource('dashboard/policies', PolicyController::class);
@@ -67,6 +71,11 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard/products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
         Route::post('dashboard/products/{product}/images', [ProductController::class, 'uploadImages'])->name('products.images.upload');
 
+        // Product Brand Management Routes
+        Route::get('dashboard/brands/filter', [\App\Http\Controllers\Dashboard\BrandController::class, 'filter'])->name('brands.filter');
+        Route::resource('dashboard/brands', \App\Http\Controllers\Dashboard\BrandController::class);
+        Route::get('dashboard/brands/{brand}/toggle-status', [\App\Http\Controllers\Dashboard\BrandController::class, 'toggleStatus'])->name('brands.toggle-status');
+
         // Section Management Routes
         Route::get('dashboard/product-sections/{section}/toggle-status', [ProductSectionController::class, 'toggleStatus'])->name('product-sections.toggle-status');
         Route::resource('dashboard/product-sections', ProductSectionController::class);
@@ -78,9 +87,7 @@ Route::middleware('auth')->group(function () {
         // Facility Management Routes
         Route::resource('dashboard/facilities', FacilityController::class);
 
-        // Policy Types Management Routes
-        Route::get('dashboard/policy-types/{type}/toggle-status', [PolicyTypeController::class, 'toggleStatus'])->name('policy-types.toggle-status');
-        Route::resource('dashboard/policy-types', PolicyTypeController::class);
+
 
         // Orders Management
         Route::get('dashboard/orders/{order}/invoice', [InvoiceController::class, 'show'])->name('orders.invoice');

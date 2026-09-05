@@ -91,11 +91,29 @@
                             </a>
                         </li>
 
+
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('products.index') }}'>
+                            <a href="#menuProducts" data-bs-toggle="collapse"
+                                class="menu-link waves-effect waves-light">
                                 <span class="menu-icon"><i class="bx bx-box"></i></span>
-                                <span class="menu-text">Products</span>
+                                 <span class="menu-text">Manage Products</span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <div class="collapse" id="menuProducts">
+                                <ul class="sub-menu">
+                                    <li class="menu-item">
+                                        <a class='menu-link waves-effect waves-light'
+                                            href='{{ route('products.index') }}'>
+                                            <span class="menu-text">Products</span>
+                                        </a>
+                                    </li>
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('brands.index') }}'>
+                                            <span class="menu-text">Brands</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="menu-item">
                             <a href="#menuSections" data-bs-toggle="collapse"
@@ -112,7 +130,7 @@
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a class='menu-link' href='#'>
+                                        <a class='menu-link' href='{{ route('products.index') }}'>
                                             <span class="menu-text">Product Management</span>
                                         </a>
                                     </li>

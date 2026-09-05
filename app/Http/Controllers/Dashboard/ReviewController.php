@@ -20,10 +20,9 @@ class ReviewController extends Controller
 
     public function create()
     {
-        $users = User::orderBy('name')->get();
-        $products = Product::orderBy('name')->get();
-        $statuses = Status::orderBy('name')->get();
-
+        $users = User::where('status_id', 1)->latest()->get();
+        $products = Product::where('status_id', 1)->latest()->get();
+        $statuses = Status::all();
         return view('dashboard.reviews.create', compact('users', 'products', 'statuses'));
     }
 
@@ -36,17 +35,27 @@ class ReviewController extends Controller
             'description' => 'nullable|string',
             'rating' => 'required|integer|min:1|max:5',
             'status_id' => 'nullable|integer|min:1',
+            'is_approved' => 'nullable|boolean',
+            'images' => 'nullable|array',
         ]);
 
-        Review::create($validated);
+        $created = Review::create($validated);
 
-        return redirect()->route('reviews.index')->with('success', 'Review created successfully!');
-    }
+        if ($request->has('images')) {
+            $created->images = $request->input('images');
+            $created->save();
+        }
+
+        if(!$created) {
+            return redirect()->back()->with('error', 'Failed to create review. Please try again.');
+        }else{
+            return redirect()->back()->with('success', 'Review created successfully!');
+        }
+}
 
     public function show(Review $review)
     {
         $review->load(['user', 'product', 'status']);
-
         return view('dashboard.reviews.show', compact('review'));
     }
 
@@ -69,7 +78,14 @@ class ReviewController extends Controller
             'description' => 'nullable|string',
             'rating' => 'required|integer|min:1|max:5',
             'status_id' => 'nullable|integer|min:1',
+            'is_approved' => 'nullable|boolean',
+            'images' => 'nullable|array',
         ]);
+
+        if ($request->has('images')) {
+            $validated['images'] = $request->input('images');
+
+        }
 
         $review->update($validated);
 
@@ -85,9 +101,9 @@ class ReviewController extends Controller
 
     public function toggleStatus(Review $review)
     {
-        $newStatus = $review->status_id == 1 ? 2 : 1;
-        $review->update(['status_id' => $newStatus]);
+        $newStatus = $review->is_approved ? 0 : 1;
+        $review->update(['is_approved' => $newStatus]);
 
-        return redirect()->back()->with('success', 'Review status updated successfully!');
+        return redirect()->back()->with('success', 'Review successfully published!');
     }
 }
