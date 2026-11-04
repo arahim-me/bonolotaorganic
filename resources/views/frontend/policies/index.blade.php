@@ -66,14 +66,14 @@
                                 </div> --}}
                                 @foreach ($policies as $policy)
                                     <div class="other-tab animate__fadeIn animate__animated" data-animate="animate__fadeIn">
-                                        <a href="#faqs-collapse-group2"
+                                        <a href="#id{{ $policy->id }}"
                                             class="d-flex flex-wrap align-items-baseline collapsed"
                                             data-bs-toggle="collapse" aria-expanded="false">
                                             <span class="width-calc-16 font-18 heading-weight">{{ $policy->title ?? 'No title to display' }}</span>
                                             <span class="other-tab-icon width-16 icon-16"><i
                                                     class="ri-add-line d-block lh-1"></i></span>
                                         </a>
-                                        <div class="collapse" id="faqs-collapse-group2"
+                                        <div class="collapse" id="id{{ $policy->id }}"
                                             data-bs-parent="#faqs-collapse-group">
                                             <div class="pst-18">
                                                 <p>{{ $policy->description ?? 'No description to display' }}
@@ -82,32 +82,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <div class="col-12">
-                                    {{-- <h6 class="other-tab-title font-20 meb-30 animate__fadeIn animate__animated"
-                                        data-animate="animate__fadeIn"><span>Inquiry guide</span></h6> --}}
-                                    <div class="faqs-collapse-group" id="faqs-collapse-group">
-                                        @foreach ($policies as $policy)
-                                            <div class="other-tab animate__fadeIn animate__animated"
-                                                data-animate="animate__fadeIn">
-                                                <a href="#faqs-collapse-group1"
-                                                    class="d-flex flex-wrap align-items-baseline collapsed"
-                                                    data-bs-toggle="collapse" aria-expanded="false">
-                                                    <span
-                                                        class="width-calc-16 font-18 heading-weight">{{ $policy->title ?? 'No title to display' }}</span>
-                                                    <span class="other-tab-icon width-16 icon-16"><i
-                                                            class="ri-add-line d-block lh-1"></i></span>
-                                                </a>
-                                                <div class="collapse" id="faqs-collapse-group1"
-                                                    data-bs-parent="#faqs-collapse-group" style="">
-                                                    <div class="pst-18">
-                                                        <p>{{ $policy->description ?? 'No description to display' }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

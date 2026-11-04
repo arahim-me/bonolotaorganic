@@ -447,7 +447,7 @@
                                                                 class="d-block header-block-icon font-16 font-xl-20"><i
                                                                     class="ri-shopping-bag-3-line"></i></span>
                                                             <span
-                                                                class="header-block-counter cart-counter extra-color font-10 position-absolute end-0 d-flex align-items-center justify-content-center primary-bg rounded-circle">4</span>
+                                                                class="header-block-counter cart-counter extra-color font-10 position-absolute end-0 d-flex align-items-center justify-content-center primary-bg rounded-circle">0</span>
                                                         </span>
                                                     </span>
                                                     <span
@@ -2245,12 +2245,12 @@
                     <span class="heading-color icon-32 meb-24"><i
                             class="ri-shopping-bag-3-line d-block lh-1"></i></span>
                     <h2 class="font-24">No items in your shopping cart - yet!</h2>
-                    <a href="collection.html" class="btn-style secondary-btn mst-24">Continue shopping</a>
+                    <a href="{{ route('products') }}" class="btn-style secondary-btn mst-24">Continue shopping</a>
                 </div>
             </div>
             <div class="drawer-inner h-100 d-flex flex-column justify-content-between overflow-hidden">
                 <div class="drawer-scrollable h-100 overflow-auto">
-                    <div class="cart-drawer-table plr-15">
+                    <div class="cart-drawer-table plr-15" id="cart-items">
                         <div class="cart-drawer-info ptb-15 bst">
                             <div class="cart-drawer-content d-flex flex-wrap">
                                 <div class="cart-drawer-image width-88">
@@ -2593,7 +2593,7 @@
                 <div class="drawer-footer ptb-15 plr-15 bst">
                     <div class="drawer-total d-flex justify-content-between">
                         <span>Subtotal</span>
-                        <span class="heading-color heading-weight">$246.00</span>
+                        <span class="heading-color heading-weight" data-cart-subtotal>৳0.00</span>
                     </div>
                     <div class="font-12 mst-8">Shipping, taxes, and discount codes calculated at checkout</div>
                     <div class="drawer-cart-checkout mst-12">
@@ -2665,7 +2665,7 @@
                         <span class="d-block bottom-menu-icon heading-color icon-16"><i
                                 class="ri-shopping-bag-3-line d-block lh-1"></i></span>
                         <span
-                            class="bottom-menu-counter cart-counter extra-color font-10 position-absolute end-0 primary-bg d-flex align-items-center justify-content-center rounded-circle">4</span>
+                            class="bottom-menu-counter cart-counter extra-color font-10 position-absolute end-0 primary-bg d-flex align-items-center justify-content-center rounded-circle">0</span>
                     </span>
                     <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Cart</span>
                 </a>
@@ -2683,6 +2683,7 @@
     <script src="{{ asset('frontend') }}/assets/js/plugin.js"></script>
     <!-- theme js -->
     <script src="{{ asset('frontend') }}/assets/js/theme.js"></script>
+    @vite('resources/js/app.js')
 </body>
 
 </html>

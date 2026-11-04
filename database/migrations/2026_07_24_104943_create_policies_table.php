@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('policies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
             $table->foreignId('policy_type_id');
             $table->string('title');
             $table->longText('description');

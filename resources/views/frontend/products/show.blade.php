@@ -310,7 +310,13 @@
                                     <div class="product-action mst-15">
                                         <div class="row btn-row15">
                                             <div class="col-12 col-md-6">
-                                                <button type="submit" class="w-100 btn-style quaternary-btn add-to-cart">
+                                                <button type="submit" class="w-100 btn-style quaternary-btn add-to-cart"
+                                                    data-cart-id="{{ $product->id }}"
+                                                    data-cart-name="{{ $product->name }}"
+                                                    data-cart-price="{{ $product->price }}"
+                                                    data-cart-currency="৳"
+                                                    data-cart-image="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                                    data-cart-url="{{ route('products.show', $product->id) }}">
                                                     <span class="product-icon">
                                                         <span class="product-bag-icon">Add to cart</span>
                                                         <span class="product-loader-icon icon-16"><i

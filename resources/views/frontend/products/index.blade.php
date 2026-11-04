@@ -15,7 +15,11 @@
                             <div class="row row-mtm">
                                 @forelse($products as $product)
                                     <div class="col-6 col-md-4 col-xl-3 shop-col" data-animate="animate__fadeIn">
-                                        <div class="single-product">
+                                        <div class="single-product" data-cart-id="{{ $product->id }}"
+                                            data-cart-name="{{ $product->name }}" data-cart-price="{{ $product->price }}"
+                                            data-cart-currency="৳"
+                                            data-cart-image="{{ asset('uploads/products') }}/{{ $product->image ?? 'default.png' }}"
+                                            data-cart-url="{{ route('products.show', $product->id) }}">
                                             <div class="row single-product-wrap">
                                                 <div class="product-image-col">
                                                     <div class="product-image">

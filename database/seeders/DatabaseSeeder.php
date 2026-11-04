@@ -47,17 +47,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Seed the Divisions
-        $this->call([
-            DivisionSeeder::class,
-        ]);
+        // $this->call([
+        //     DivisionSeeder::class,
+        // ]);
         // Seed the Districts
-        $this->call([
-            DistrictSeeder::class,
-        ]);
+        // $this->call([
+        //     DistrictSeeder::class,
+        // ]);
         // Seed the Upozilas
-        $this->call([
-            UpozilaSeeder::class,
-        ]);
+        // $this->call([
+        //     UpozilaSeeder::class,
+        // ]);
         // User::factory(10)->create();
 
         User::factory()->create([

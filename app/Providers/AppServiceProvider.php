@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Policy_type;
 use App\Models\SiteInfo;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use View;
 
@@ -22,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('siteInfo', SiteInfo::first());
-        View::share('policyTypes', Policy_type::all());
+        View::share('siteInfo', Schema::hasTable('site_infos') ? SiteInfo::first() : null);
+        View::share('policyTypes', Schema::hasTable('policy_types') ? Policy_type::all() : collect());
     }
 }

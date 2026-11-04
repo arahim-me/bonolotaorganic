@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Brand;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -15,6 +15,7 @@ class BrandController extends Controller
     {
         $title = 'Brands';
         $brands = Brand::all();
+
         return view('dashboard.brands.index', compact('brands', 'title'));
     }
 
@@ -24,6 +25,7 @@ class BrandController extends Controller
     public function create()
     {
         $title = 'Create Brand';
+
         return view('dashboard.brands.create', compact('title'));
     }
 
@@ -32,7 +34,25 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:brands,slug',
+            'description' => 'nullable|string',
+        ]);
+
+        $slug = $request->input('slug');
+        if (empty($slug)) {
+            $slug = \Str::slug($request->input('name'));
+            $request->merge(['slug' => $slug]);
+        }
+
+        $created = Brand::create($request->only('name', 'slug', 'description'));
+
+        if (! $created) {
+            return redirect()->back()->with('error', 'Failed to create brand. Please try again.');
+        } else {
+            return redirect()->route('brands.index')->with('success', 'Brand created successfully.');
+        }
     }
 
     /**

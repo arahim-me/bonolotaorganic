@@ -24,52 +24,22 @@
                 @csrf
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">User</label>
-                        <select name="user_id" class="form-select" required>
-                            <option value="">Select user</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
+                        <label class="form-label">Brand Name</label>
+                        <input type="text" name="name" class="form-control" maxlength="255">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Product</label>
-                        <select name="product_id" class="form-select" required>
-                            <option value="">Select product</option>
-                            @foreach ($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control" maxlength="255">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Rating</label>
-                        <select name="rating" class="form-select" required>
-                            @for ($i = 1; $i <= 5; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
+                        <label class="form-label">Slug</label>
+                        <input type="text" name="slug" class="form-control" maxlength="255">
                     </div>
                     <div class="col-12">
                         <label class="form-label">Description</label>
                         <textarea name="description" rows="4" class="form-control"></textarea>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Status</label>
-                        <select name="status_id" class="form-select">
-                            @foreach ($statuses as $status)
-                                <option value="{{ $status->id }}">{{ $status->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Save Review</button>
-                    <a href="{{ route('reviews.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Brand</button>
+                    <a href="{{ route('brands.index') }}" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </form>
         </div>

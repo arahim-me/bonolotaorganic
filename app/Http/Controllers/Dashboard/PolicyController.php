@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Policy;
 use App\Models\Policy_type;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,7 @@ class PolicyController extends Controller
      */
     public function createPolicy($type)
     {
-        $title = 'Create Policy';
+        $title = 'Create Policy of '.Policy_type::findOrFail($type)->name;
         $policy = Policy_type::findOrFail($type);
 
         return view('dashboard.policies.create', compact('title', 'policy'));
@@ -40,10 +41,26 @@ class PolicyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'policy_type_id' => 'required|exists:policy_types,id',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $created = Policy::create([
+            'policy_type_id' => $request->input('policy_type_id'),
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+        ]);
+
+        if (! $created) {
+            return redirect()->back()->with('error', 'Failed to create policy. Please try again.');
+        } else {
+            return redirect()->route('policy-types.show', $request->policy_type_id)->with('success', 'Policy created successfully.');
+        }
     }
 
-    /**
+    /**,
      * Display the specified resource.
      */
     public function show(string $id)

@@ -27,18 +27,19 @@
 
     <div class="card col-md-6 col-sm-12">
         <div class="card-body">
-            <form action="{{ route('policy-types.store') }}" method="POST">
+            <form action="{{ route('policies.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
+                    <input type="hidden" name="policy_type_id" value="{{ $policy->id }}">
                     <label for="title" class="form-label">Policy title</label>
                     <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
-                        value="{{ old('title') }}" required>
+                        value="{{ old('title') }}" required placeholder="Enter policy title">
                     @error('title')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                     <label for="description" class="form-label">Policy description</label>
                     <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
-                        rows="5">{{ old('description') }}</textarea>
+                        rows="5" placeholder="Enter Policy Description">{{ old('description') }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

@@ -9,9 +9,8 @@ class Policy_type extends Model
     protected $fillable = [
         'name',
         'slug',
-        'status_id',
-        'is_published',
         'description',
+        'is_published',
     ];
 
     public function policies()
