@@ -9,10 +9,12 @@
                 <div class="card">
                     <div class="card-body">
                         <p><strong>Customer:</strong> {{ $order->user?->name ?? '—' }}</p>
-                        <p><strong>Status:</strong> {{ ucfirst($order->status) }}</p>
-                        <p><strong>Total:</strong> {{ number_format($order->total, 2) }}</p>
-                        <p><strong>Payment Method:</strong> {{ $order->payment_method ?? '—' }}</p>
+                        <p><strong>Status:</strong> {{ $order->status?->name ?? '—' }}</p>
+                        <p><strong>Total:</strong> ৳{{ number_format((float) $order->grand_total, 2) }}</p>
+                        <p><strong>Payment Method:</strong> {{ $order->paymentMethod?->name ?? '—' }}</p>
+                        <p><strong>Payment Status:</strong> {{ $order->payment_status ? 'Paid' : 'Unpaid' }}</p>
                         <p><strong>Shipping Address:</strong><br>{{ $order->shipping_address ?? '—' }}</p>
+                        <p><strong>Shipping Phone:</strong> {{ $order->shipping_phone ?? '—' }}</p>
 
                         <h5>Items</h5>
                         <table class="table">
@@ -29,8 +31,8 @@
                                     <tr>
                                         <td>{{ $item->product?->name ?? '—' }}</td>
                                         <td>{{ $item->quantity }}</td>
-                                        <td>{{ number_format($item->price, 2) }}</td>
-                                        <td>{{ number_format($item->total, 2) }}</td>
+                                        <td>৳{{ number_format((float) $item->price, 2) }}</td>
+                                        <td>৳{{ number_format((float) $item->total, 2) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

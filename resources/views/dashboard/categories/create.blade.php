@@ -37,13 +37,26 @@
                     <h5 class="card-title mb-0">Category Information</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('categories.store') }}" method="POST">
+                    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Category Name</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                             @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Category Image</label>
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+                                <img id="image-preview" src="{{ asset('uploads/categories/default.png') }}"
+                                    alt="Category image preview" class="img-thumbnail" style="max-width: 150px;">
+                                <input
+                                    onchange="if (this.files.length) document.getElementById('image-preview').src = window.URL.createObjectURL(this.files[0])"
+                                    type="file" class="form-control @error('image') is-invalid @enderror" id="image"
+                                    name="image" accept="image/*">
+                            </div>
+                            @error('image')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="mb-3">

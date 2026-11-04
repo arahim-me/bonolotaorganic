@@ -1,12 +1,27 @@
 @extends('layouts.dashboard')
 
+@section('title', $title)
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h4 class="page-title">Orders</h4>
+                <div class="py-3 py-lg-4">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title mb-0">{{ $title }}</h4>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="float-end d-none d-sm-block">
+                                <a href="{{ route('orders.create') }}" class="btn btn-primary">
+                                    <i class="bx bx-plus"></i> Create New Order
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
@@ -30,19 +45,23 @@
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->order_number }}</td>
                                         <td>{{ $order->user?->name ?? '—' }}</td>
-                                        <td>{{ number_format($order->total, 2) }}</td>
-                                        <td>{{ ucfirst($order->status) }}</td>
-                                        <td>{{ $order->placed_at?->toDateTimeString() ?? $order->created_at->toDateTimeString() }}</td>
+                                        <td>{{ number_format((float) $order->grand_total, 2) }}</td>
+                                        <td>{{ $order->status?->name ?? '—' }}</td>
+                                        <td>{{ $order->created_at?->toDateTimeString() ?? '—' }}
+                                        </td>
                                         <td>
-                                            <a href="{{ route('orders.show', $order) }}" class="btn btn-sm btn-primary">View</a>
-                                            <form action="{{ route('orders.destroy', $order) }}" method="POST" style="display:inline-block" onsubmit="return confirm('Delete this order?')">
+                                            <a href="{{ route('orders.show', $order) }}"
+                                                class="btn btn-sm btn-primary">View</a>
+                                            <form action="{{ route('orders.destroy', $order) }}" method="POST"
+                                                style="display:inline-block"
+                                                onsubmit="return confirm('Delete this order?')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-sm btn-danger">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
-                                    @empty
+                                @empty
                                     <tr>
                                         <td colspan="7" class="text-center">No orders found.</td>
                                     </tr>

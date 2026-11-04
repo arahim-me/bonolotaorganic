@@ -16,8 +16,8 @@ class PolicyTypeController extends Controller
     public function index()
     {
         $title = 'Policy Types';
-        $policy_types = Policy_type::latest()->get();
-        return view('dashboard.policy_types.index', compact('title', 'policy_types'));
+        $policyTypes = Policy_type::latest()->get();
+        return view('dashboard.policy_types.index', compact('title', 'policyTypes'));
     }
 
     /**

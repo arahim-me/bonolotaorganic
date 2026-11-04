@@ -10,6 +10,7 @@ class PaymentMethod extends Model
         'name',
         'type',
         'logo',
+        'is_active',
         'status_id',
     ];
 

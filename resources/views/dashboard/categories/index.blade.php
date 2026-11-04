@@ -6,7 +6,7 @@
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <h4 class="page-title mb-0">Categories</h4>
+                <h4 class="page-title mb-0">{{$title}}</h4>
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">

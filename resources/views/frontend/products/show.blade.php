@@ -26,19 +26,33 @@
                                     <div class="product-img-big slider-big-h position-relative br-hidden">
                                         <div class="swiper" id="slider-big-h">
                                             <div class="swiper-wrapper product-swiper-wrapper">
-                                                @forelse($product->images as $img)
-                                                    <div class="swiper-slide product-swiper-slide">
-                                                        <div class="product-item-img position-relative">
-                                                            <a href="{{ asset('uploads') }}/assets/image/product/product-1.jpg"
-                                                                class="full-view product-thumbnail heading-color position-absolute top-0 end-0 width-40 height-40 d-flex align-items-center justify-content-center body-bg z-1 mst-15 mer-15 rounded-circle box-shadow"
-                                                                aria-label="Image full view"><i
-                                                                    class="ri-fullscreen-line d-block lh-1"></i></a>
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
-                                                                data-zoom="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
-                                                                class="w-100 img-fluid zoom" alt="product-1">
+                                                @if ($product->images)
+                                                    @forelse($product->images as $img)
+                                                        <div class="swiper-slide product-swiper-slide">
+                                                            <div class="product-item-img position-relative">
+                                                                <a href="{{ asset('uploads') }}/assets/image/product/product-1.jpg"
+                                                                    class="full-view product-thumbnail heading-color position-absolute top-0 end-0 width-40 height-40 d-flex align-items-center justify-content-center body-bg z-1 mst-15 mer-15 rounded-circle box-shadow"
+                                                                    aria-label="Image full view"><i
+                                                                        class="ri-fullscreen-line d-block lh-1"></i></a>
+                                                                <img src="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
+                                                                    data-zoom="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
+                                                                    class="w-100 img-fluid zoom" alt="product-1">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @empty
+                                                    @empty
+                                                        <div class="swiper-slide product-swiper-slide">
+                                                            <div class="product-item-img position-relative">
+                                                                <a href="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                                                    class="full-view product-thumbnail heading-color position-absolute top-0 end-0 width-40 height-40 d-flex align-items-center justify-content-center body-bg z-1 mst-15 mer-15 rounded-circle box-shadow"
+                                                                    aria-label="Image full view"><i
+                                                                        class="ri-fullscreen-line d-block lh-1"></i></a>
+                                                                <img src="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                                                    data-zoom="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                                                    class="w-100 img-fluid zoom" alt="product-1">
+                                                            </div>
+                                                        </div>
+                                                    @endforelse
+                                                @else
                                                     <div class="swiper-slide product-swiper-slide">
                                                         <div class="product-item-img position-relative">
                                                             <a href="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
@@ -50,7 +64,7 @@
                                                                 class="w-100 img-fluid zoom" alt="product-1">
                                                         </div>
                                                     </div>
-                                                @endforelse
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="swiper-buttons">
@@ -138,9 +152,9 @@
                                                     <i class="ri-star-fill"></i>
                                                     <i class="ri-star-fill"></i>
                                                     <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-line"></i>
+                                                    <i class="ri-star-fill"></i>
                                                 </span>
-                                                <span class="review-average">4.0<span class="review-caption">Based on 2
+                                                <span class="review-average">4.0<span class="review-caption">Based on {{ $reviews->count() }}
                                                         reviews</span></span>
                                             </span>
                                         </div>
@@ -242,40 +256,51 @@
                                 <div class="product-variant">
                                     <div class="product-variant-option">
                                         <span class="d-inline-block meb-11"><span
-                                                class="heading-color heading-weight">Size:</span> L<a href="#size-modal"
+                                                class="heading-color heading-weight">Size:</span> Choose a size<a href="#size-modal"
                                                 data-bs-toggle="modal" class="msl-15 msl-md-30"><i
                                                     class="ri-pencil-ruler-line icon-16 mer-4"></i><span
                                                     class="text-decoration-underline heading-weight">Size
                                                     guide</span></a></span>
                                         <div class="product-option-block size">
                                             <ul class="ul-mt5">
-                                                @foreach ($product->sizes as $size)
-                                                    <li>
-                                                        <label class="cust-checkbox-label">
-                                                            <input type="radio" name="size" class="cust-checkbox"
-                                                                value="{{ $size }}">
-                                                            <span
-                                                                class="d-flex align-items-center justify-content-center cust-check">{{ $size }}</span>
-                                                        </label>
-                                                    </li>
-                                                @endforeach
+                                                @if ($product->sizes)
+                                                    @foreach ($product->sizes as $size)
+                                                        <li>
+                                                            <label class="cust-checkbox-label">
+                                                                <input type="radio" name="size"
+                                                                @if($loop->first) checked @endif
+                                                                    class="cust-checkbox" value="{{ $size }}">
+                                                                <span
+                                                                    class="d-flex align-items-center justify-content-center cust-check">{{ $size }}</span>
+                                                            </label>
+                                                        </li>
+                                                    @endforeach
+                                                @else
+                                                    <li>No sizes available</li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="product-variant-option mst-15">
                                         <span class="d-inline-block meb-11"><span
-                                                class="heading-color heading-weight">Color:</span> Aliceblue</span>
+                                                class="heading-color heading-weight">Color:</span> Choose a color</span>
                                         <div class="product-option-block color">
                                             <ul class="ul-mt10">
-                                                @foreach ($product->colors as $color)
-                                                    <li>
-                                                        <label class="cust-checkbox-label">
-                                                            <input type="radio" name="color" class="cust-checkbox"
-                                                                value="{{ $color }}">
-                                                            <span class="d-block cust-check {{ $color }}"></span>
-                                                        </label>
-                                                    </li>
-                                                @endforeach
+                                                @if ($product->colors)
+                                                    @foreach ($product->colors as $color)
+                                                        <li>
+                                                            <label class="cust-checkbox-label">
+                                                                <input type="radio" name="color"
+                                                                @if($loop->first) checked @endif
+                                                                    class="cust-checkbox" value="{{ $color }}">
+                                                                <span
+                                                                    class="d-block cust-check {{ $color }}"></span>
+                                                            </label>
+                                                        </li>
+                                                    @endforeach
+                                                @else
+                                                    <li>No colors available</li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -313,8 +338,7 @@
                                                 <button type="submit" class="w-100 btn-style quaternary-btn add-to-cart"
                                                     data-cart-id="{{ $product->id }}"
                                                     data-cart-name="{{ $product->name }}"
-                                                    data-cart-price="{{ $product->price }}"
-                                                    data-cart-currency="৳"
+                                                    data-cart-price="{{ $product->price }}" data-cart-currency="৳"
                                                     data-cart-image="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                     data-cart-url="{{ route('products.show', $product->id) }}">
                                                     <span class="product-icon">
@@ -327,7 +351,7 @@
                                                 </button>
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <a href="checkout.html" class="w-100 btn-style secondary-btn">Buy now</a>
+                                                <a href="{{ route('checkout') }}" class="w-100 btn-style secondary-btn">Buy now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -1006,14 +1030,22 @@
                                             <li><span class="heading-color heading-weight">Care instructions:</span>
                                                 Machine wash cold, Do not bleach, Hang to dry</li>
                                             <li><span class="heading-color heading-weight">Sizes:</span>
-                                                @foreach ($product->sizes as $size)
-                                                    {{$size}},
-                                                @endforeach
+                                                @if ($product->sizes)
+                                                    @foreach ($product->sizes as $size)
+                                                        {{ $size }},
+                                                    @endforeach
+                                                @else
+                                                    Not available
+                                                @endif
                                             </li>
                                             <li><span class="heading-color heading-weight">Colors:</span>
-                                                @foreach ($product->colors as $color )
-                                                    {{  $color }},
-                                                @endforeach
+                                                @if ($product->colors)
+                                                    @foreach ($product->colors as $color)
+                                                        {{ $color }},
+                                                    @endforeach
+                                                @else
+                                                    Not available
+                                                @endif
                                             </li>
                                         </ul>
                                     </div>
@@ -1082,8 +1114,8 @@
                                                     <div class="row row-mtm">
                                                         <div class="col-12 col-md-6">
                                                             <div class="product-review-rating"><span
-                                                                    class="heading-color fs-3" data-id>0</span>/<span
-                                                                    data-score="5">0</span></div>
+                                                                    class="heading-color fs-3" data-id>{{ $product->averageRating }}</span>/<span
+                                                                    data-score="5">{{ $product->maxRating }}</span></div>
                                                             <div class="product-star">
                                                                 <div class="product-ratting">
                                                                     <span class="review-ratting">
@@ -1098,7 +1130,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="product-review-text mst-11">Based on <span
-                                                                    data-base>0</span> reviews</div>
+                                                                    data-base>{{ $reviews->count() }}</span> reviews</div>
                                                         </div>
                                                         <div class="col-12 col-md-6">
                                                             <div class="row row-mtm15">

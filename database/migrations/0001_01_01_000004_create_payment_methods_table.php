@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->integer('type')->default(1);
             $table->string('logo')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->foreignId('status_id')->default(2);
             $table->timestamps();
         });

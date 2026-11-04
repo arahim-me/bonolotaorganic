@@ -159,7 +159,7 @@
                                 @forelse($categories as $category)
                                     <div class="swiper-slide h-auto d-flex" data-animate="animate__fadeIn">
                                         <div class="cat-block banner-hover w-100 ptb-15 plr-15 body-bg border-radius">
-                                            <a href="{{ route('category.products', $category->id) }}"
+                                            <a href="{{ route('category.products', [$category->id, $category->slug]) }}"
                                                 class="d-none d-xl-block position-relative banner-img br-hidden">
                                                 <span
                                                     class="btn-style tertiary-btn banner-btn position-absolute top-50 start-50 translate-middle z-1 text-nowrap">Shop
@@ -167,7 +167,7 @@
                                                 <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
                                                     class="w-100 img-fluid" alt="collection-1">
                                             </a>
-                                            <a href="{{route('category.products', $category->id)}}" class="d-block d-xl-none banner-img br-hidden">
+                                            <a href="{{route('category.products', [$category->id, $category->slug])}}" class="d-block d-xl-none banner-img br-hidden">
                                                 <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
                                                     class="w-100 img-fluid" alt="collection-1">
                                             </a>
@@ -179,7 +179,7 @@
                                                         items</span>
                                                 </div>
                                                 <div class="d-xl-none mst-7">
-                                                    <a href="{{ route('category.products', $category->id) }}"
+                                                    <a href="{{ route('category.products', [$category->id, $category->slug]) }}"
                                                         class="link-btn">Shop now</a>
                                                 </div>
                                             </div>

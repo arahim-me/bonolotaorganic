@@ -9,23 +9,21 @@ class Order extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'user_id',
-        'product_id',
-        'invoice_id',
-        'quantity',
-        'price',
-        'status_id',
         'order_number',
-        'total',
-        'shipping_address',
+        'grand_total',
+        'status_id',
         'payment_method',
-        'placed_at',
+        'payment_status',
+        'shipping_address',
+        'shipping_phone',
     ];
 
     protected $casts = [
-        'placed_at' => 'datetime',
-        'total' => 'decimal:2',
+        'payment_status' => 'boolean',
+        'grand_total' => 'decimal:2'
     ];
 
     public function user()
@@ -38,9 +36,9 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function invoice()
+    public function paymentMethod()
     {
-        return $this->hasOne(Invoice::class);
+        return $this->belongsTo(PaymentMethod::class, 'payment_method');
     }
 
     public function status()

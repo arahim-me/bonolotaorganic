@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::share('siteInfo', Schema::hasTable('site_infos') ? SiteInfo::first() : null);
-        View::share('policyTypes', Schema::hasTable('policy_types') ? Policy_type::all() : collect());
+        View::share('publishedPolicies', Schema::hasTable('policy_types') ? Policy_type::where('is_published', true)->get() : collect());
     }
 }

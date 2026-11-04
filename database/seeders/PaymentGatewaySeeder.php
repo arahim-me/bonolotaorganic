@@ -21,24 +21,28 @@ class PaymentGatewaySeeder extends Seeder
                 'name' => 'Bkash',
                 'type' => 1,
                 'logo' => 'bkash.png', // Assuming you have a logo file in public/storage/payment_logos
+                'is_active' => false,
                 'status_id' => 2, // Inactive by default
             ],
             [
                 'name' => 'Rocket',
                 'type' => 1,
                 'logo' => 'rocket.png', // Assuming you have a logo file in public/storage/payment_logos
+                'is_active' => false,
                 'status_id' => 2, // Inactive by default
             ],
             [
                 'name' => 'Nagad',
                 'type' => 1,
                 'logo' => 'nagad.png', // Assuming you have a logo file in public/storage/payment_logos
+                'is_active' => false,
                 'status_id' => 2, // Inactive by default
             ],
             [
                 'name' => 'Cash on Delivery',
                 'type' => 2,
                 'logo' => 'cash-on-delivery.png', // Assuming you have a logo file in public/storage/payment_logos
+                'is_active' => true,
                 'status_id' => 1, // Active by default
             ]
         ];

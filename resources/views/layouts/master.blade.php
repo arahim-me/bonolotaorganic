@@ -553,7 +553,7 @@
                                     </a>
                                     <div class="ft-link collapse" id="collapse-policies">
                                         <ul class="ftlink-ul ul-ft pst-21 peb-1 peb-md-0">
-                                            @foreach ($policyTypes as $policyType)
+                                            @foreach ($publishedPolicies as $policyType)
                                                 <li class="ftlink-li">
                                                     <a href="{{ route('policies.show', $policyType->slug) }}"
                                                         class="d-inline-block body-primary-color">{{ $policyType->name }}</a>

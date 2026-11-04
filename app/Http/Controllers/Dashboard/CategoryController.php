@@ -35,7 +35,15 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:5120',
         ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->hashName();
+            $file->move(public_path('uploads/categories'), $filename);
+            $validated['image'] = $filename;
+        }
 
         Category::create($validated);
 
@@ -57,6 +65,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $user = auth()->user()?->id ?? null;
+        $previousImage = $category->image;
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -73,7 +82,26 @@ class CategoryController extends Controller
             $validated['image'] = $filename;
         }
 
-        $category->update($validated);
+        if (! $category->update($validated)) {
+            return redirect()->back()->with('error', 'Category update failed. Please try again.');
+        }
+
+        if (
+            $request->hasFile('image')
+            && $previousImage
+            && $previousImage !== $validated['image']
+            && $previousImage !== 'default.png'
+            && basename($previousImage) === $previousImage
+            && ! Category::where('image', $previousImage)
+                ->where($category->getKeyName(), '!=', $category->getKey())
+                ->exists()
+        ) {
+            $previousImagePath = public_path('uploads/categories/'.$previousImage);
+
+            if (is_file($previousImagePath) && ! unlink($previousImagePath)) {
+                throw new \RuntimeException('Unable to delete the previous category image.');
+            }
+        }
 
         return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
     }

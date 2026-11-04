@@ -45,6 +45,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SiteInfoSeeder::class,
         ]);
+        // Seed the Categories
+        $this->call([
+            CategorySeeder::class,
+        ]);
+        // Seed the Products
+        $this->call([
+            ProductSeeder::class,
+        ]);
 
         // Seed the Divisions
         // $this->call([

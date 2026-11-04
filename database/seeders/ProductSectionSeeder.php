@@ -14,7 +14,6 @@ class ProductSectionSeeder extends Seeder
     {
         $sections = [
             [
-                'user_id' => 1,
                 'name' => 'Hero Section',
                 'slug' => 'hero',
                 'description' => 'Items will be displayed with a Slider in the hero section of the homepage.',
@@ -22,7 +21,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Category Section',
                 'slug' => 'category',
                 'description' => 'All items of this section will be displayed in the category section of the homepage which is active.',
@@ -30,7 +28,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Trending Section',
                 'slug' => 'trending',
                 'description' => 'Trending products will be displayed in the homepage.',
@@ -38,7 +35,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Deal Section',
                 'slug' => 'deal',
                 'description' => 'Special deals will be displayed in the homepage.',
@@ -46,7 +42,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Featured Section',
                 'slug' => 'featured',
                 'description' => 'Featured products will be displayed in the homepage.',
@@ -54,7 +49,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Testimonial Section',
                 'slug' => 'testimonial',
                 'description' => 'Customer testimonials will be displayed in the homepage.',
@@ -62,7 +56,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Blog Section',
                 'slug' => 'blog',
                 'description' => 'Latest blog posts will be displayed in the homepage.',
@@ -70,7 +63,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'New Product Section',
                 'slug' => 'new',
                 'description' => 'New products will be displayed in the homepage.',
@@ -78,7 +70,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'NewsLetter Section',
                 'slug' => 'newsletter',
                 'description' => 'Newsletter subscription will be displayed in the homepage.',
@@ -86,7 +77,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Brand Section',
                 'slug' => 'brand',
                 'description' => 'Brands will be displayed in the homepage.',
@@ -94,7 +84,6 @@ class ProductSectionSeeder extends Seeder
                 'status_id' => 2,
             ],
             [
-                'user_id' => 1,
                 'name' => 'Best Match Product Section',
                 'slug' => 'match',
                 'description' => 'Best match products will be displayed in the homepage.',
