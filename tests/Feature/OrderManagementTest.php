@@ -5,6 +5,7 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\Status;
 use App\Models\User;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 test('admin can view the order creation form', function () {
     $admin = User::factory()->create(['role_id' => 1]);
@@ -33,6 +34,8 @@ test('admin can view the order creation form', function () {
 });
 
 test('admin can create an order and its items using product prices', function () {
+    $this->withoutMiddleware(ValidateCsrfToken::class);
+
     $admin = User::factory()->create(['role_id' => 1]);
     $pending = Status::create(['name' => 'Pending', 'slug' => 'pending']);
     $paymentMethod = PaymentMethod::create([
@@ -69,7 +72,8 @@ test('admin can create an order and its items using product prices', function ()
     ]);
 
     $response->assertSessionHasNoErrors();
-    $response->assertRedirect(route('orders.show', Order::first()));
+    $response->assertRedirect();
+    expect($response->getTargetUrl())->toBe(route('orders.show', 1));
 
     $order = Order::with('items')->firstOrFail();
 

@@ -13,9 +13,9 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with(['user', 'product', 'status'])->latest()->get();
-
-        return view('dashboard.reviews.index', compact('reviews'));
+        $title = 'Reviews';
+        $reviews = Review::latest()->paginate(25);
+        return view('dashboard.reviews.index', compact('reviews', 'title'));
     }
 
     public function create()
@@ -31,11 +31,11 @@ class ReviewController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'comment' => 'nullable|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
-            'status_id' => 'nullable|integer|min:1',
             'is_approved' => 'nullable|boolean',
+            'approved_by' => 'nullable|exists:users,id',
+            'approved_at' => 'nullable|timestamp',
             'images' => 'nullable|array',
         ]);
 
@@ -46,27 +46,26 @@ class ReviewController extends Controller
             $created->save();
         }
 
-        if(!$created) {
+        if (!$created) {
             return redirect()->back()->with('error', 'Failed to create review. Please try again.');
-        }else{
+        } else {
             return redirect()->back()->with('success', 'Review created successfully!');
         }
-}
+    }
 
     public function show(Review $review)
     {
-        $review->load(['user', 'product', 'status']);
-        return view('dashboard.reviews.show', compact('review'));
+        $title = 'Review Details';
+        return view('dashboard.reviews.show', compact('review', 'title'));
     }
 
     public function edit(Review $review)
     {
-        $review->load(['user', 'product', 'status']);
-        $users = User::orderBy('name')->get();
-        $products = Product::orderBy('name')->get();
-        $statuses = Status::orderBy('name')->get();
+        $title = 'Edit Review';
+        $users = User::orderBy('name')->paginate(25);
+        $products = Product::latest()->paginate(25);
 
-        return view('dashboard.reviews.edit', compact('review', 'users', 'products', 'statuses'));
+        return view('dashboard.reviews.edit', compact('review', 'users', 'products'));
     }
 
     public function update(Request $request, Review $review)
@@ -74,17 +73,16 @@ class ReviewController extends Controller
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'comment' => 'nullable|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
-            'status_id' => 'nullable|integer|min:1',
             'is_approved' => 'nullable|boolean',
+            'approved_by' => 'nullable|exists:users,id',
+            'approved_at' => 'nullable|timestamp',
             'images' => 'nullable|array',
         ]);
 
         if ($request->has('images')) {
             $validated['images'] = $request->input('images');
-
         }
 
         $review->update($validated);
@@ -101,8 +99,8 @@ class ReviewController extends Controller
 
     public function toggleStatus(Review $review)
     {
-        $newStatus = $review->is_approved ? 0 : 1;
-        $review->update(['is_approved' => $newStatus]);
+        $newStatus = !$review->is_approved;
+        $review->update(['is_approved' => $newStatus, 'approved_by' => auth()->id(), 'approved_at' => now()]);
 
         return redirect()->back()->with('success', 'Review successfully published!');
     }

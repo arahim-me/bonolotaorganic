@@ -458,7 +458,7 @@
                                                     <div class="row single-product-wrap">
                                                         <div class="product-image-col">
                                                             <div class="product-image">
-                                                                <a href="product.html" class="pro-img">
+                                                                <a href="{{ route('products.show', [$trend_product->id, $trend_product->slug]) }}" class="pro-img">
                                                                     <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail }}"
                                                                         class="w-100 img-fluid img1"
                                                                         alt="{{ $trend_product->name }}">
@@ -502,7 +502,7 @@
                                                                     <span
                                                                         class="d-block meb-7">{{ $trend_product->category->name }}</span>
                                                                     <span class="d-block heading-weight"><a
-                                                                            href="product.html"
+                                                                            href="{{ route('products.show', [$trend_product->id, $trend_product->slug]) }}"
                                                                             class="primary-link">{{ $trend_product->type }}</a></span>
                                                                 </div>
                                                                 <div class="product-price">

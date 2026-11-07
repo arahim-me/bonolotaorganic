@@ -6,6 +6,10 @@
             <div class="col-12">
                 <h4 class="page-title">Order {{ $order->order_number }}</h4>
 
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
                 <div class="card">
                     <div class="card-body">
                         <p><strong>Customer:</strong> {{ $order->user?->name ?? '—' }}</p>

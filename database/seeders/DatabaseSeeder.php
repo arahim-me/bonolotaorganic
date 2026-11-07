@@ -54,6 +54,15 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
         ]);
 
+        // Seed the Reviews
+        $this->call([
+            ReviewSeeder::class,
+        ]);
+        // Seed the Messages
+        $this->call([
+            MessageSeeder::class,
+        ]);
+
         // Seed the Divisions
         // $this->call([
         //     DivisionSeeder::class,
@@ -68,9 +77,9 @@ class DatabaseSeeder extends Seeder
         // ]);
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
 }

@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->string('title')->nullable();
-            $table->json('description')->nullable();
+            $table->foreignId('user_id');
+            $table->foreignId('product_id');
+            $table->string('comment')->nullable();
             $table->integer('rating')->default(5);
             $table->json('images')->nullable();
             $table->boolean('is_approved')->default(false);
-            $table->foreignId('status_id')->constrained('statuses')->default(1);
+            $table->foreignId('approved_by')->nullable();
+            $table->timestamp('approved_at')->nullable();
             $table->timestamps();
         });
     }

@@ -10,24 +10,26 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::withCount('products')->with('status')->get();
-
-        return view('dashboard.categories.index', compact('categories'));
+        $title = 'Categories Management';
+        $categories = Category::latest()->paginate(15);
+        return view('dashboard.categories.index', compact(['categories', 'title']));
     }
 
     public function filter(Request $request)
     {
+        $title = 'Categories Management';
         $filter = $request->input('filter');
         $categories = Category::where('name', 'like', "%$filter%")
             ->orWhere('description', 'like', "%$filter%")
             ->get();
 
-        return view('dashboard.categories.index', compact('categories'));
+        return view('dashboard.categories.index', compact(['categories', 'title']));
     }
 
     public function create()
     {
-        return view('dashboard.categories.create');
+        $title = 'Create Category';
+        return view('dashboard.categories.create', compact('title'));
     }
 
     public function store(Request $request)
@@ -52,13 +54,13 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return view('dashboard.categories.show', compact('category'));
+        $title = 'Category Details: '.$category->name;
+        return view('dashboard.categories.show', compact(['category', 'title']));
     }
 
     public function edit(Category $category)
     {
         $title = 'Edit '.$category->name;
-
         return view('dashboard.categories.edit', compact('category', 'title'));
     }
 
@@ -118,7 +120,6 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->is_published = !$category->is_published;
         $category->save();
-
         return redirect()->back()->with('success', 'Category publishable status updated successfully!');
     }
 }

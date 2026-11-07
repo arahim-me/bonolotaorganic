@@ -142,6 +142,14 @@
                             <a class='menu-link waves-effect waves-light' href='{{ route('reviews.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-star"></i></span>
                                 <span class="menu-text">Reviews</span>
+                                <span class="badge bg-danger ms-auto">{{ $notApprovedReviewsCount ?? 0 }}</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a class='menu-link waves-effect waves-light' href='{{ route('reviews.index') }}'>
+                                <span class="menu-icon"><i class="bx bx-envelope"></i></span>
+                                <span class="menu-text">Inbox</span>
+                                <span class="badge bg-danger ms-auto">{{ $unreadMessagesCount ?? 0 }}</span>
                             </a>
                         </li>
 

@@ -15,10 +15,12 @@ class UserSeeder extends Seeder
     {
         // Define users to be seeded
         $users = [
-            ['name' => 'Super Admin', 'role_id' => 1, 'email' => 'super-admin@gmail.com'],
-            ['name' => 'Admin', 'role_id' => 2, 'email' => 'admin@gmail.com'],
-            ['name' => 'customer', 'role_id' => 3, 'email' => 'customer@gmail.com'],
-            ['name' => 'user', 'role_id' => 4, 'email' => 'user@gmail.com'],
+            ['name' => 'Super Admin', 'role_id' => 1, 'email' => 'super-admin@gmail.com', 'phone' => '01700000000'],
+            ['name' => 'Admin', 'role_id' => 2, 'email' => 'admin@gmail.com', 'phone' => '01700000001'],
+            ['name' => 'Manager', 'role_id' => 3, 'email' => 'manager@gmail.com', 'phone' => '01700000002'],
+            ['name' => 'Customer Support', 'role_id' => 4, 'email' => 'support@gmail.com', 'phone' => '01700000003'],
+            ['name' => 'customer', 'role_id' => 5, 'email' => 'customer@gmail.com', 'phone' => '01700000004'],
+            ['name' => 'user', 'role_id' => 6, 'email' => 'user@gmail.com', 'phone' => '01700000005'],
 
         ];
         // Create users using the factory
@@ -27,6 +29,7 @@ class UserSeeder extends Seeder
                 'name' => $user['name'],
                 'role_id' => $user['role_id'],
                 'email' => $user['email'],
+                'phone' => $user['phone'],
                 'password' => Hash::make(12345678), // Default password for all users
             ]);
         }

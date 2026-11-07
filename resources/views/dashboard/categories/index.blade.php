@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Categories Management')
+@section('title', $title ?? 'Categories Management')
 
 @section('content')
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <h4 class="page-title mb-0">{{$title}}</h4>
+                <h4 class="page-title mb-0">{{ $title ?? 'Categories Management' }}</h4>
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
@@ -70,7 +70,8 @@
                                         class="text-decoration-none">
                                         <button type="button" class="btn btn-sm status-toggle-btn"
                                             style="background-color: {{ $category->is_published == 1 ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
-                                            <i class="fas fa-{{ $category->is_published == 1 ? 'check' : 'times'}} me-1"></i><span
+                                            <i
+                                                class="fas fa-{{ $category->is_published == 1 ? 'check' : 'times' }} me-1"></i><span
                                                 class="status-text">{{ $category->is_published == 1 ? 'Published' : 'Not Published' }}</span>
                                         </button>
                                     </a>

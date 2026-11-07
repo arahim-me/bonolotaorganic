@@ -42,10 +42,6 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control" maxlength="255">
-                    </div>
-                    <div class="col-md-6">
                         <label class="form-label">Rating</label>
                         <select name="rating" class="form-select" required>
                             @for ($i = 1; $i <= 5; $i++)
@@ -53,17 +49,9 @@
                             @endfor
                         </select>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label">Description</label>
-                        <textarea name="description" rows="4" class="form-control"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Status</label>
-                        <select name="status_id" class="form-select">
-                            @foreach ($statuses as $status)
-                                <option value="{{ $status->id }}">{{ $status->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="col-6 col-sm-12">
+                        <label class="form-label">Review</label>
+                        <textarea name="comment" rows="4" class="form-control"></textarea>
                     </div>
                 </div>
 

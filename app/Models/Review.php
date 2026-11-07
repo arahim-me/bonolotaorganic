@@ -9,12 +9,12 @@ class Review extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'title',
-        'description',
+        'comment',
         'rating',
         'images',
         'is_approved',
-        'status_id',
+        'approved_by',
+        'approved_at',
     ];
 
     protected $casts = [
@@ -32,8 +32,8 @@ class Review extends Model
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
-    public function status()
+    public function approver()
     {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
+        return $this->belongsTo(User::class, 'approved_by', 'id');
     }
 }

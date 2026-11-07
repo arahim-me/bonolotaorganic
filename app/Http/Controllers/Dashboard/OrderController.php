@@ -28,7 +28,7 @@ class OrderController extends Controller
         $title = 'Create Order';
         $users = User::orderBy('name')->get(['id', 'name', 'phone']);
         $products = Product::orderBy('name')->get(['id', 'name', 'price']);
-        $statuses = Status::whereIn('name', ['Pending', 'Processing', 'Completed', 'Cancelled', 'On Hold'])
+        $statuses = Status::whereIn('name', ['Pending', 'Processing', 'In Progress', 'Completed', 'Cancelled', 'On Hold'])
             ->orderBy('id')
             ->get(['id', 'name']);
         $paymentMethods = PaymentMethod::orderBy('name')->get(['id', 'name']);
@@ -104,7 +104,6 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         $order->delete();
-
         return redirect()->route('orders.index')->with('success', 'Order deleted');
     }
 }

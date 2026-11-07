@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\FacilityController;
 use App\Http\Controllers\Dashboard\InvoiceController;
+use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\OrderController;
 use App\Http\Controllers\Dashboard\PaymentGwatewayController;
 use App\Http\Controllers\Dashboard\PaymentMethodController;
@@ -87,6 +88,9 @@ Route::middleware('auth')->group(function () {
         // Facility Management Routes
         Route::resource('dashboard/facilities', FacilityController::class);
 
+
+        // Messages [inbox] Management Routes
+        Route::resource('dashboard/messages', MessageController::class);
 
 
         // Orders Management
