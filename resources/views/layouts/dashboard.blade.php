@@ -19,6 +19,7 @@
     <!-- App css -->
     <link href="{{ asset('assets/css/style.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/inbox.css') }}" rel="stylesheet" type="text/css">
     <script src="{{ asset('assets/js/config.js') }}"></script>
     @stack('styles')
 </head>
@@ -146,7 +147,7 @@
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('reviews.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('messages.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-envelope"></i></span>
                                 <span class="menu-text">Inbox</span>
                                 <span class="badge bg-danger ms-auto">{{ $unreadMessagesCount ?? 0 }}</span>
@@ -1097,6 +1098,8 @@
     <!-- third party js ends -->
     <!-- Dashboard init-->
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/inbox.js') }}"></script>
+
     @stack('scripts')
 
 </body>

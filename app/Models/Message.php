@@ -16,4 +16,13 @@ class Message extends Model
         'read_by',
         'read_at'
     ];
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+    public function reader()
+    {
+        return $this->belongsTo(User::class, 'read_by');
+    }
 }

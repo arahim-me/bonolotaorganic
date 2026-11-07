@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-require __DIR__.'/frontend.php';
+require __DIR__ . '/frontend.php';
 
 // Route::get('/', [\App\Http\Controllers\FrontEnd\HomeController::class, 'index'])->name('home');
 
@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('dashboard/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Management Routes (only role_id 1 and 2)
-    Route::middleware(AdminRoleMiddleware::class.':1,2')->group(function () {
+    Route::middleware(AdminRoleMiddleware::class . ':1,2')->group(function () {
         // Site Information Routes
         Route::resource('dashboard/site-info', SiteInfoController::class);
 
@@ -91,7 +91,12 @@ Route::middleware('auth')->group(function () {
 
         // Messages [inbox] Management Routes
         Route::resource('dashboard/messages', MessageController::class);
-
+        // AJAX Search & Filter
+        Route::get('/messages/filter', [MessageController::class, 'filter'])
+            ->name('dashboard.messages.filter');
+        // Mark as Read
+        Route::patch('/messages/{message}/read', [MessageController::class, 'markRead'])
+            ->name('dashboard.messages.read');
 
         // Orders Management
         Route::get('dashboard/orders/{order}/invoice', [InvoiceController::class, 'show'])->name('orders.invoice');
@@ -105,4 +110,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
