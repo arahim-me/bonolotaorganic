@@ -26,7 +26,8 @@ class Order extends Model
     protected $casts = [
         'is_accept' => 'boolean',
         'payment_status' => 'boolean',
-        'grand_total' => 'decimal:2'
+        'grand_total' => 'decimal:2',
+        'shipping_fee' => 'decimal:2'
     ];
 
     public function user()
@@ -49,10 +50,6 @@ class Order extends Model
         return $this->belongsTo(Status::class, 'status_id');
     }
 
-    public function shippingFee()
-    {
-        return $this->belongsTo(ShippingFee::class, 'shipping_fee');
-    }
     public function courierShipments()
     {
         return $this->hasMany(CourierShipment::class);

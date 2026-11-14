@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="float-end">
-                        <a href="{{ route('orders.index') }}" class="btn btn-dark">
+                        <a href="{{ route('dashboard.orders.index') }}" class="btn btn-dark">
                             <i class="bx bx-arrow-back"></i> Back to Orders
                         </a>
                     </div>
@@ -34,7 +34,7 @@
             $items = is_array($items) && $items !== [] ? array_values($items) : [['product_id' => '', 'quantity' => 1]];
         @endphp
 
-        <form action="{{ route('orders.store') }}" method="POST">
+        <form action="{{ route('dashboard.orders.store') }}" method="POST">
             @csrf
             <div class="card mb-3">
                 <div class="card-header">
@@ -263,7 +263,7 @@
 
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary" @disabled($products->isEmpty())>Create Order</button>
-                        <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                        <a href="{{ route('dashboard.orders.index') }}" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </div>
             </div>

@@ -102,13 +102,13 @@ class OrderController extends Controller
                     'type' => 'order_created',
                     'title' => 'New Order Received',
                     'content' => 'You have received a new order #' . $order->order_number,
-                    'return_url' => route('orders.show', $order->id),
+                    'return_url' => route('dashboard.orders.show', $order->id),
                 ]);
             }
             return $order;
         });
 
-        return redirect()->route('orders.show', $order)->with('success', 'Order created successfully.');
+        return redirect()->route('dashboard.orders.show', $order)->with('success', 'Order created successfully.');
     }
 
     public function show(Order $order)
@@ -121,6 +121,6 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         $order->delete();
-        return redirect()->route('orders.index')->with('success', 'Order deleted');
+        return redirect()->route('dashboard.orders.index')->with('success', 'Order deleted');
     }
 }

@@ -18,19 +18,14 @@ return new class extends Migration {
                 ->constrained()
                 ->nullOnDelete();
 
-            $table->string('courier', 30);
-            $table->string('action', 50);
-            $table->string('status', 30)->default('success');
+            $table->string('courier');
+            $table->string('action');
+            $table->string('status')->default('success');
 
             $table->json('request_data')->nullable();
             $table->json('response_data')->nullable();
 
             $table->text('error_message')->nullable();
-
-            $table->foreignId('created_by')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
 
             $table->timestamps();
         });

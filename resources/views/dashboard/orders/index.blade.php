@@ -13,7 +13,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="float-end d-none d-sm-block">
-                                <a href="{{ route('orders.create') }}" class="btn btn-primary">
+                                <a href="{{ route('dashboard.orders.create') }}" class="btn btn-primary">
                                     <i class="bx bx-plus"></i> Create New Order
                                 </a>
                             </div>
@@ -50,9 +50,9 @@
                                         <td>{{ $order->created_at?->toDateTimeString() ?? '—' }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('orders.show', $order) }}"
+                                            <a href="{{ route('dashboard.orders.show', $order) }}"
                                                 class="btn btn-sm btn-primary">View</a>
-                                            <form action="{{ route('orders.destroy', $order) }}" method="POST"
+                                            <form action="{{ route('dashboard.orders.destroy', $order) }}" method="POST"
                                                 style="display:inline-block"
                                                 onsubmit="return confirm('Delete this order?')">
                                                 @csrf

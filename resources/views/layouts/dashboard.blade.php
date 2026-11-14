@@ -251,7 +251,7 @@
                         </li>
                         <li class="menu-item">
                             <a class="menu-link waves-effect waves-light"
-                                href="{{ route('dashboard.courier.settings.index') }}">
+                                href="#">
 
                                 <span class="menu-icon">
                                     <i class="bx bx-package"></i>
@@ -264,7 +264,7 @@
 
                     <li class="menu-title">Settings</li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('dashboard.courier.fraud-check.index') }}">
+                        <a class="menu-link" href="{{ route('dashboard.courier.fraud.index') }}">
 
                             <span class="menu-icon">
                                 <i class="bx bx-shield-quarter"></i>

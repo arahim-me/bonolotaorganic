@@ -1,105 +1,106 @@
 <?php
+
 namespace App\Services\Courier;
 
 use App\Models\CourierSetting;
+use App\Contracts\Courier\CourierInterface;
 use Illuminate\Support\Facades\Http;
-use Exception;
+use RuntimeException;
 
-class SteadfastService
+class SteadfastService implements CourierInterface
 {
-    protected CourierSetting $setting;
-
+    protected $setting;
     protected string $baseUrl;
 
     public function __construct()
     {
-        $this->setting = CourierSetting::firstOrCreate(
-            ['courier' => 'steadfast'],
-            [
-                'name' => 'Steadfast',
-                'base_url' => 'https://portal.packzy.com/api/v1',
-            ]
-        );
+        $this->setting = CourierSetting::where(
+            'courier',
+            'steadfast'
+        )->firstOrFail();
 
-        $this->baseUrl = rtrim($this->setting->base_url, '/');
+        $this->baseUrl = rtrim(
+            $this->setting->base_url
+            ?: 'https://portal.packzy.com/api/v1',
+            '/'
+        );
     }
 
-    protected function request()
+    private function request()
     {
-        return Http::withHeaders([
-            'Api-Key' => $this->setting->api_key,
-            'Secret-Key' => $this->setting->secret_key,
-            'Content-Type' => 'application/json',
-        ])
-            ->acceptJson()
+        $credentials = $this->setting->credentials ?? [];
+
+        if (
+            empty($credentials['api_key']) ||
+            empty($credentials['secret_key'])
+        ) {
+            throw new RuntimeException('Steadfast credentials missing.');
+        }
+
+        return Http::acceptJson()
+            ->withHeaders([
+                'Api-Key' => $credentials['api_key'],
+                'Secret-Key' => $credentials['secret_key'],
+            ])
             ->timeout(30);
     }
 
-    /**
-     * Test API connection using balance endpoint.
-     */
     public function testConnection(): array
     {
-        $response = $this->request()
-            ->get($this->baseUrl . '/get_balance');
-
-        if (!$response->successful()) {
-            throw new Exception('Steadfast authentication failed.');
-        }
-
-        return $response->json();
+        return $this->send(
+            $this->request()->get($this->baseUrl . '/get_balance')
+        );
     }
 
-    /**
-     * Create parcel.
-     */
-    public function createOrder(array $data): array
+    public function getBalance(): array
     {
-        $response = $this->request()
-            ->post($this->baseUrl . '/create_order', $data);
-
-        if (!$response->successful()) {
-            throw new Exception('Steadfast booking failed.');
-        }
-
-        return $response->json();
+        return $this->testConnection();
     }
 
-    /**
-     * Track by consignment ID.
-     */
-    public function trackByConsignment(string $id): array
+    public function createShipment(array $data): array
     {
-        $response = $this->request()
-            ->get(
-                $this->baseUrl .
-                '/status_by_cid/' .
-                urlencode($id)
+        return $this->send(
+            $this->request()->post(
+                $this->baseUrl . '/create_order',
+                [
+                    'invoice' => $data['invoice'],
+                    'recipient_name' => $data['recipient_name'],
+                    'recipient_phone' => $data['recipient_phone'],
+                    'recipient_address' => $data['recipient_address'],
+                    'cod_amount' => $data['cod_amount'],
+                    'note' => $data['note'] ?? '',
+                    'item_description' => $data['item_description'] ?? '',
+                    'delivery_type' => $data['delivery_type'] ?? 0,
+                ]
+            )
+        );
+    }
+
+    public function trackShipment(string $trackingCode): array
+    {
+        return $this->send(
+            $this->request()->get(
+                $this->baseUrl . '/status_by_trackingcode/' .
+                urlencode($trackingCode)
+            )
+        );
+    }
+
+    public function cancelShipment(string $trackingCode): array
+    {
+        throw new RuntimeException(
+            'Cancellation is not enabled. Use the supported return/cancellation workflow.'
+        );
+    }
+
+    private function send($response): array
+    {
+        if (!$response->successful()) {
+            throw new RuntimeException(
+                'Steadfast API Error: ' . $response->body()
             );
-
-        if (!$response->successful()) {
-            throw new Exception('Steadfast tracking failed.');
         }
 
-        return $response->json();
-    }
-
-    /**
-     * Track by invoice.
-     */
-    public function trackOrder(string $invoice): array
-    {
-        $response = $this->request()
-            ->get(
-                $this->baseUrl .
-                '/status_by_invoice/' .
-                urlencode($invoice)
-            );
-
-        if (!$response->successful()) {
-            throw new Exception('Steadfast tracking failed.');
-        }
-
-        return $response->json();
+        return $response->json() ?? [];
     }
 }

@@ -10,51 +10,30 @@ class CourierSetting extends Model
         'courier',
         'name',
         'base_url',
-
-        // Pathao
-        'client_id',
-        'client_secret',
-        'username',
-        'password',
-        'store_id',
-
-        // Steadfast
-        'api_key',
-        'secret_key',
-
-        // RedX
-        'access_token',
-
-        // Settings
+        'credentials',
         'is_active',
-        'last_tested_at',
+        'is_default',
         'connection_status',
+        'last_tested_at',
         'last_error',
     ];
 
     protected $hidden = [
-        'client_id',
-        'client_secret',
-        'username',
-        'password',
-        'api_key',
-        'secret_key',
-        'access_token',
+        'credentials',
     ];
 
     protected function casts(): array
     {
         return [
-            'client_id' => 'encrypted',
-            'client_secret' => 'encrypted',
-            'username' => 'encrypted',
-            'password' => 'encrypted',
-            'api_key' => 'encrypted',
-            'secret_key' => 'encrypted',
-            'access_token' => 'encrypted',
-
+            'credentials' => 'encrypted:array',
             'is_active' => 'boolean',
+            'is_default' => 'boolean',
             'last_tested_at' => 'datetime',
         ];
+    }
+
+    public function shipments()
+    {
+        return $this->hasMany(CourierShipment::class);
     }
 }

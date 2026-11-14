@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,27 +10,20 @@ return new class extends Migration {
         Schema::create('courier_settings', function (Blueprint $table) {
             $table->id();
 
-            $table->string('courier')->unique();
-
+            $table->string('courier')->unique(); // pathao, steadfast, redx
             $table->string('name');
             $table->string('base_url')->nullable();
 
-            // Pathao credentials
-            $table->text('client_id')->nullable();
-            $table->text('client_secret')->nullable();
-            $table->text('username')->nullable();
-            $table->text('password')->nullable();
-            $table->string('store_id')->nullable();
-
-            // Steadfast credentials
-            $table->text('api_key')->nullable();
-            $table->text('secret_key')->nullable();
-            $table->text('access_token')->nullable();
+            // API credentials will be encrypted by Eloquent cast
+            $table->longText('credentials')->nullable();
 
             $table->boolean('is_active')->default(false);
+            $table->boolean('is_default')->default(false);
+
+            $table->string('connection_status')
+                ->default('untested'); // untested, connected, failed
 
             $table->timestamp('last_tested_at')->nullable();
-            $table->string('connection_status')->default('untested');
             $table->text('last_error')->nullable();
 
             $table->timestamps();

@@ -3,11 +3,8 @@
 use App\Http\Controllers\Dashboard\BrandController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CourierBookingController;
-use App\Http\Controllers\Dashboard\CourierLogController;
-use App\Http\Controllers\Dashboard\CourierSettingController;
-use App\Http\Controllers\Dashboard\CourierTrackingController;
 use App\Http\Controllers\Dashboard\FacilityController;
-use App\Http\Controllers\Dashboard\FraudCheckController;
+use App\Http\Controllers\Dashboard\Courier\FraudCheckController;
 use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\NotificationController;
@@ -29,45 +26,23 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
     // Site Information Routes
     Route::resource('site-info', SiteInfoController::class);
 
-    Route::prefix('courier')->name('courier.')->group(function () {
+    Route::prefix('courier')
+        ->name('courier.')
+        ->middleware(['auth'])
+        ->group(function () {
 
-        // Courier Settings
-        Route::get('/settings', [CourierSettingController::class, 'index'])
-            ->name('settings.index');
+            Route::get('/fraud', [FraudCheckController::class, 'index'])
+                ->name('fraud.index');
 
-        Route::put('/settings/{courier}', [CourierSettingController::class, 'update'])
-            ->name('settings.update');
+            Route::post('/fraud/check', [FraudCheckController::class, 'check'])
+                ->name('fraud.check');
 
-        Route::post(
-            '/courier-settings/{courier}/test',
-            [CourierSettingController::class, 'testConnection']
-        )->name('courier-settings.test');
+        });
 
-        // Fraud Checker
-        Route::get('/fraud-check', [FraudCheckController::class, 'index'])
-            ->name('fraud-check.index');
-
-        Route::post('/fraud-check', [FraudCheckController::class, 'check'])
-            ->name('fraud-check.check');
-
-        // Courier Booking
-        Route::post('/orders/{order}/book', [CourierBookingController::class, 'store'])
-            ->name('booking.store');
-
-        // Cancel Booking
-        Route::post('/shipments/{shipment}/cancel', [CourierBookingController::class, 'cancel'])
-            ->name('booking.cancel');
-
-        // Tracking
-        Route::get('/shipments/{shipment}/track', [CourierTrackingController::class, 'show'])
-            ->name('tracking.show');
-
-        // Courier Logs
-        Route::get('/logs', [CourierLogController::class, 'index'])
-            ->name('logs.index');
-    });
-
-
+    Route::post(
+        '/orders/{order}/courier-booking',
+        [CourierBookingController::class, 'store']
+    )->name('orders.courier-booking');
     Route::resource('tags', TagController::class);
 
     // Policy Types Management Routes
@@ -92,52 +67,52 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
         CategoryController::class,
         'toggleStatus'
     ])->name('categories.toggle-status');
-    Route::get('dashboard/categories/filter', [CategoryController::class, 'filter'])->name('categories.filter');
-    Route::resource('dashboard/categories', CategoryController::class);
+    Route::get('categories/filter', [CategoryController::class, 'filter'])->name('categories.filter');
+    Route::resource('categories', CategoryController::class);
 
     // Product Management Routes
-    Route::get('dashboard/products/filter', [ProductController::class, 'filter'])->name('products.filter');
-    Route::resource('dashboard/products', ProductController::class);
+    Route::get('products/filter', [ProductController::class, 'filter'])->name('products.filter');
+    Route::resource('products', ProductController::class);
     Route::patch(
         '/admin/products/{product}/toggle-published',
         [ProductController::class, 'togglePublished']
     )->name('products.togglePublished');
-    Route::post('dashboard/products/{product}/images', [
+    Route::post('products/{product}/images', [
         ProductController::class,
         'uploadImages'
     ])->name('products.images.upload');
 
     // Product Brand Management Routes
-    Route::get('dashboard/brands/filter', [
+    Route::get('brands/filter', [
         BrandController::class,
         'filter'
     ])->name('brands.filter');
-    Route::resource('dashboard/brands', BrandController::class);
-    Route::get('dashboard/brands/{brand}/toggle-published', [
+    Route::resource('brands', BrandController::class);
+    Route::get('brands/{brand}/toggle-published', [
         BrandController::class,
         'togglePublished'
     ])->name('brands.togglePublished');
 
     // Section Management Routes
-    Route::get('dashboard/product-sections/{section}/toggle-status', [
+    Route::get('product-sections/{section}/toggle-status', [
         ProductSectionController::class,
         'toggleStatus'
     ])->name('product-sections.toggle-status');
-    Route::resource('dashboard/product-sections', ProductSectionController::class);
+    Route::resource('product-sections', ProductSectionController::class);
 
     // Review Management Routes
-    Route::get('dashboard/reviews/{review}/toggle-status', [
+    Route::get('reviews/{review}/toggle-status', [
         ReviewController::class,
         'toggleStatus'
     ])->name('reviews.toggle-status');
-    Route::resource('dashboard/reviews', ReviewController::class);
+    Route::resource('reviews', ReviewController::class);
 
     // Facility Management Routes
-    Route::resource('dashboard/facilities', FacilityController::class);
+    Route::resource('facilities', FacilityController::class);
 
 
     // Messages [inbox] Management Routes
-    Route::resource('dashboard/messages', MessageController::class);
+    Route::resource('messages', MessageController::class);
     // AJAX Search & Filter
     Route::get('/messages/filter', [MessageController::class, 'filter'])
         ->name('messages.filter');
@@ -147,17 +122,17 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
 
     // Orders Management
     Route::get('invoice/{invoice}', [InvoiceController::class, 'show'])->name('invoice.show');
-    Route::resource('dashboard/orders', OrderController::class);
+    Route::resource('orders', OrderController::class);
     // Payment Methods Management
-    Route::resource('dashboard/payment-methods', PaymentMethodController::class);
-    Route::get('dashboard/payment-methods/{payment_method}/toggle', [
+    Route::resource('payment-methods', PaymentMethodController::class);
+    Route::get('payment-methods/{payment_method}/toggle', [
         PaymentMethodController::class,
         'toggle'
     ])->name('payment-methods.toggle');
     // Payment Gateway Settings (admin & super-admin only) - simple forms
-    Route::resource('dashboard/payment-gateways', PaymentGwatewayController::class);
+    Route::resource('payment-gateways', PaymentGwatewayController::class);
     // Shipping Fee
-    Route::resource('dashboard/shipping-fees', ShippingFeeController::class);
+    Route::resource('shipping-fees', ShippingFeeController::class);
 
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
