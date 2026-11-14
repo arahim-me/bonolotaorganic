@@ -6,7 +6,7 @@
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
             <div class="col-sm-6">
-                <h4 class="page-title mb-0">Brands</h4>
+                <h4 class="page-title mb-0">{{ $title ?? 'Brands Management' }}</h4>
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
@@ -35,31 +35,39 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Product Count</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($brands as $brand)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <strong>{{ $brand->name ?? 'Unnamed brand' }}</strong>
                                 </td>
-                                <td>{{ $brand->description ?? '-' }}</td>
+                                <td>{{ Str::limit($brand->description, 45) ?? 'N/A' }}</td>
                                 <td>{{ $brand->products->count() }}</td>
                                 <td>
-                                    <a href="{{ route('brands.toggle-status', $brand->id) }}" class="text-decoration-none">
-                                        <button type="button" class="btn btn-sm"
-                                            style="background-color: {{ $brand->status_id == 1 ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
-                                            <i class="{{ $brand->status->icon ?? 'bx bx-circle' }} me-1"></i>
-                                            <span>{{ $brand->status->name ?? 'Pending' }}</span>
-                                        </button>
-                                    </a>
+                                    <form action="{{ route('dashboard.brands.togglePublished', $brand->id) }}">
+                                        @csrf
+                                        @method('GET')
+
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                onchange="this.form.submit()" {{ $brand->is_published ? 'checked' : '' }}
+                                                style="cursor: pointer;">
+                                        </div>
+                                    </form>
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2">
-                                        <a class="dropdown-item" href="{{ route('brands.show', $brand->id) }}"><i class="fa-solid fa-eye"></i></a>
-                                        <a class="dropdown-item" href="{{ route('brands.edit', $brand->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('brands.destroy', $brand->id) }}" method="POST" class="m-0"
+                                        <a class="dropdown-item" href="{{ route('brands.show', $brand->id) }}"><i
+                                                class="fa-solid fa-eye"></i></a>
+                                        <a class="dropdown-item" href="{{ route('brands.edit', $brand->id) }}"><i
+                                                class="fa-solid fa-pen-to-square"></i></a>
+                                        <form action="{{ route('brands.destroy', $brand->id) }}" method="POST"
+                                            class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this brand?');">
                                             @csrf
                                             @method('DELETE')

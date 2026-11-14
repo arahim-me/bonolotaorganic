@@ -22,6 +22,7 @@ class MessageSeeder extends Seeder
             [
                 'email' => 'jane.smith@example.com',
                 'phone' => '098-765-4321',
+                'name' => 'Karim',
                 'title' => 'Feedback about purchase',
                 'message' => 'I had a great experience with my recent purchase.'
             ],
@@ -33,6 +34,7 @@ class MessageSeeder extends Seeder
             [
                 'email' => 'janesmith@example.com',
                 'phone' => '098-765-4321',
+                'name' => 'Imran',
                 'title' => 'Product inquiry',
                 'message' => 'I would like more information about this product.'
             ],

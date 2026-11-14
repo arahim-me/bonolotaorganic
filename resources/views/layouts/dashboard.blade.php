@@ -79,14 +79,14 @@
                         <li class="menu-title">Management</li>
 
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('users.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.users.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-user-circle"></i></span>
                                 <span class="menu-text">Users</span>
                             </a>
                         </li>
 
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('categories.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.categories.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-bookmarks"></i></span>
                                 <span class="menu-text">Categories</span>
                             </a>
@@ -97,24 +97,34 @@
                             <a href="#menuProducts" data-bs-toggle="collapse"
                                 class="menu-link waves-effect waves-light">
                                 <span class="menu-icon"><i class="bx bx-box"></i></span>
-                                 <span class="menu-text">Manage Products</span>
+                                <span class="menu-text">Manage Products</span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <div class="collapse" id="menuProducts">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
                                         <a class='menu-link waves-effect waves-light'
-                                            href='{{ route('products.index') }}'>
+                                            href='{{ route('dashboard.products.index') }}'>
                                             <span class="menu-text">Products</span>
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('brands.index') }}'>
+                                        <a class='menu-link' href='{{ route('dashboard.brands.index') }}'>
                                             <span class="menu-text">Brands</span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ route('dashboard.tags.index') }}">
+
+                                <span class="menu-icon">
+                                    <i class="bx bx-purchase-tag"></i>
+                                </span>
+
+                                <span class="menu-text">Tags</span>
+                            </a>
                         </li>
                         <li class="menu-item">
                             <a href="#menuSections" data-bs-toggle="collapse"
@@ -126,12 +136,12 @@
                             <div class="collapse" id="menuSections">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('product-sections.index') }}'>
+                                        <a class='menu-link' href='{{ route('dashboard.product-sections.index') }}'>
                                             <span class="menu-text">Section Management</span>
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('products.index') }}'>
+                                        <a class='menu-link' href='{{ route('dashboard.products.index') }}'>
                                             <span class="menu-text">Product Management</span>
                                         </a>
                                     </li>
@@ -140,38 +150,64 @@
                         </li>
 
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('reviews.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.reviews.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-star"></i></span>
                                 <span class="menu-text">Reviews</span>
-                                <span class="badge bg-danger ms-auto">{{ $notApprovedReviewsCount ?? 0 }}</span>
+                                @if ($notApprovedReviewsCount)
+                                    <span class="badge bg-danger ms-auto">{{ $notApprovedReviewsCount ?? 0 }}</span>
+                                @endif
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('messages.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.messages.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-envelope"></i></span>
                                 <span class="menu-text">Inbox</span>
-                                <span class="badge bg-danger ms-auto">{{ $unreadMessagesCount ?? 0 }}</span>
+                                @if ($unreadMessagesCount)
+                                    <span class="badge bg-danger ms-auto">{{ $unreadMessagesCount ?? 0 }}</span>
+                                @endif
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a class="menu-link waves-effect waves-light"
+                                href="{{ route('dashboard.notifications.index') }}">
+
+                                <span class="menu-icon">
+                                    <i class="bx bx-bell"></i>
+                                </span>
+
+                                <span class="menu-text">Notifications</span>
+
+                                @if ($unreadNotifyCount)
+                                    <span class="badge bg-danger ms-auto">{{ $unreadNotifyCount ?? 0 }}</span>
+                                @endif
+
                             </a>
                         </li>
 
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('facilities.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.facilities.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-buildings"></i></span>
                                 <span class="menu-text">Facilities</span>
                             </a>
                         </li>
 
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('policy-types.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.policy-types.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-question-mark"></i></span>
                                 <span class="menu-text">Policy Types</span>
                             </a>
                         </li>
 
                         <li class="menu-item">
-                            <a class='menu-link waves-effect waves-light' href='{{ route('orders.index') }}'>
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.orders.index') }}'>
                                 <span class="menu-icon"><i class="bx bx-cart"></i></span>
                                 <span class="menu-text">Orders</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a class='menu-link waves-effect waves-light' href='{{ route('dashboard.shipping-fees.index') }}'>
+                                <span class="menu-icon"><i class="bx bx-cart"></i></span>
+                                <span class="menu-text">Shipping Fee</span>
                             </a>
                         </li>
                         <li class="menu-item">
@@ -184,12 +220,12 @@
                             <div class="collapse" id="menuPayment">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('payment-methods.index') }}'>
+                                        <a class='menu-link' href='{{ route('dashboard.payment-methods.index') }}'>
                                             <span class="menu-text">Payment Methods</span>
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('payment-gateways.index') }}'>
+                                        <a class='menu-link' href='{{ route('dashboard.payment-gateways.index') }}'>
                                             <span class="menu-text">Payment Gateways</span>
                                         </a>
                                     </li>
@@ -206,7 +242,7 @@
                             <div class="collapse" id="menuSiteSettings">
                                 <ul class="sub-menu">
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('site-info.index') }}'>
+                                        <a class='menu-link' href='{{ route('dashboard.site-info.index') }}'>
                                             <span class="menu-text">Site Information</span>
                                         </a>
                                     </li>
@@ -214,30 +250,32 @@
                             </div>
                         </li>
                         <li class="menu-item">
-                            <a href="#menuCourier" data-bs-toggle="collapse"
-                                class="menu-link waves-effect waves-light">
-                                <span class="menu-icon"><i class="fa-solid fa-truck-fast"></i></i></span>
-                                <span class="menu-text"> Courier Settings </span>
-                                <span class="menu-arrow"></span>
+                            <a class="menu-link waves-effect waves-light"
+                                href="{{ route('dashboard.courier.settings.index') }}">
+
+                                <span class="menu-icon">
+                                    <i class="bx bx-package"></i>
+                                </span>
+
+                                <span class="menu-text">Courier Settings</span>
                             </a>
-                            <div class="collapse" id="menuCourier">
-                                <ul class="sub-menu">
-                                    <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('payment-methods.index') }}'>
-                                            <span class="menu-text">Courier Methods</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('payment-gateways.index') }}'>
-                                            <span class="menu-text">Configure Courier</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
                     @endif
 
                     <li class="menu-title">Settings</li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="{{ route('dashboard.courier.fraud-check.index') }}">
+
+                            <span class="menu-icon">
+                                <i class="bx bx-shield-quarter"></i>
+                            </span>
+
+                            <span class="menu-text">
+                                Fraud Checker
+                            </span>
+
+                        </a>
+                    </li>
 
                     <li class="menu-item">
                         <a class='menu-link waves-effect waves-light' href='{{ route('profile.index') }}'>
@@ -768,8 +806,8 @@
                             <a class="nav-link dropdown-toggle waves-effect waves-light arrow-none"
                                 data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                 aria-expanded="false">
-                                <img src="{{ asset('assets/images/flags/us.jpg') }}" alt="user-image"
-                                    class="me-0 me-sm-1" height="18">
+                                <img src="{{ asset('uploads/users/avatars') }}/{{ auth()->user()->avatar ?? 'user.png' }}"
+                                    alt="user-image" class="me-0 me-sm-1" height="18">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated">
 
@@ -800,163 +838,6 @@
                             </div>
                         </li>
 
-                        <li class="dropdown notification-list">
-                            <a class="nav-link dropdown-toggle waves-effect waves-light arrow-none"
-                                data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
-                                aria-expanded="false">
-                                <i class="mdi mdi-bell font-size-24"></i>
-                                <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
-                                <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
-                                    <div class="row align-items-center">
-                                        <div class="col">
-                                            <h6 class="m-0 font-size-16 fw-semibold"> Notification</h6>
-                                        </div>
-                                        <div class="col-auto">
-                                            <a href="javascript: void(0);"
-                                                class="text-dark text-decoration-underline">
-                                                <small>Clear All</small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="px-1" style="max-height: 300px;" data-simplebar>
-
-                                    <h5 class="text-muted font-size-13 fw-normal mt-2">Today</h5>
-                                    <!-- item-->
-
-                                    <a href="javascript:void(0);"
-                                        class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-1">
-                                        <div class="card-body">
-                                            <span class="float-end noti-close-btn text-muted"><i
-                                                    class="mdi mdi-close"></i></span>
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <div class="notify-icon bg-primary">
-                                                        <i class="mdi mdi-comment-account-outline"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate ms-2">
-                                                    <h5 class="noti-item-title fw-semibold font-size-14">Datacorp
-                                                        <small class="fw-normal text-muted ms-1">1 min ago</small>
-                                                    </h5>
-                                                    <small class="noti-item-subtitle text-muted">Caleb Flakelar
-                                                        commented on Admin</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);"
-                                        class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                        <div class="card-body">
-                                            <span class="float-end noti-close-btn text-muted"><i
-                                                    class="mdi mdi-close"></i></span>
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <div class="notify-icon bg-info">
-                                                        <i class="mdi mdi-account-plus"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate ms-2">
-                                                    <h5 class="noti-item-title fw-semibold font-size-14">Admin <small
-                                                            class="fw-normal text-muted ms-1">1 hours ago</small></h5>
-                                                    <small class="noti-item-subtitle text-muted">New user
-                                                        registered</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <h5 class="text-muted font-size-13 fw-normal mt-0">Yesterday</h5>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);"
-                                        class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                        <div class="card-body">
-                                            <span class="float-end noti-close-btn text-muted"><i
-                                                    class="mdi mdi-close"></i></span>
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <div class="notify-icon">
-                                                        <img src="{{ asset('assets/images/users/avatar-2.jpg') }}"
-                                                            class="img-fluid rounded-circle" alt="" />
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate ms-2">
-                                                    <h5 class="noti-item-title fw-semibold font-size-14">Cristina Pride
-                                                        <small class="fw-normal text-muted ms-1">1 day ago</small>
-                                                    </h5>
-                                                    <small class="noti-item-subtitle text-muted">Hi, How are you? What
-                                                        about our next meeting</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <h5 class="text-muted font-size-13 fw-normal mt-0">30 Dec 2021</h5>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);"
-                                        class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                        <div class="card-body">
-                                            <span class="float-end noti-close-btn text-muted"><i
-                                                    class="mdi mdi-close"></i></span>
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <div class="notify-icon bg-primary">
-                                                        <i class="mdi mdi-comment-account-outline"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate ms-2">
-                                                    <h5 class="noti-item-title fw-semibold font-size-14">Datacorp</h5>
-                                                    <small class="noti-item-subtitle text-muted">Caleb Flakelar
-                                                        commented on Admin</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);"
-                                        class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                        <div class="card-body">
-                                            <span class="float-end noti-close-btn text-muted"><i
-                                                    class="mdi mdi-close"></i></span>
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <div class="notify-icon">
-                                                        <img src="{{ asset('assets/images/users/avatar-4.jpg') }}"
-                                                            class="img-fluid rounded-circle" alt="" />
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1 text-truncate ms-2">
-                                                    <h5 class="noti-item-title fw-semibold font-size-14">Karen Robinson
-                                                    </h5>
-                                                    <small class="noti-item-subtitle text-muted">Wow ! this admin looks
-                                                        good and awesome design</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <div class="text-center">
-                                        <i class="mdi mdi-dots-circle mdi-spin text-muted h3 mt-0"></i>
-                                    </div>
-                                </div>
-
-                                <!-- All-->
-                                <a href="javascript:void(0);"
-                                    class="dropdown-item text-center text-primary notify-item border-top border-light py-2">
-                                    View All
-                                </a>
-
-                            </div>
-                        </li>
-
                         <li class="nav-link" id="theme-mode">
                             <i class="bx bx-moon font-size-24"></i>
                         </li>
@@ -965,12 +846,8 @@
                             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light"
                                 data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                 aria-expanded="false">
-                                @if (auth()->check() && auth()->user()->avatar)
-                                    <img src="{{ asset('uploads/') }}" alt="user-image" class="rounded-circle">
-                                @else
-                                    <img src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="user-image"
-                                        class="rounded-circle">
-                                @endif
+                                <img src="{{ asset('uploads/users/avatars') }}/{{ auth()->user()->avatar ?? 'user.png' }}"
+                                    alt="user-image" class="rounded-circle">
                                 <span class="ms-1 d-none d-md-inline-block">
                                     {{ auth()->user()->name ?? 'User' }}<i class="mdi mdi-chevron-down"></i>
                                 </span>
@@ -1043,13 +920,13 @@
                             <div>
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script> © Dashtrap
+                                </script> © Adbur Rahim
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="d-none d-md-flex gap-4 align-item-center justify-content-md-end">
-                                <p class="mb-0">Design & Develop by <a href="https://myrathemes.com/"
-                                        target="_blank">MyraStudio</a> </p>
+                                <p class="mb-0">Design & Develop by <a href="https://arahim-me/github.io/portfolio"
+                                        target="_blank">Abdur Rahim</a> </p>
                             </div>
                         </div>
                     </div>
@@ -1098,7 +975,6 @@
     <!-- third party js ends -->
     <!-- Dashboard init-->
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/inbox.js') }}"></script>
 
     @stack('scripts')
 

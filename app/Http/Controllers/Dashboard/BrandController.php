@@ -13,7 +13,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $title = 'Brands';
+        $title = 'Brands Management';
         $brands = Brand::all();
 
         return view('dashboard.brands.index', compact('brands', 'title'));
@@ -48,7 +48,7 @@ class BrandController extends Controller
 
         $created = Brand::create($request->only('name', 'slug', 'description'));
 
-        if (! $created) {
+        if (!$created) {
             return redirect()->back()->with('error', 'Failed to create brand. Please try again.');
         } else {
             return redirect()->route('brands.index')->with('success', 'Brand created successfully.');
@@ -85,5 +85,12 @@ class BrandController extends Controller
     public function destroy(Brand $brand)
     {
         //
+    }
+    public function togglePublished(Brand $brand)
+    {
+        $brand->is_published = !$brand->is_published;
+        $brand->save();
+
+        return back()->with('success', 'Brand published status updated successfully.');
     }
 }

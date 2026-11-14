@@ -14,18 +14,17 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) use ($pendingStatusId, $codpaymentMethodId) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('order_number')->unique();
+            $table->string('order_number')->unique()->nullable();
             $table->decimal('grand_total', 10, 2);
             $table->foreignId('status_id')->constrained()->default($pendingStatusId);
+            $table->boolean('is_accept')->default(false);
             $table->foreignId('payment_method')->constrained()->default($codpaymentMethodId);
             $table->boolean('payment_status')->default(false);
-
-            // Shipping Details
-            $table->string('shipping_address');
-            $table->string('shipping_phone');
+            $table->integer('shipping_fee')->default(150);
+            $table->string('shipping_address')->nullable();
+            $table->string('shipping_phone')->nullable();
             $table->timestamps();
         });
-
     }
 
     public function down(): void

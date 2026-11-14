@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('sender_id')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->string('name')->nullable();
             $table->string('title')->nullable();
             $table->string('message')->nullable();
             $table->boolean('is_read')->default(false);

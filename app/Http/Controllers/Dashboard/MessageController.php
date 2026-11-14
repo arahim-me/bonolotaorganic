@@ -20,7 +20,7 @@ class MessageController extends Controller
          * Show Message Inbox
          */
         $title = 'Messages';
-        $messages = Message::latest()->paginate(25);
+        $messages = Message::with(['reader', 'sender'])->latest()->paginate(25);
         $totalCount = Message::count();
         return view('dashboard.messages.index', compact(['messages', 'totalCount', 'title']));
     }
@@ -121,18 +121,18 @@ class MessageController extends Controller
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
 
-                // Sender-এর নাম দিয়ে Search
                 $q->whereHas('sender', function ($senderQuery) use ($search) {
-                    $senderQuery
-                        ->where('name', 'like', "%{$search}%")
-                        ->where('email', 'like', "%{$search}%")
-                        ->where('phone', 'like', "%{$search}%");
+                    $senderQuery->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%");
                 })
-                    // অন্যান্য Field
+
+                    ->orWhere('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%")
                     ->orWhere('title', 'like', "%{$search}%")
                     ->orWhere('message', 'like', "%{$search}%");
+
             });
         }
 

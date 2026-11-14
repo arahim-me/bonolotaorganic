@@ -20,50 +20,73 @@
     </div>
 
     <div class="row g-3 mb-4">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-md-3 col-sm-2">
             <div class="card">
-                <a href="{{ route('users.index') }}">
+                <a href="{{ route('dashboard.users.index') }}">
                     <div class="card-body">
-                        <h6 class="text-uppercase text-muted mb-3">Total Users</h6>
-                        <h3 class="mb-2">{{ $users->count() }}</h3>
-                        <p class="text-muted mb-0">Users registered this month</p>
+                        <h6 class="text-uppercase text-muted mb-3">Users</h6>
+                        <h3 class="mb-2">{{ $usersCount }}</h3>
+                        <p class="text-muted mb-0">Registered Users</p>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-md-3 col-sm-2">
             <div class="card">
-                <a href="{{ route('categories.index') }}">
+                <a href="{{ route('dashboard.categories.index') }}">
                     <div class="card-body">
                         <h6 class="text-uppercase text-muted mb-3">Categories</h6>
-                        <h3 class="mb-2">{{ $categories->count() }}</h3>
-                        <p class="text-muted mb-0">Total categories in the system</p>
+                        <h3 class="mb-2">{{ $categoriesCount }}</h3>
+                        <p class="text-muted mb-0">Total categories</p>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="col-xl-3 col-md-6">
+        <div class="col-md-3 col-sm-2">
             <div class="card">
-                <a href="{{ route('orders.index') }}">
-                    <div class="card-body">
-                        <h6 class="text-uppercase text-muted mb-3">Orders</h6>
-                        <h3 class="mb-2">{{ $orders->count() }}</h3>
-                        <p class="text-muted mb-0">Orders received today</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card">
-                <a href="{{ route('products.index') }}">
+                <a href="{{ route('dashboard.products.index') }}">
                     <div class="card-body">
                         <h6 class="text-uppercase text-muted mb-3">Products</h6>
-                        <h3 class="mb-2">{{ $products->count() }}</h3>
-                        <p class="text-muted mb-0">Total products in the system</p>
+                        <h3 class="mb-2">{{ $productsCount }}</h3>
+                        <p class="text-muted mb-0">Total products</p>
                     </div>
                 </a>
             </div>
         </div>
+        <div class="col-md-3 col-sm-2">
+            <div class="card">
+                <a href="{{ route('dashboard.orders.index') }}">
+                    <div class="card-body">
+                        <h6 class="text-uppercase text-muted mb-3">Orders</h6>
+                        <h3 class="mb-2">{{ $notAcceptOordersCount }}</h3>
+                        <p class="text-muted mb-0">Orders <span class="text-danger"> Not Received</span></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2">
+            <div class="card">
+                <a href="{{ route('dashboard.messages.index') }}">
+                    <div class="card-body">
+                        <h6 class="text-uppercase text-muted mb-3">Messages</h6>
+                        <h3 class="mb-2 text-danger">{{ $unreadMessages }}</h3>
+                        <p class="text-muted mb-0">Messages <span class="text-danger"> Not Received</span></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-2">
+            <div class="card">
+                <a href="{{ route('dashboard.notifications.index') }}">
+                    <div class="card-body">
+                        <h6 class="text-uppercase text-muted mb-3">Notifications</h6>
+                        <h3 class="mb-2 text-danger">{{ $unreadNotifyCount }}</h3>
+                        <p class="text-muted mb-0">Notifications <span class="text-danger"> Unread</span></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
@@ -110,7 +133,8 @@
                     <div class="list-group list-group-flush">
                         <a href="{{ route('profile.edit') }}" class="list-group-item list-group-item-action">Edit
                             Profile</a>
-                        <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action">Dashboard Home</a>
+                        <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action">Dashboard
+                            Home</a>
                         <a href="{{ route('profile.edit') }}" class="list-group-item list-group-item-action">Account
                             Settings</a>
                     </div>

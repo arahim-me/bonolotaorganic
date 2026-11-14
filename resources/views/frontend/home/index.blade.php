@@ -459,10 +459,10 @@
                                                         <div class="product-image-col">
                                                             <div class="product-image">
                                                                 <a href="{{ route('products.show', [$trend_product->id, $trend_product->slug]) }}" class="pro-img">
-                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail }}"
+                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail ?? 'default.png' }}"
                                                                         class="w-100 img-fluid img1"
                                                                         alt="{{ $trend_product->name }}">
-                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail }}"
+                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail ?? 'default.png' }}"
                                                                         class="w-100 img-fluid img2"
                                                                         alt="{{ $trend_product->name }}">
                                                                 </a>
@@ -500,7 +500,7 @@
                                                             <div class="pro-content">
                                                                 <div class="product-title">
                                                                     <span
-                                                                        class="d-block meb-7">{{ $trend_product->category->name }}</span>
+                                                                        class="d-block meb-7">{{ $trend_product->name }}</span>
                                                                     <span class="d-block heading-weight"><a
                                                                             href="{{ route('products.show', [$trend_product->id, $trend_product->slug]) }}"
                                                                             class="primary-link">{{ $trend_product->type }}</a></span>

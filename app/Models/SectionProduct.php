@@ -7,17 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class SectionProduct extends Model
 {
     protected $fillable = [
-        'user_id',
         'section_id',
         'product_id',
-        'status_id',
+        'is_published',
     ];
 
-    // Relation with users
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
 
     // Relation with product sections
     public function section()
@@ -29,11 +23,5 @@ class SectionProduct extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
-    }
-
-    // Relation with statuses
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 }

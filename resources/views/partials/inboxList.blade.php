@@ -1,7 +1,14 @@
+{{-- @php
+    $senderName = $message->sender?->name ?? $message->name;
+    $senderEmail = $message->sender?->email ?? $message->email;
+    $senderPhone = $message->sender?->phone ?? $message->phone;
+@endphp --}}
 @forelse($messages as $message)
     <div class="message-item {{ $message->is_read ? 'is-read' : 'is-unread' }}" data-id="{{ $message->id }}"
-        data-name="{{ $message->name }}" data-email="{{ $message->email }}" data-phone="{{ $message->phone ?? '' }}"
-        data-subject="{{ $message->subject }}" data-message="{{ $message->message }}"
+        data-name="{{ $message->sender?->name ?? $message->name }}"
+        data-email="{{ $message->sender?->email ?? $message->email }}"
+        data-phone="{{ $message->sender?->phone ?? $message->phone }}" data-subject="{{ $message->title }}"
+        data-message="{{ $message->message }}"
         data-avatar="{{ asset('uploads/users/avatars') }}/{{ $message->sender->avatar ?? 'user.png' }}"
         data-date="{{ $message->created_at->format('d M Y, h:i A') }}" data-is-read="{{ $message->is_read ? '1' : '0' }}"
         data-read-by-name="{{ $message->reader?->name ?? '' }}" data-read-at="{{ $message->read_at }}"
@@ -21,7 +28,7 @@
                 <div class="d-flex justify-content-between align-items-center">
 
                     <h6 class="sender-name mb-1">
-                        {{ $message->sender->name ?? 'Unknown Sender' }}
+                        {{ $message->sender?->name ?? $message->name }}
                     </h6>
 
                     <small class="text-muted">

@@ -63,4 +63,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Status::class);
     }
+    // Relation with User's Notifications
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->notifications()
+            ->whereNull('read_at');
+    }
 }

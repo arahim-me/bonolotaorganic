@@ -23,7 +23,7 @@
                                             <div class="row single-product-wrap">
                                                 <div class="product-image-col">
                                                     <div class="product-image">
-                                                        <a href="{{ route('products.show', $product->id) }}" class="pro-img">
+                                                        <a href="{{ route('home.products.show', $product->id) }}" class="pro-img">
                                                             <img src="{{ asset('uploads/products') }}/{{ $product->image ?? 'default.png' }}"
                                                                 class="w-100 img-fluid img1" alt="p-3">
                                                             <img src="{{ asset('uploads/products') }}/{{ $product->image ?? 'default.png' }}"
@@ -63,7 +63,7 @@
                                                     <div class="pro-content">
                                                         <div class="product-title">
                                                             <span class="d-block meb-7">{{ $product->category->name }}</span>
-                                                            <span class="d-block heading-weight"><a href="#" class="primary-link">{{ $product->name }}</a></span>
+                                                            <span class="d-block heading-weight"><a href="{{ route('home.products.show', $product->id) }}" class="primary-link">{{ $product->name }}</a></span>
                                                         </div>
                                                         <div class="product-price">
                                                             <div class="price-box heading-weight">

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->foreignId('status_id')->constrained('statuses')->onDelete('cascade');
+            $table->boolean('is_published');
             $table->timestamps();
         });
     }

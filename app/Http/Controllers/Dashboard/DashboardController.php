@@ -14,15 +14,12 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $title = 'Dashboard';
         $user = auth()->user();
-        $users = User::all();
-        $categories = Category::all();
-        $products = Product::all();
-        $orders = Order::all();
+        $hasPermit = in_array($user->role_id, [1, 2, 3, 4]);
 
-
-        if ($user->role_id == 1 || $user->role_id == 2) {
-            return view('dashboard.home.index', compact('users', 'categories', 'products', 'orders'));
+        if ($hasPermit) {
+            return view('dashboard.home.index', compact('hasPermit', 'title'));
         } else {
             return view('dashboard.home.index');
         }

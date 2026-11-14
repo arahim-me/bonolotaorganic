@@ -40,7 +40,7 @@ class ProductSectionController extends Controller
      */
     public function show(ProductSection $productSection)
     {
-        $title = 'View '.$productSection->name;
+        $title = 'View ' . $productSection->name;
 
         return view('dashboard.product-section.show', compact('productSection'));
     }
@@ -50,7 +50,7 @@ class ProductSectionController extends Controller
      */
     public function edit(ProductSection $productSection)
     {
-        $title = 'Edit '.$productSection->name;
+        $title = 'Edit ' . $productSection->name;
 
         return view('dashboard.product-section.edit', compact('title', 'productSection'));
     }
@@ -82,8 +82,9 @@ class ProductSectionController extends Controller
      */
     public function toggleStatus(ProductSection $section)
     {
-        $newStatus = $section->status_id === 1 ? 2 : 1;
-        $section->update(['status_id' => $newStatus]);
+
+        $section->is_published = !$section->is_published;
+        $section->save();
 
         return redirect()->back()->with('success', 'Product Section status updated successfully.');
     }

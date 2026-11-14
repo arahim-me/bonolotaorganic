@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\PaymentMethod;
 use App\Models\Product;
+use App\Models\ShippingFee;
 use App\Models\Status;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +28,7 @@ class OrderController extends Controller
     public function create()
     {
         $title = 'Create Order';
+        $shippingFees = ShippingFee::where('is_published', true)->latest()->get();
         $users = User::orderBy('name')->get(['id', 'name', 'phone']);
         $products = Product::orderBy('name')->get(['id', 'name', 'price']);
         $statuses = Status::whereIn('name', ['Pending', 'Processing', 'In Progress', 'Completed', 'Cancelled', 'On Hold'])
@@ -40,7 +43,8 @@ class OrderController extends Controller
             'products',
             'statuses',
             'paymentMethods',
-            'defaultStatusId'
+            'defaultStatusId',
+            'shippingFees'
         ));
     }
 
@@ -77,7 +81,7 @@ class OrderController extends Controller
 
             $order = Order::create([
                 'user_id' => $validated['user_id'],
-                'order_number' => 'ORD-'.Str::upper((string) Str::uuid()),
+                'order_number' => null,
                 'grand_total' => $grandTotal,
                 'status_id' => $validated['status_id'],
                 'payment_method' => $validated['payment_method'],
@@ -86,8 +90,21 @@ class OrderController extends Controller
                 'shipping_phone' => $validated['shipping_phone'],
             ]);
 
-            $order->items()->createMany($orderItems);
+            $orderNumber = $order->update([
+                'order_number' => 'ORD-' . $order->created_at->format('Ymd') . '-' . $order->id
+            ]);
 
+            $order->items()->createMany($orderItems);
+            $admins = [1, 2, 3, 4, 5];
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'user_id' => $admin,
+                    'type' => 'order_created',
+                    'title' => 'New Order Received',
+                    'content' => 'You have received a new order #' . $order->order_number,
+                    'return_url' => route('orders.show', $order->id),
+                ]);
+            }
             return $order;
         });
 

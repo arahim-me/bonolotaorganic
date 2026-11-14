@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', $product->name ?? '-')
+@section('title', $title ?? 'Product Detail')
 @section('master')
     <!-- breadcrumb-area start -->
     <div class="breadcrumb-area ptb-30 bg-img text-center"
@@ -155,7 +155,7 @@
                                                     <i class="ri-star-fill"></i>
                                                 </span>
                                                 <span class="review-average">4.0<span class="review-caption">Based on
-                                                        {{ $reviews->count() }}
+                                                        {{ $product->reviews->count() }}
                                                         reviews</span></span>
                                             </span>
                                         </div>
@@ -168,24 +168,27 @@
                                 </div>
                             </div>
                             {{-- <div class="product-info mst-20" data-animate="animate__fadeIn">
-                                    <div class="product-view">
-                                        <span class="heading-color"><i class="ri-eye-line icon-16 mer-4 blinking"></i>Hot right now - <span class="product-live-visitor primary-color heading-weight"></span> views at this item</span>
+                                <div class="product-view">
+                                    <span class="heading-color"><i class="ri-eye-line icon-16 mer-4 blinking"></i>Hot
+                                        right now - <span class="product-live-visitor primary-color heading-weight"></span>
+                                        views at this item</span>
+                                </div>
+                            </div>
+                            <div class="product-info mst-10" data-animate="animate__fadeIn">
+                                <div class="product-timer">
+                                    <div class="product-timer-countdown">
+                                        <span class="heading-color"><i
+                                                class="ri-timer-line text-danger icon-16 mer-4"></i>Limited time deal -
+                                            <span class="countdown" data-time="2027/12/31 00:00:00">
+                                                <span class="text-danger"><span class="day heading-weight"></span>d</span>
+                                                <span class="text-danger"><span class="hrs heading-weight"></span>h</span>
+                                                <span class="text-danger"><span class="min heading-weight"></span>m</span>
+                                                <span class="text-danger"><span class="sec heading-weight"></span>s</span>
+                                            </span> shop before it's over
+                                        </span>
                                     </div>
-                                </div> --}}
-                            {{-- <div class="product-info mst-10" data-animate="animate__fadeIn">
-                                    <div class="product-timer">
-                                        <div class="product-timer-countdown">
-                                            <span class="heading-color"><i class="ri-timer-line text-danger icon-16 mer-4"></i>Limited time deal -
-                                                <span class="countdown" data-time="2027/12/31 00:00:00">
-                                                    <span class="text-danger"><span class="day heading-weight"></span>d</span>
-                                                    <span class="text-danger"><span class="hrs heading-weight"></span>h</span>
-                                                    <span class="text-danger"><span class="min heading-weight"></span>m</span>
-                                                    <span class="text-danger"><span class="sec heading-weight"></span>s</span>
-                                                </span> shop before it's over
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                </div>
+                            </div> --}}
                             <div class="product-info mst-10" data-animate="animate__fadeIn">
                                 <div class="product-price">
                                     <div class="pro-price-box">
@@ -333,30 +336,59 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="product-action mst-15">
-                                        <div class="row btn-row15">
-                                            <div class="col-12 col-md-6">
-                                                <button type="submit" class="w-100 btn-style quaternary-btn add-to-cart"
-                                                    data-cart-id="{{ $product->id }}"
-                                                    data-cart-name="{{ $product->name }}"
-                                                    data-cart-price="{{ $product->price }}" data-cart-currency="৳"
-                                                    data-cart-image="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
-                                                    data-cart-url="{{ route('products.show', $product->id) }}">
-                                                    <span class="product-icon">
-                                                        <span class="product-bag-icon">Add to cart</span>
-                                                        <span class="product-loader-icon icon-16"><i
-                                                                class="ri-loader-4-line d-block lh-1"></i></span>
-                                                        <span class="product-check-icon icon-16"><i
-                                                                class="ri-check-line d-block lh-1"></i></span>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <a href="{{ route('checkout') }}"
-                                                    class="w-100 btn-style secondary-btn">Buy now</a>
+                                    @if ($product->thumbnail)
+                                        <div class="product-action mst-15">
+                                            <div class="row btn-row15">
+                                                <div class="col-12 col-md-6">
+                                                    <button type="submit"
+                                                        class="w-100 btn-style quaternary-btn add-to-cart"
+                                                        data-cart-id="{{ $product->id }}"
+                                                        data-cart-name="{{ $product->name }}"
+                                                        data-cart-price="{{ $product->price }}" data-cart-currency="৳"
+                                                        data-cart-image="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                                        data-cart-url="{{ route('products.show', $product->id) }}">
+                                                        <span class="product-icon">
+                                                            <span class="product-bag-icon">Add to cart</span>
+                                                            <span class="product-loader-icon icon-16"><i
+                                                                    class="ri-loader-4-line d-block lh-1"></i></span>
+                                                            <span class="product-check-icon icon-16"><i
+                                                                    class="ri-check-line d-block lh-1"></i></span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <a href="{{ route('checkout') }}"
+                                                        class="w-100 btn-style secondary-btn">Buy now</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <div class="product-action mst-15">
+                                            <div class="row btn-row15">
+                                                <div class="col-12 col-md-6">
+                                                    <button type="submit"
+                                                        class="w-100 btn-style quaternary-btn add-to-cart"
+                                                        data-cart-id="{{ $product->id }}"
+                                                        data-cart-name="{{ $product->name }}"
+                                                        data-cart-price="{{ $product->price }}" data-cart-currency="৳"
+                                                        data-cart-image="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+                                                        data-cart-url="{{ route('products.show', $product->id) }}">
+                                                        <span class="product-icon">
+                                                            <span class="product-bag-icon">Add to cart</span>
+                                                            <span class="product-loader-icon icon-16"><i
+                                                                    class="ri-loader-4-line d-block lh-1"></i></span>
+                                                            <span class="product-check-icon icon-16"><i
+                                                                    class="ri-check-line d-block lh-1"></i></span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <a href="{{ route('checkout') }}"
+                                                        class="w-100 btn-style secondary-btn">Buy now</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="product-info mst-15" data-animate="animate__fadeIn">
@@ -1133,7 +1165,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="product-review-text mst-11">Based on <span
-                                                                    data-base>{{ $reviews->count() }}</span> reviews</div>
+                                                                    data-base>{{ $product->reviews->count() }}</span>
+                                                                reviews</div>
                                                         </div>
                                                         <div class="col-12 col-md-6">
                                                             <div class="row row-mtm15">
@@ -1296,98 +1329,109 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="product-review-comment">
-                                                    <div class="row row-mtm">
-                                                        <div class="product-review-detail">
-                                                            <div
-                                                                class="product-reviewer-info d-flex flex-wrap align-items-center">
-                                                                <span
-                                                                    class="width-48 height-48 primary-color icon-16 d-flex align-items-center justify-content-center overflow-hidden rounded-circle"><i
-                                                                        class="ri-user-line d-block lh-1"></i></span>
-                                                                <h6
-                                                                    class="product-reviewer-name width-calc-48 font-16 psl-15">
-                                                                    Noah james</h6>
-                                                            </div>
-                                                            <div class="product-reviewer-date mst-11">Reviwed on Oct 30,
-                                                                2021</div>
-                                                            <div class="product-review-love mst-11">
-                                                                <div class="product-ratting">
-                                                                    <span class="review-ratting">
-                                                                        <span class="review-star icon-16">
-                                                                            <i class="ri-star-fill"></i>
-                                                                            <i class="ri-star-fill"></i>
-                                                                            <i class="ri-star-fill"></i>
-                                                                            <i class="ri-star-fill"></i>
-                                                                            <i class="ri-star-fill"></i>
+                                                    @if ($product->reviews)
+                                                        @forelse ($product->reviews as $review)
+                                                            <div class="row row-mtm">
+                                                                <div class="product-review-detail">
+
+                                                                    {{-- Customer Information --}}
+                                                                    <div
+                                                                        class="product-reviewer-info d-flex flex-wrap align-items-center">
+
+                                                                        <span
+                                                                            class="width-48 height-48 primary-color icon-16 d-flex align-items-center justify-content-center overflow-hidden rounded-circle">
+                                                                            @if ($review->user?->avatar)
+                                                                                <img src="{{ asset('storage/' . $review->user->avatar) }}"
+                                                                                    class="width-48 height-48 object-fit-cover"
+                                                                                    alt="{{ $review->user->name }}">
+                                                                            @else
+                                                                                <i class="ri-user-line d-block lh-1"></i>
+                                                                            @endif
                                                                         </span>
-                                                                    </span>
+
+                                                                        <h6
+                                                                            class="product-reviewer-name width-calc-48 font-16 psl-15">
+                                                                            {{ $review->user?->name ?? 'Anonymous Customer' }}
+                                                                        </h6>
+                                                                    </div>
+
+                                                                    {{-- Review Date --}}
+                                                                    <div class="product-reviewer-date mst-11">
+                                                                        Reviewed on
+                                                                        {{ $review->created_at->format('M d, Y') }}
+                                                                    </div>
+
+                                                                    {{-- Rating --}}
+                                                                    <div class="product-review-love mst-11">
+                                                                        <div class="product-ratting">
+                                                                            <span class="review-ratting">
+                                                                                <span class="review-star icon-16">
+
+                                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                                        @if ($i <= $review->rating)
+                                                                                            <i class="ri-star-fill"></i>
+                                                                                        @else
+                                                                                            <i class="ri-star-line"></i>
+                                                                                        @endif
+                                                                                    @endfor
+
+                                                                                </span>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    {{-- Review Subject --}}
+                                                                    <div
+                                                                        class="product-reviewer-subject heading-color heading-weight mst-11">
+                                                                        {{ $review->title ?? 'Customer Review' }}
+                                                                    </div>
+
+                                                                    {{-- Review Comment --}}
+                                                                    <p class="product-reviewer-review mst-4">
+                                                                        {{ $review->comment }}
+                                                                    </p>
+
+                                                                    {{-- Review Attachments --}}
+                                                                    @if (!empty($review->images))
+                                                                        <div class="product-reviewer-attachment mst-8">
+                                                                            <ul class="ul-mt5">
+
+                                                                                @foreach ($review->images as $image)
+                                                                                    <li>
+                                                                                        <img src="{{ asset('storage/' . $image) }}"
+                                                                                            class="width-56 img-fluid ptb-4 plr-4 body-bg border-full br-hidden"
+                                                                                            alt="review-image">
+                                                                                    </li>
+                                                                                @endforeach
+
+                                                                            </ul>
+                                                                        </div>
+                                                                    @endif
+
                                                                 </div>
                                                             </div>
-                                                            <div
-                                                                class="product-reviewer-subject heading-color heading-weight mst-11">
-                                                                Very good</div>
-                                                            <p class="product-reviewer-review mst-4">There are many
-                                                                variations of passages of Lorem Ipsum available, but the
-                                                                majority have suffered alteration in some form, by injected
-                                                                humour, or randomised words which don’t look even slightly
-                                                                believable. If you are going to use a passage of Lorem
-                                                                Ipsum, you need to be sure there isn’t anything embarrassing
-                                                                hidden in the middle of text. All the Lorem Ipsum generators
-                                                                on the Internet tend to repeat predefined chunks as
-                                                                necessary, making this the first true generator on the
-                                                                Internet.</p>
-                                                            <div class="product-reviewer-attachment mst-8">
-                                                                <ul class="ul-mt5">
-                                                                    <li><img src="{{ asset('frontend') }}/assets/image/product/review-product1.jpg"
-                                                                            class="width-56 img-fluid ptb-4 plr-4 body-bg border-full br-hidden"
-                                                                            alt="review-product1"></li>
-                                                                    <li><img src="{{ asset('frontend') }}/assets/image/product/review-product2.jpg"
-                                                                            class="width-56 img-fluid ptb-4 plr-4 body-bg border-full br-hidden"
-                                                                            alt="review-product2"></li>
-                                                                </ul>
+
+                                                        @empty
+
+                                                            <div class="text-center py-4">
+                                                                <i class="ri-chat-3-line fs-2"></i>
+                                                                <p class="mt-2">No reviews yet. Be the first to review
+                                                                    this
+                                                                    product!</p>
                                                             </div>
+                                                        @endforelse
+                                                    @else
+                                                        <div class="text-center py-4">
+                                                            <i class="ri-chat-3-line fs-2"></i>
+                                                            <p class="mt-2">No reviews yet. Be the first to review
+                                                                this
+                                                                product!</p>
                                                         </div>
-                                                        <div class="product-review-detail">
-                                                            <div
-                                                                class="product-reviewer-info d-flex flex-wrap align-items-center">
-                                                                <span
-                                                                    class="width-48 height-48 primary-color icon-16 d-flex align-items-center justify-content-center overflow-hidden rounded-circle"><i
-                                                                        class="ri-user-line d-block lh-1"></i></span>
-                                                                <h6
-                                                                    class="product-reviewer-name width-calc-48 font-16 psl-15">
-                                                                    Carla houston</h6>
-                                                            </div>
-                                                            <div class="product-reviewer-date mst-11">Reviwed on Oct 30,
-                                                                2021</div>
-                                                            <div class="product-review-love mst-11">
-                                                                <div class="product-ratting">
-                                                                    <span class="review-ratting">
-                                                                        <span class="review-star icon-16">
-                                                                            <i class="ri-star-fill"></i>
-                                                                            <i class="ri-star-fill"></i>
-                                                                            <i class="ri-star-line"></i>
-                                                                            <i class="ri-star-line"></i>
-                                                                            <i class="ri-star-line"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="product-reviewer-subject heading-color heading-weight mst-11">
-                                                                Good</div>
-                                                            <p class="product-reviewer-review mst-4">There are many
-                                                                variations of passages of Lorem Ipsum available, but the
-                                                                majority have suffered alteration in some form, by injected
-                                                                humour, or randomised words which don’t look even slightly
-                                                                believable. If you are going to use a passage of Lorem
-                                                                Ipsum, you need to be sure there isn’t anything embarrassing
-                                                                hidden in the middle of text. All the Lorem Ipsum generators
-                                                                on the Internet tend to repeat predefined chunks as
-                                                                necessary, making this the first true generator on the
-                                                                Internet.</p>
-                                                        </div>
-                                                    </div>
+                                                    @endif
                                                 </div>
+
                                             </div>
                                         </form>
                                     </div>
@@ -1759,11 +1803,13 @@
                                                             <div class="product-title">
                                                                 <span class="d-block meb-7">{{ $product->type }}</span>
                                                                 <span class="d-block heading-weight"><a
-                                                                        href="product.html" class="primary-link">{{ $product->name }}</a></span>
+                                                                        href="product.html"
+                                                                        class="primary-link">{{ $product->name }}</a></span>
                                                             </div>
                                                             <div class="product-price">
                                                                 <div class="price-box heading-weight">
-                                                                    <span class="new-price primary-color">${{ number_format($product->price, 2) }}</span>
+                                                                    <span
+                                                                        class="new-price primary-color">${{ number_format($product->price, 2) }}</span>
                                                                     <span class="old-price"><span
                                                                             class="mer-3">~</span><span
                                                                             class="text-decoration-line-through">${{ number_format($product->old_price, 2) }}</span></span>

@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($order->items as $item)
+                                @foreach ($order->items as $item)
                                     <tr>
                                         <td>{{ $item->product?->name ?? '—' }}</td>
                                         <td>{{ $item->quantity }}</td>
@@ -43,7 +43,8 @@
                         </table>
 
                         <a href="{{ route('orders.index') }}" class="btn btn-secondary me-2">Back</a>
-                        <a href="{{ route('orders.invoice', $order) }}" class="btn btn-outline-primary">Invoice</a>
+                        <a href="{{ route('invoice.show', $order->order_number) }}"
+                            class="btn btn-outline-primary">Invoice</a>
                     </div>
                 </div>
             </div>

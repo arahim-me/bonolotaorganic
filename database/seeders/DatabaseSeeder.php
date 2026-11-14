@@ -63,6 +63,18 @@ class DatabaseSeeder extends Seeder
             MessageSeeder::class,
         ]);
 
+        // Seed the Notifications
+        $this->call([
+            NotificationSeeder::class
+        ]);
+        //Seed the Brands
+        $this->call([
+            BrandSeeder::class,
+        ]);
+        // Shipping Fee Seeder
+        $this->call([
+            ShippingFeeSeeder::class,
+        ]);
         // Seed the Divisions
         // $this->call([
         //     DivisionSeeder::class,
@@ -81,5 +93,6 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
     }
 }

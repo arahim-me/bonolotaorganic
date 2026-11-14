@@ -24,7 +24,7 @@
                                     <th>Name</th>
                                     <th>Slug</th>
                                     <th>Description</th>
-                                    <th>Status</th>
+                                    <th>Publishable</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -38,8 +38,9 @@
                                             <a href="{{ route('product-sections.toggle-status', $section->id) }}"
                                                 class="text-decoration-none">
                                                 <button type="button" class="btn btn-sm status-toggle-btn"
-                                                    style="background-color: {{ $section->status_id == 1 ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
-                                                    <i class="{{ $section->status->icon }} me-1"></i>
+                                                    style="background-color: {{ $section->is_published == true ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
+                                                    <i
+                                                        class="fa-solid fa-{{ $section->is_published == true ? 'circle-check' : 'circle-xmark' }}"></i>
                                                 </button>
                                             </a>
                                         </td>

@@ -8,7 +8,8 @@
                     @foreach ($categories as $category)
                         <div class="col-6 col-md-4 col-xl-3" data-animate="animate__fadeIn">
                             <div class="collection-block banner-hover ptb-15 plr-15 extra-bg text-center border-radius">
-                                <a href="collection.html" class="d-block banner-img br-hidden">
+                                <a href="{{ route('category.products', [$category->id, $category->slug]) }}"
+                                    class="d-block banner-img br-hidden">
                                     <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
                                         class="w-90 img-fluid" alt="collection-1">
                                 </a>

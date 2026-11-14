@@ -11,12 +11,8 @@ class ProductSection extends Model
         'slug',
         'position',
         'description',
-        'status_id',
+        'image',
+        'return_url',
+        'is_publised',
     ];
-
-    // Relation with statuses
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
-    }
 }

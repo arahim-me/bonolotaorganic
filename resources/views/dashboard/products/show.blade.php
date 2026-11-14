@@ -47,10 +47,55 @@
                             <p>{{ $product->stock }}</p>
                         </div>
                         <div class="col-sm-6 mb-3">
+                            <strong>Colors: </strong>
+                            <div class="colors d-flex justify-content-start gap-2 align-items-center">
+                                @if ($productColors)
+                                    @foreach ($productColors as $color)
+                                        <p class="d-inline-block">{{ $color->color }}</p>
+                                    @endforeach
+                                @else
+                                    <p>{{ 'N/A' }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <strong>Sizes: </strong>
+                            <div class="colors d-flex justify-content-start gap-2 align-items-center">
+                                @if ($productSizes)
+                                    @foreach ($productSizes as $size)
+                                        <p class="d-inline-block">{{ $size->size }}</p>
+                                    @endforeach
+                                @else
+                                    <p>{{ 'N/A' }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-3">
                             <strong>Created At</strong>
                             <p>{{ $product->created_at->format('M d, Y') }}</p>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">
+                    Product Tags
+                </label>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    @forelse($product->tags as $tag)
+                        <span class="badge bg-info">
+                            {{ $tag->name }}
+                        </span>
+
+                    @empty
+
+                        <span class="text-muted">
+                            No tags assigned.
+                        </span>
+                    @endforelse
+
                 </div>
             </div>
         </div>

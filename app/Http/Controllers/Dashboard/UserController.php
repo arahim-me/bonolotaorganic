@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Role;
+use App\Models\Status;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,19 +12,52 @@ class UserController extends Controller
 {
     public function index()
     {
+        $title = 'Users';
         $users = User::all();
-        return view('dashboard.users.index', compact('users'));
+        $statuses = Status::all();
+        $roles = Role::all();
+        return view('dashboard.users.index', compact('roles','statuses','title','users'));
     }
 
     public function filter(Request $request)
     {
-        $filter = $request->input('filter');
-        $users = User::where('name', 'like', "%$filter%")
-            ->orWhere('email', 'like', "%$filter%")
-            ->orWhere('username', 'like', "%$filter%")
-            ->get();
+        $statuses = Status::all();
+        $users = User::query()
+            ->with(['role', 'status'])
 
-        return view('dashboard.users.index', compact('users'));
+            // Search Filter
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('username', 'like', "%{$search}%");
+                });
+            })
+
+            // Role Filter
+            ->when($request->filled('role_id'), function ($query) use ($request) {
+                $query->where('role_id', $request->role_id);
+            })
+
+            // Status Filter
+            ->when($request->filled('status_id'), function ($query) use ($request) {
+                $query->where('status_id', $request->status_id);
+            })
+
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $roles = Role::all();
+        $statuses = Status::all();
+
+        return view('dashboard.users.index', compact(
+            'users',
+            'roles',
+            'statuses'
+        ));
     }
 
     public function create()

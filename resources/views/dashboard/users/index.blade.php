@@ -17,13 +17,44 @@
             </div>
         </div>
     </div>
-
     <div class="row mb-3">
-        <div class="col-md-6 col-sm-12">
-            <form action="{{ route('users.filter') }}" method="GET" class="d-flex justify-content-end">
-                <input type="text" name="filter" class="form-control me-2" placeholder="Search users"
-                    value="{{ request('filter') }}">
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="col">
+            <form action="{{ route('users.filter') }}" method="GET" class="d-flex gap-2 justify-content-end">
+                {{-- Reset --}}
+                <a href="{{ route('users.filter') }}" class="btn btn-secondary">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </a>
+                {{-- Role Filter --}}
+                <select name="role_id" class="form-select" onchange="this.form.submit()">
+
+                    <option value="">All Roles</option>
+
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}" {{ request('role_id') == $role->id ? 'selected' : '' }}>
+                            {{ $role->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                {{-- Status Filter --}}
+                <select name="status_id" class="form-select" onchange="this.form.submit()">
+
+                    <option value="">All Status</option>
+
+                    @foreach ($statuses as $status)
+                        <option value="{{ $status->id }}" {{ request('status_id') == $status->id ? 'selected' : '' }}>
+                            {{ $status->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                {{-- Search --}}
+                <input type="text" name="search" class="form-control" placeholder="Search users..."
+                    value="{{ request('search') }}">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </form>
         </div>
     </div>
@@ -34,6 +65,7 @@
                 <table class="table table-centered table-striped table-nowrap mb-0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Name & Avatar</th>
                             <th>Role</th>
                             <th>Username</th>
@@ -47,10 +79,11 @@
                     <tbody>
                         @forelse($users as $user)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td class="table-user">
                                     <a href="{{ route('users.show', $user->id) }}" class="text-body font-weight-semibold">
-                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="{{ $user->name }}"
-                                            class="rounded-circle" width="32" height="32">
+                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}"
+                                            alt="{{ $user->name }}" class="rounded-circle" width="32" height="32">
                                         {{ $user->name }}
                                     </a>
                                 </td>
@@ -72,7 +105,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $user->address ?? '-' }}
+                                    {{ $user->address ?? 'N/A' }}
                                 </td>
                                 <td>
                                     <span class="badge bg-success"><i

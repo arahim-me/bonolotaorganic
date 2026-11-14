@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
 {
@@ -23,11 +24,12 @@ class InvoiceController extends Controller
         return redirect()->route('orders.index');
     }
 
-    public function show(Order $order)
+    public function show($invoice)
     {
-        $order->load('user', 'items.product');
-
-        return view('dashboard.invoices.show', compact('order'));
+        $invoiceId = Str::afterLast($invoice, '-') * 1;
+        $order = Order::where('id', $invoiceId)->firstOrFail();
+        $title = 'Invoice of |' . $order->order_number;
+        return view('dashboard.invoice.show', compact('order', 'title'));
     }
 
     public function edit(Order $order)

@@ -16,8 +16,7 @@ class Product extends Model
         'type',
         'brand_id',
         'model_id',
-        'colors',
-        'sizes',
+        'variant_id',
         'pack_size',
         'short_description',
         'description',
@@ -30,6 +29,7 @@ class Product extends Model
         'images',
         'views',
         'sales',
+        'is_published',
         'status_id',
     ];
 
@@ -50,6 +50,22 @@ class Product extends Model
     public function getCategoryNameAttribute(): ?string
     {
         return $this->category?->name;
+    }
+    // Relation with product sizes
+    public function sizes()
+    {
+        return $this->hasMany(Size::class, 'product_id', 'id');
+    }
+    // Relation with product colors
+    public function colors()
+    {
+        return $this->hasMany(Color::class, 'product_id', 'id');
+    }
+
+    // Relation with Reviews
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'product_id', 'id');
     }
 
     // Relation with User
@@ -74,17 +90,21 @@ class Product extends Model
     {
         return $this->belongsTo(Status::class, 'status_id', 'id');
     }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 
     protected static function booted()
     {
         static::creating(function ($product) {
-            if (empty($product->slug) && ! empty($product->name)) {
+            if (empty($product->slug) && !empty($product->name)) {
                 $product->slug = Str::slug($product->name);
             }
         });
 
         static::updating(function ($product) {
-            if (! empty($product->name)) {
+            if (!empty($product->name)) {
                 $product->slug = Str::slug($product->name);
             }
         });

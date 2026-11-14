@@ -25,15 +25,77 @@
         </div>
     @endif
 
+
+
     <div class="row mb-3">
-        <div class="col-md-6 col-sm-12">
-            <form action="{{ route('dashboard.categories.filter') }}" method="GET" class="d-flex justify-content-end">
-                <input type="text" name="filter" class="form-control me-2" placeholder="Search categories"
-                    value="{{ request('filter') }}">
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="col">
+
+            <form action="{{ route('dashboard.categories.filter') }}" method="GET"
+                class="d-flex gap-2 justify-content-end">
+
+                {{-- Reset Button --}}
+                <a href="{{ route('dashboard.categories.filter') }}" class="btn btn-secondary">
+
+                    <i class="fa-solid fa-rotate-left"></i>
+
+                </a>
+
+                {{-- Published Filter --}}
+                <select name="is_published" class="form-select" onchange="this.form.submit()">
+
+                    <option value="">All Published</option>
+
+                    <option value="1" {{ request('is_published') === '1' ? 'selected' : '' }}>
+                        Published
+                    </option>
+
+                    <option value="0" {{ request('is_published') === '0' ? 'selected' : '' }}>
+                        Unpublished
+                    </option>
+
+                </select>
+
+
+                {{-- Status Filter --}}
+                <select name="status_id" class="form-select" onchange="this.form.submit()">
+
+                    <option value="">All Status</option>
+
+                    @foreach ($statuses as $status)
+                        <option value="{{ $status->id }}" {{ request('status_id') == $status->id ? 'selected' : '' }}>
+
+                            {{ $status->name }}
+
+                        </option>
+                    @endforeach
+
+                </select>
+
+
+                {{-- Product Count Filter --}}
+                <input type="number" name="productCount" class="form-control" placeholder="Product Count" min="0"
+                    value="{{ request('productCount') }}">
+
+
+                {{-- Search Filter --}}
+                <input type="text" name="search" class="form-control" placeholder="Search category..."
+                    value="{{ request('search') }}">
+
+
+                {{-- Search Button --}}
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+
+
+
             </form>
+
         </div>
     </div>
+
+
 
     <div class="card">
         <div class="card-body">
@@ -41,6 +103,7 @@
                 <table class="table table-centered table-striped table-nowrap mb-0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Image</th>
                             <th>Category Name</th>
                             <th>Description</th>
@@ -52,6 +115,7 @@
                     <tbody>
                         @forelse($categories as $category)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
                                         class="avatar-sm">

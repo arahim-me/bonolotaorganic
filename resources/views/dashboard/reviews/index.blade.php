@@ -31,6 +31,7 @@
                 <table class="table table-centered table-striped table-nowrap mb-0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Product</th>
                             <th>Review</th>
                             <th>Sender</th>
@@ -44,6 +45,8 @@
                             <tr>
                                 <td>
                                     <div class="col"><strong>#{{ $review->product->id ?? 'N/A' }}</strong></div>
+                                </td>
+                                <td>
                                     <div class="col"> <a href="{{ route('products.show', $review->product->id) }}">
                                             <strong>{{ $review->product->name ?? 'Untitled review' }}</strong>
                                         </a>
