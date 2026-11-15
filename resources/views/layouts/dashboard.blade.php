@@ -264,7 +264,7 @@
 
                     <li class="menu-title">Settings</li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route('dashboard.courier.fraud.index') }}">
+                        <a class="menu-link" href="#">
 
                             <span class="menu-icon">
                                 <i class="bx bx-shield-quarter"></i>

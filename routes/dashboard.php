@@ -26,23 +26,6 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
     // Site Information Routes
     Route::resource('site-info', SiteInfoController::class);
 
-    Route::prefix('courier')
-        ->name('courier.')
-        ->middleware(['auth'])
-        ->group(function () {
-
-            Route::get('/fraud', [FraudCheckController::class, 'index'])
-                ->name('fraud.index');
-
-            Route::post('/fraud/check', [FraudCheckController::class, 'check'])
-                ->name('fraud.check');
-
-        });
-
-    Route::post(
-        '/orders/{order}/courier-booking',
-        [CourierBookingController::class, 'store']
-    )->name('orders.courier-booking');
     Route::resource('tags', TagController::class);
 
     // Policy Types Management Routes
@@ -151,6 +134,4 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
         NotificationController::class,
         'markAllAsRead'
     ])->name('notifications.read-all');
-
-
 });

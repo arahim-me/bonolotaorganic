@@ -33,10 +33,11 @@
                                     <th>#</th>
                                     <th>Order #</th>
                                     <th>Customer</th>
+                                    <th>Phone</th>
                                     <th>Total</th>
                                     <th>Status</th>
-                                    <th>Placed</th>
                                     <th>Actions</th>
+                                    <th>Courier</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,10 +46,13 @@
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->order_number }}</td>
                                         <td>{{ $order->user?->name ?? '—' }}</td>
+                                        <td>{{ $order->user->phone ?? '' }}</td>
                                         <td>{{ number_format((float) $order->grand_total, 2) }}</td>
                                         <td>{{ $order->status?->name ?? '—' }}</td>
-                                        <td>{{ $order->created_at?->toDateTimeString() ?? '—' }}
                                         </td>
+                                        @php
+                                            $couriers = ['pathao', 'steadfast', 'redex'];
+                                        @endphp
                                         <td>
                                             <a href="{{ route('dashboard.orders.show', $order) }}"
                                                 class="btn btn-sm btn-primary">View</a>
@@ -58,6 +62,21 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-sm btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form class="form-control d-flex" action="/submit-shipping" method="POST">
+                                                <select class="form-select" name="courier" id="courier-select" required>
+                                                    <option value="" disabled selected><i
+                                                            class="fa-solid fa-truck-fast"></i> Courier
+                                                    </option>
+                                                    @foreach ($couriers as $courier)
+                                                        <option value="{{ $courier }}"><i
+                                                                class="fa-solid fa-truck-fast"></i> {{ $courier }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <button class="btn btn-primary" type="submit">Confirm</button>
                                             </form>
                                         </td>
                                     </tr>

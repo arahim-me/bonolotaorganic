@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('categories.create') }}" class="btn btn-primary">
+                    <a href="{{ route('dashboard.categories.create') }}" class="btn btn-primary">
                         <i class="bx bx-plus"></i> Add Category
                     </a>
                 </div>
@@ -142,11 +142,11 @@
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2" width="100px">
-                                        <a class="dropdown-item" href="{{ route('categories.show', $category->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.categories.show', $category->id) }}"><i
                                                 class="fa-solid fa-eye"></i></a><a class="dropdown-item"
-                                            href="{{ route('categories.edit', $category->id) }}"><i
+                                            href="{{ route('dashboard.categories.edit', $category->id) }}"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                                        <form action="{{ route('dashboard.categories.destroy', $category->id) }}" method="POST"
                                             class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this category?');">
                                             @csrf
