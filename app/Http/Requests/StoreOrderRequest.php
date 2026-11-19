@@ -18,11 +18,9 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'status_id' => ['required', 'integer', 'exists:statuses,id'],
             'payment_method' => ['required', 'integer', 'exists:payment_methods,id'],
+            'shipping_fee' => ['required', 'exists:shipping_fees,fee'],
             'payment_status' => ['required', 'boolean'],
-            'shipping_address' => ['required', 'string', 'max:255'],
-            'shipping_phone' => ['required', 'string', 'max:255'],
             'items' => ['required', 'array', 'min:1'],
             'items.*' => ['required', 'array:product_id,quantity'],
             'items.*.product_id' => ['required', 'integer', 'distinct', 'exists:products,id'],

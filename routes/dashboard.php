@@ -4,7 +4,6 @@ use App\Http\Controllers\Dashboard\BrandController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CourierBookingController;
 use App\Http\Controllers\Dashboard\FacilityController;
-use App\Http\Controllers\Dashboard\Courier\FraudCheckController;
 use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\NotificationController;
@@ -27,6 +26,9 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
     Route::resource('site-info', SiteInfoController::class);
 
     Route::resource('tags', TagController::class);
+
+    Route::post('booking/courier/{order}', [CourierBookingController::class, 'bookCourier'])->name('booking.courier');
+    Route::get('check/courier/status/{order}', [CourierBookingController::class, 'checkCourierStatus'])->name('check.courier.status');
 
     // Policy Types Management Routes
     Route::get('policy-types/{type}/toggle-status', [
@@ -105,6 +107,10 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
 
     // Orders Management
     Route::get('invoice/{invoice}', [InvoiceController::class, 'show'])->name('invoice.show');
+    Route::get('orders/accept/{order}', [OrderController::class, 'accept'])->name('orders.accept');
+    Route::post('/orders/customer-lookup', [OrderController::class, 'customerLookup'])
+        ->name('orders.customer.lookup');
+    Route::post('orders/customer-fix', [OrderController::class, 'customerFix'])->name('orders.customer.fix');
     Route::resource('orders', OrderController::class);
     // Payment Methods Management
     Route::resource('payment-methods', PaymentMethodController::class);

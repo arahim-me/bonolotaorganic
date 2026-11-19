@@ -5,7 +5,7 @@
 
     @php
         $subtotal = $order->items->sum('total');
-        $shippingFee = (float) ($order->shipping_fee_amount ?? 0);
+        $shippingFee = (float) ($order->shipping_fee ?? 0);
         $discount = (float) ($order->discount_amount ?? 0);
         $grandTotal = $subtotal + $shippingFee - $discount;
     @endphp
@@ -191,7 +191,7 @@
             </div>
 
             <div>
-                <a href="{{ route('orders.index') }}" class="btn btn-secondary btn-sm me-2">
+                <a href="{{ route('dashboard.orders.index') }}" class="btn btn-secondary btn-sm me-2">
                     Back
                 </a>
 
@@ -268,13 +268,13 @@
                         <div class="invoice-info">
                             <strong>{{ $order->user?->name ?? 'N/A' }}</strong>
 
-                            <div>{{ $order->shipping_phone ?? 'N/A' }}</div>
+                            <div>{{ $order->user?->phone ?? 'N/A' }}</div>
 
-                            <div>{{ $order->shipping_address ?? 'N/A' }}</div>
+                            <div>{{ $order->user?->address ?? 'N/A' }}</div>
 
                             @if ($shippingFee > 0)
                                 <div class="mt-1">
-                                    Shipping Charge: ৳{{ number_format($shippingFee, 2) }}
+                                    Delivery Charge: ৳{{ number_format($shippingFee, 2) }}
                                 </div>
                             @endif
                         </div>

@@ -15,6 +15,7 @@ class Order extends Model
         'order_number',
         'grand_total',
         'status_id',
+        'courier',
         'is_accept',
         'payment_method',
         'payment_status',

@@ -17,12 +17,14 @@ return new class extends Migration {
             $table->string('order_number')->unique()->nullable();
             $table->decimal('grand_total', 10, 2);
             $table->foreignId('status_id')->constrained()->default($pendingStatusId);
+            $table->string('courier')->nullable();
+            $table->string('tracking_number')->nullable();
+            $table->string('courier_status')->nullable();
             $table->boolean('is_accept')->default(false);
             $table->foreignId('payment_method')->constrained()->default($codpaymentMethodId);
             $table->boolean('payment_status')->default(false);
-            $table->integer('shipping_fee')->default(150);
-            $table->string('shipping_address')->nullable();
-            $table->string('shipping_phone')->nullable();
+            $table->integer('shipping_fee')->nullable();
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

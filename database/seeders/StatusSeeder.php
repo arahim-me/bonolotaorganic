@@ -21,6 +21,8 @@ class StatusSeeder extends Seeder
             ['name' => 'Cancelled', 'slug' => 'cancelled', 'icon' => 'fa-solid fa-ban'],
             ['name' => 'Completed', 'slug' => 'completed', 'icon' => 'fa-solid fa-check'],
             ['name' => 'Processing', 'slug' => 'processing', 'icon' => 'fa-solid fa-cogs'],
+            ['name' => 'Accepted', 'slug' => 'accepted', 'icon' => 'fa-solid fa-square-check'],
+            ['name' => 'In Courier', 'slug' => 'in-courier', 'icon' => 'fa-solid fa-truck-fast'],
             ['name' => 'On Hold', 'slug' => 'on-hold', 'icon' => 'fa-solid fa-pause'],
             ['name' => 'Deleted', 'slug' => 'deleted', 'icon' => 'fa-solid fa-trash'],
             ['name' => 'Draft', 'slug' => 'draft', 'icon' => 'fa-solid fa-pen'],

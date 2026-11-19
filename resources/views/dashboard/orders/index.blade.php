@@ -33,51 +33,90 @@
                                     <th>#</th>
                                     <th>Order #</th>
                                     <th>Customer</th>
-                                    <th>Phone</th>
                                     <th>Total</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
                                     <th>Courier</th>
+                                    <th>Actions</th>
+                                    <th>Courier / Accept Order</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($orders as $order)
                                     <tr>
-                                        <td>{{ $order->id }}</td>
-                                        <td>{{ $order->order_number }}</td>
-                                        <td>{{ $order->user?->name ?? '—' }}</td>
-                                        <td>{{ $order->user->phone ?? '' }}</td>
-                                        <td>{{ number_format((float) $order->grand_total, 2) }}</td>
-                                        <td>{{ $order->status?->name ?? '—' }}</td>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $order->order_number }}</td>
+                                        <td class="align-middle">
+                                            <div class="col">
+                                                <div class="col">{{ $order->user->name }}</div>
+                                                <div class="col">{{ $order->user->phone }}</div>
+                                                <div class="col">{{ $order->user->address }}</div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            {{ number_format((float) $order->grand_total + $order->shipping_fee, 2) }}</td>
+                                        <td class="align-middle">
+                                            <div class="col">
+                                                <div class="col">{{ $order->courier ?? '—' }}</div>
+                                                <div class="col">{{ $order->tracking_number ?? '—' }}</div>
+                                                <div class="d-flex gap-2">
+                                                    @if ($order->courier_status != 'Deliverred')
+                                                        <p class="">
+                                                            {{ $order->courier_status ?? '—' }}</p> <a
+                                                            href="{{ route('dashboard.check.courier.status', $order->id) }}">
+                                                            <i class="fa-solid fa-arrows-rotate mt-1 text-danger"></i>
+                                                        </a>
+                                                    @else
+                                                        <p class="">
+                                                            {{ $order->courier_status ?? '—' }}</p>
+                                                        <i class="fa-solid fa-circle-check mt-2 text-primary"></i>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         </td>
                                         @php
                                             $couriers = ['pathao', 'steadfast', 'redex'];
                                         @endphp
-                                        <td>
-                                            <a href="{{ route('dashboard.orders.show', $order) }}"
-                                                class="btn btn-sm btn-primary">View</a>
-                                            <form action="{{ route('dashboard.orders.destroy', $order) }}" method="POST"
-                                                style="display:inline-block"
-                                                onsubmit="return confirm('Delete this order?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-sm btn-danger">Delete</button>
-                                            </form>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <a href="{{ route('dashboard.orders.show', $order) }}"
+                                                    class="btn btn-sm btn-primary"><i class="fa-solid fa-eye"></i></a>
+                                                <a href="{{ route('dashboard.orders.edit', $order) }}"
+                                                    class="btn btn-sm btn-info"><i
+                                                        class="fa-solid fa-pen-to-square"></i></a>
+                                                <form action="{{ route('dashboard.orders.destroy', $order) }}"
+                                                    method="POST" style="display:inline-block"
+                                                    onsubmit="return confirm('Delete this order?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-sm btn-danger"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                </form>
+                                            </div>
                                         </td>
-                                        <td>
-                                            <form class="form-control d-flex" action="/submit-shipping" method="POST">
-                                                <select class="form-select" name="courier" id="courier-select" required>
-                                                    <option value="" disabled selected><i
-                                                            class="fa-solid fa-truck-fast"></i> Courier
-                                                    </option>
-                                                    @foreach ($couriers as $courier)
-                                                        <option value="{{ $courier }}"><i
-                                                                class="fa-solid fa-truck-fast"></i> {{ $courier }}
+                                        <td class="align-middle">
+                                            @if (!$order->is_accept)
+                                                <div class="row">
+                                                    <a class="btn btn-info"
+                                                        href="{{ route('dashboard.orders.accept', $order->id) }}">Accept
+                                                        Order</a>
+                                                </div>
+                                            @else
+                                                <form class="form-control d-flex gap-2"
+                                                    action="{{ route('dashboard.booking.courier', $order->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <select class="form-select" name="courier" id="courier-select" required>
+                                                        <option value="" disabled selected><i
+                                                                class="fa-solid fa-truck-fast"></i> Courier
                                                         </option>
-                                                    @endforeach
-                                                </select>
-                                                <button class="btn btn-primary" type="submit">Confirm</button>
-                                            </form>
+                                                        @foreach ($couriers as $courier)
+                                                            <option value="{{ $courier }}"><i
+                                                                    class="fa-solid fa-truck-fast"></i> {{ $courier }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <button class="btn btn-primary" type="submit">Confirm</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
