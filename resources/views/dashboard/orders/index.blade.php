@@ -46,13 +46,13 @@
                                         <td class="align-middle">{{ $order->order_number }}</td>
                                         <td class="align-middle">
                                             <div class="col">
-                                                <div class="col">{{ $order->user->name }}</div>
-                                                <div class="col">{{ $order->user->phone }}</div>
-                                                <div class="col">{{ $order->user->address }}</div>
+                                                <div class="col">{{ $order->name }}</div>
+                                                <div class="col">{{ $order->phone }} <a href="#"><i class="fa-solid fa-shield"></i></a></div>
+                                                <div class="col">{{ $order->address }}</div>
                                             </div>
                                         </td>
                                         <td class="align-middle">
-                                            {{ number_format((float) $order->grand_total + $order->shipping_fee, 2) }}</td>
+                                            {{ number_format((float) $order->total, 2) }}</td>
                                         <td class="align-middle">
                                             <div class="col">
                                                 <div class="col">{{ $order->courier ?? '—' }}</div>

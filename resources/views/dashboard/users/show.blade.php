@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">
+                    <a href="{{ route('dashboard.users.edit', $user->id) }}" class="btn btn-primary">
                         <i class="fa-solid fa-pen-to-square me-1"></i> Edit Profile
                     </a>
                 </div>
@@ -23,10 +23,12 @@
             <div class="card">
                 <div class="card-body text-center">
                     <div class="mb-3">
-                        @if($user->avatar)
-                            <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}" class="rounded-circle" width="120">
+                        @if ($user->avatar)
+                            <img src="{{ asset('uploads/users/avatars') }}/{{ $user->avatar ?? 'user.png' }}"
+                                alt="{{ $user->name }}" class="rounded-circle" width="120" height="120">
                         @else
-                            <div class="avatar avatar-lg" style="width: 120px; height: 120px; background: #7a08c2; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 48px;">
+                            <div class="avatar avatar-lg"
+                                style="width: 120px; height: 120px; background: #7a08c2; color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 48px;">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
                             </div>
                         @endif
@@ -50,7 +52,9 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label text-muted">Username</label>
-                            <p class="mb-0"><i class="fa-solid {{ $user->username? 'fa-user text-primary' : 'fa-user-slash text-danger'}} me-1"></i>{{ $user->username ?? 'No username provided' }}</p>
+                            <p class="mb-0"><i
+                                    class="fa-solid {{ $user->username ? 'fa-user text-primary' : 'fa-user-slash text-danger' }} me-1"></i>{{ $user->username ?? 'No username provided' }}
+                            </p>
                         </div>
                     </div>
 
@@ -73,7 +77,7 @@
                         <div class="col-md-6">
                             <label class="form-label text-muted">Email Verified</label>
                             <p class="mb-0">
-                                @if($user->email_verified_at)
+                                @if ($user->email_verified_at)
                                     <span class="badge bg-success">Verified</span>
                                 @else
                                     <span class="badge bg-warning">Not Verified</span>

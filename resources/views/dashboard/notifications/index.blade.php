@@ -249,7 +249,7 @@
 
                                     <button type="submit"
                                             class="btn btn-sm btn-outline-danger">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </form>
 

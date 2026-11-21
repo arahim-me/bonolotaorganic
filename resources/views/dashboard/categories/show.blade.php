@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('categories.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dashboard.categories.index') }}" class="btn btn-secondary">
                         <i class="bx bx-arrow-back"></i> Back
                     </a>
                 </div>
@@ -40,15 +40,15 @@
         </div>
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class="mx-auto">
-                <a href="{{ route('categories.index') }}" class="btn btn-secondary waves-effect waves-light"><i
+                <a href="{{ route('dashboard.categories.index') }}" class="btn btn-secondary waves-effect waves-light"><i
                         class="bx bx-arrow-back"></i> Back</a>
             </div>
             <div class="mx-auto">
-                <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary waves-effect waves-light"><i
+                <a href="{{ route('dashboard.categories.edit', $category->id) }}" class="btn btn-primary waves-effect waves-light"><i
                         class="bx bx-edit"></i> Edit</a>
             </div>
             <div class="mx-auto">
-                <a href="{{ route('categories.destroy', $category->id) }}" class="btn btn-danger waves-effect waves-light"
+                <a href="{{ route('dashboard.categories.destroy', $category->id) }}" class="btn btn-danger waves-effect waves-light"
                     onclick="return confirm('Are you sure you want to delete this category?')"><i class="bx bx-trash"></i>
                 Delete</a>
             </div>

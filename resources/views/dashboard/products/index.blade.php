@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
+                    <a href="{{ route('dashboard.products.create') }}" class="btn btn-primary">
                         <i class="bx bx-plus"></i> Add Product
                     </a>
                 </div>
@@ -146,7 +146,7 @@
                                     <span class="badge bg-info">{{ $product->stock ?? 0 }}</span>
                                 </td>
                                 <td>
-                                    <form action="{{ route('products.togglePublished', $product->id) }}" method="POST">
+                                    <form action="{{ route('dashboard.products.togglePublished', $product->id) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
 
@@ -164,11 +164,11 @@
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2" width="100px">
-                                        <a class="dropdown-item" href="{{ route('products.show', $product->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.products.show', $product->id) }}"><i
                                                 class="fa-solid fa-eye"></i></a><a class="dropdown-item"
-                                            href="{{ route('products.edit', $product->id) }}"><i
+                                            href="{{ route('dashboard.products.edit', $product->id) }}"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('products.destroy', $product->id) }}" method="POST"
+                                        <form action="{{ route('dashboard.products.destroy', $product->id) }}" method="POST"
                                             class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this product?');">
                                             @csrf

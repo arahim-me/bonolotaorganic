@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\BrandController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\CourierBookingController;
+use App\Http\Controllers\Dashboard\CourierController;
 use App\Http\Controllers\Dashboard\FacilityController;
 use App\Http\Controllers\Dashboard\InvoiceController;
 use App\Http\Controllers\Dashboard\MessageController;
@@ -21,11 +22,14 @@ use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Middleware\AdminRoleMiddleware;
 // Management Routes (only role_id 1 and 2)
-Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware([AdminRoleMiddleware::class . ':1,2'])->prefix('dashboard')->name('dashboard.')->group(function () {
     // Site Information Routes
     Route::resource('site-info', SiteInfoController::class);
 
     Route::resource('tags', TagController::class);
+
+    // Courier Services Management
+    Route::resource('couriers', CourierController::class);
 
     Route::post('booking/courier/{order}', [CourierBookingController::class, 'bookCourier'])->name('booking.courier');
     Route::get('check/courier/status/{order}', [CourierBookingController::class, 'checkCourierStatus'])->name('check.courier.status');
@@ -96,14 +100,27 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
     Route::resource('facilities', FacilityController::class);
 
 
-    // Messages [inbox] Management Routes
-    Route::resource('messages', MessageController::class);
-    // AJAX Search & Filter
+    // // Messages [inbox] Management Routes
+    // Route::resource('messages', MessageController::class);
+    // // AJAX Search & Filter
+    // Route::get('/messages/filter', [MessageController::class, 'filter'])
+    //     ->name('messages.filter');
+    // // Mark as Read
+    // Route::patch('/messages/{message}/read', [MessageController::class, 'markRead'])
+    //     ->name('messages.read');
+
+    // Static Filter Route - Must be before dynamic routes
     Route::get('/messages/filter', [MessageController::class, 'filter'])
         ->name('messages.filter');
-    // Mark as Read
-    Route::patch('/messages/{message}/read', [MessageController::class, 'markRead'])
+
+    // Read Message
+    Route::patch('/messages/{message}/read', [MessageController::class, 'read'])
+        ->whereNumber('message')
         ->name('messages.read');
+
+    // Resource Routes - Exclude show to avoid filter conflict
+    Route::resource('/messages', MessageController::class)
+        ->except(['show']);
 
     // Orders Management
     Route::get('invoice/{invoice}', [InvoiceController::class, 'show'])->name('invoice.show');
@@ -125,7 +142,7 @@ Route::middleware(AdminRoleMiddleware::class . ':1,2')->prefix('dashboard')->nam
 
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-
+    Route::delete('/notifications/{id}/delete', [NotificationController::class, 'destroy'])->name('notifications.destroy');
     Route::get('/notifications/{id}', [
         NotificationController::class,
         'show'

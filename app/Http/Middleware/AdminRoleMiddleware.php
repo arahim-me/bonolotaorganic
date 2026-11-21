@@ -17,7 +17,7 @@ class AdminRoleMiddleware
     {
         $user = auth()->user();
         if (!$user || !$user->role_id || !in_array($user->role_id, $roles)) {
-            abort(403, 'Unauthorized');
+            return redirect()->route('login');
         }
         return $next($request);
     }

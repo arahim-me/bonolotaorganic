@@ -280,7 +280,7 @@ class ProductController extends Controller
         if ($created) {
 
             return redirect()
-                ->route('products.index')
+                ->route('dashboard.products.index')
                 ->with('success', 'Product created successfully!');
 
         }
@@ -351,7 +351,7 @@ class ProductController extends Controller
         // Sync tags
         $product->tags()->sync($tagIds);
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+        return redirect()->route('dashboard.products.index')->with('success', 'Product updated successfully!');
     }
 
     public function destroy(Product $product)
@@ -376,7 +376,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        return redirect()->route('dashboard.products.index')->with('success', 'Product deleted successfully!');
     }
 
     /**

@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
                 $categoriesCount = Category::all()->count();
                 $productsCount = Product::all()->count();
                 $unreadMessages = Message::where('is_read', false)->count();
-                $unreadNotifyCount = $user->unreadNotifications()->count();
+                $unreadNotifyCount = $user?->unreadNotifications()?->count();
                 $notAcceptOordersCount = Order::where('is_accept', false)->count();
 
                 $view->with([

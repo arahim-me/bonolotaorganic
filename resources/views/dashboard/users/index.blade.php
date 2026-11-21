@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('users.create') }}" class="btn btn-primary">
+                    <a href="{{ route('dashboard.users.create') }}" class="btn btn-primary">
                         <i class="fa-solid fa-plus me-1"></i> Add User
                     </a>
                 </div>
@@ -19,9 +19,9 @@
     </div>
     <div class="row mb-3">
         <div class="col">
-            <form action="{{ route('users.filter') }}" method="GET" class="d-flex gap-2 justify-content-end">
+            <form action="{{ route('dashboard.users.filter') }}" method="GET" class="d-flex gap-2 justify-content-end">
                 {{-- Reset --}}
-                <a href="{{ route('users.filter') }}" class="btn btn-secondary">
+                <a href="{{ route('dashboard.users.filter') }}" class="btn btn-secondary">
                     <i class="fa-solid fa-rotate-left"></i>
                 </a>
                 {{-- Role Filter --}}
@@ -81,8 +81,9 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="table-user">
-                                    <a href="{{ route('users.show', $user->id) }}" class="text-body font-weight-semibold">
-                                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}"
+                                    <a href="{{ route('dashboard.users.show', $user->id) }}"
+                                        class="text-body font-weight-semibold">
+                                        <img src="{{ asset('uploads/users/avatars') }}/{{ $user->avatar ?? 'user.png' }}"
                                             alt="{{ $user->name }}" class="rounded-circle" width="32" height="32">
                                         {{ $user->name }}
                                     </a>
@@ -117,11 +118,11 @@
 
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <a class="dropdown-item" href="{{ route('users.show', $user->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.users.show', $user->id) }}"><i
                                                 class="fa-solid fa-eye"></i></a><a class="dropdown-item"
-                                            href="{{ route('users.edit', $user->id) }}"><i
+                                            href="{{ route('dashboard.users.edit', $user->id) }}"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                        <form action="{{ route('dashboard.users.destroy', $user->id) }}" method="POST"
                                             class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this user?');">
                                             @csrf

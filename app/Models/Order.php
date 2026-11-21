@@ -14,20 +14,24 @@ class Order extends Model
         'user_id',
         'order_number',
         'grand_total',
+        'total',
         'status_id',
         'courier',
+        'courier_status',
         'is_accept',
         'payment_method',
         'payment_status',
         'shipping_fee',
-        'shipping_address',
-        'shipping_phone'
+        'name',
+        'phone',
+        'address',
     ];
 
     protected $casts = [
         'is_accept' => 'boolean',
         'payment_status' => 'boolean',
         'grand_total' => 'decimal:2',
+        'total' => 'decimal:2',
         'shipping_fee' => 'decimal:2'
     ];
 
@@ -49,15 +53,5 @@ class Order extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
-    }
-
-    public function courierShipments()
-    {
-        return $this->hasMany(CourierShipment::class);
-    }
-
-    public function latestCourierShipment()
-    {
-        return $this->hasOne(CourierShipment::class)->latestOfMany();
     }
 }

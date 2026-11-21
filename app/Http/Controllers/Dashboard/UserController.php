@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
         $users = User::all();
         $statuses = Status::all();
         $roles = Role::all();
-        return view('dashboard.users.index', compact('roles','statuses','title','users'));
+        return view('dashboard.users.index', compact('roles', 'statuses', 'title', 'users'));
     }
 
     public function filter(Request $request)
@@ -79,7 +80,7 @@ class UserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully!');
+        return redirect()->route('dashboard.users.index')->with('success', 'User created successfully!');
     }
 
     public function show(User $user)
@@ -114,7 +115,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully!');
+        return redirect()->route('dashboard.users.index')->with('success', 'User updated successfully!');
     }
 
     public function updateAvatar(Request $request, User $user)
@@ -123,16 +124,37 @@ class UserController extends Controller
             'avatar' => 'required|image|max:2048',
         ]);
 
+        // if ($request->hasFile('avatar')) {
+        //     $path = $request->file('avatar')->store('avatars', 'public');
+        //     if ($user->avatar) {
+        //         \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+        //     }
+        //     $user->avatar = $path;
+        //     $user->save();
+        // }
         if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatars', 'public');
-            if ($user->avatar) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            $file = $request->file('avatar');
+            $extension = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = 'avatar-' . now()->timestamp . '-' . Str::random(6) . '.' . $extension;
+            $directory = public_path('uploads/users/avatars');
+
+            if (!is_dir($directory)) {
+                mkdir($directory, 0755, true);
             }
-            $user->avatar = $path;
+
+            $file->move($directory, $filename);
+
+            if ($user->avatar) {
+                $oldPath = public_path('uploads/users/avatars/' . $user->avatar);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            $user->avatar = $filename;
             $user->save();
         }
-
-        return redirect()->route('users.edit', $user)->with('success', 'Avatar updated');
+        return redirect()->route('dashboard.users.edit', $user)->with('success', 'Avatar updated');
     }
 
     public function updatePassword(Request $request, User $user)

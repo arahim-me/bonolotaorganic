@@ -18,18 +18,21 @@ class ProductSectionSeeder extends Seeder
                 'slug' => 'hero',
                 'description' => 'Items will be displayed with a Slider in the hero section of the homepage.',
                 'position' => 1,
+                'is_published' => true,
             ],
             [
                 'name' => 'Category Section',
                 'slug' => 'category',
                 'description' => 'All items of this section will be displayed in the category section of the homepage which is active.',
                 'position' => 2,
+                'is_published' => true,
             ],
             [
                 'name' => 'Trending Section',
                 'slug' => 'trending',
                 'description' => 'Trending products will be displayed in the homepage.',
                 'position' => 3,
+                'is_published' => true,
             ],
             [
                 'name' => 'Deal Section',
@@ -42,6 +45,7 @@ class ProductSectionSeeder extends Seeder
                 'slug' => 'featured',
                 'description' => 'Featured products will be displayed in the homepage.',
                 'position' => 5,
+                'is_published' => true,
             ],
             [
                 'name' => 'Testimonial Section',
@@ -72,6 +76,12 @@ class ProductSectionSeeder extends Seeder
                 'slug' => 'brand',
                 'description' => 'Brands will be displayed in the homepage.',
                 'position' => 10,
+            ],
+            [
+                'name' => 'Our Story Section',
+                'slug' => 'story',
+                'description' => 'Our Story will be displayed in the homepage.',
+                'position' => 11,
             ],
             [
                 'name' => 'Best Match Product Section',

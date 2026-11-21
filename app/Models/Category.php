@@ -16,7 +16,7 @@ class Category extends Model
         'status_id',
         'is_published',
     ];
-// Relation with Product
+    // Relation with Product
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -25,6 +25,10 @@ class Category extends Model
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+    public function publish()
+    {
+        return $this->belongsTo(Category::where('is_published', true));
     }
 
     protected static function booted()

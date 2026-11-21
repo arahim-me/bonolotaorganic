@@ -15,4 +15,5 @@ class ProductSection extends Model
         'return_url',
         'is_publised',
     ];
+
 }

@@ -35,7 +35,7 @@
                                         <td>{{ $section->slug }}</td>
                                         <td>{{ $section->description }}</td>
                                         <td>
-                                            <a href="{{ route('product-sections.toggle-status', $section->id) }}"
+                                            <a href="{{ route('dashboard.product-sections.toggle-status', $section->id) }}"
                                                 class="text-decoration-none">
                                                 <button type="button" class="btn btn-sm status-toggle-btn"
                                                     style="background-color: {{ $section->is_published == true ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
@@ -46,9 +46,9 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('product-sections.edit', $section->id) }}"
+                                                <a href="{{ route('dashboard.product-sections.edit', $section->id) }}"
                                                     class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                                <a href="{{ route('product-sections.show', $section->id) }}"
+                                                <a href="{{ route('dashboard.product-sections.show', $section->id) }}"
                                                     class="btn btn-sm btn-info"><i class="fas fa-eye"></i></a>
                                             </div>
                                         </td>

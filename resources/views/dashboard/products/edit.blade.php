@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('products.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dashboard.products.index') }}" class="btn btn-secondary">
                         <i class="bx bx-arrow-back"></i> Back
                     </a>
                 </div>
@@ -37,7 +37,7 @@
                     <h5 class="card-title mb-0">Product Information</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('products.update', $product->id ?? '#') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard.products.update', $product->id ?? '#') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -102,7 +102,7 @@
                     </form>
 
                     <div class="mt-3">
-                        <form action="{{ route('products.destroy', $product->id ?? '#') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                        <form action="{{ route('dashboard.products.destroy', $product->id ?? '#') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">
@@ -123,7 +123,7 @@
                             @endif
                         </div>
 
-                        <form action="{{ route('products.images.upload', $product->id) }}" class="dropzone" id="productDropzone">
+                        <form action="{{ route('dashboard.products.images.upload', $product->id) }}" class="dropzone" id="productDropzone">
                             @csrf
                         </form>
                     </div>

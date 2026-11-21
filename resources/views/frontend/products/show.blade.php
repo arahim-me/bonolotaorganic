@@ -26,109 +26,102 @@
                                     <div class="product-img-big slider-big-h position-relative br-hidden">
                                         <div class="swiper" id="slider-big-h">
                                             <div class="swiper-wrapper product-swiper-wrapper">
-                                                @if ($product->images)
-                                                    @forelse($product->images as $img)
-                                                        <div class="swiper-slide product-swiper-slide">
-                                                            <div class="product-item-img position-relative">
-                                                                <a href="{{ asset('uploads') }}/assets/image/product/product-1.jpg"
-                                                                    class="full-view product-thumbnail heading-color position-absolute top-0 end-0 width-40 height-40 d-flex align-items-center justify-content-center body-bg z-1 mst-15 mer-15 rounded-circle box-shadow"
-                                                                    aria-label="Image full view"><i
-                                                                        class="ri-fullscreen-line d-block lh-1"></i></a>
-                                                                <img src="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
-                                                                    data-zoom="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
-                                                                    class="w-100 img-fluid zoom" alt="product-1">
-                                                            </div>
-                                                        </div>
-                                                    @empty
-                                                        <div class="swiper-slide product-swiper-slide">
-                                                            <div class="product-item-img position-relative">
-                                                                <a href="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
-                                                                    class="full-view product-thumbnail heading-color position-absolute top-0 end-0 width-40 height-40 d-flex align-items-center justify-content-center body-bg z-1 mst-15 mer-15 rounded-circle box-shadow"
-                                                                    aria-label="Image full view"><i
-                                                                        class="ri-fullscreen-line d-block lh-1"></i></a>
-                                                                <img src="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
-                                                                    data-zoom="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
-                                                                    class="w-100 img-fluid zoom" alt="product-1">
-                                                            </div>
-                                                        </div>
-                                                    @endforelse
-                                                @else
+
+                                                @php
+                                                    $images = is_array($product->images)
+                                                        ? $product->images
+                                                        : json_decode($product->images ?? '[]', true);
+
+                                                    $images = !empty($images)
+                                                        ? $images
+                                                        : [$product->thumbnail ?? 'default.png'];
+                                                @endphp
+
+                                                @foreach ($images as $image)
+                                                    @php
+                                                        $imagePath = asset(
+                                                            'uploads/products/images/' . $image ?? 'defaul.png',
+                                                        );
+                                                    @endphp
+
                                                     <div class="swiper-slide product-swiper-slide">
                                                         <div class="product-item-img position-relative">
-                                                            <a href="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
+
+                                                            {{-- Full View --}}
+                                                            <a href="{{ $imagePath }}"
                                                                 class="full-view product-thumbnail heading-color position-absolute top-0 end-0 width-40 height-40 d-flex align-items-center justify-content-center body-bg z-1 mst-15 mer-15 rounded-circle box-shadow"
-                                                                aria-label="Image full view"><i
-                                                                    class="ri-fullscreen-line d-block lh-1"></i></a>
-                                                            <img src="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
-                                                                data-zoom="{{ asset('uploads/products') }}/{{ $product->thumbnail ?? 'default.png' }}"
-                                                                class="w-100 img-fluid zoom" alt="product-1">
+                                                                aria-label="Image full view">
+
+                                                                <i class="ri-fullscreen-line d-block lh-1"></i>
+                                                            </a>
+
+                                                            {{-- Product Image --}}
+                                                            <img src="{{ $imagePath }}" data-zoom="{{ $imagePath }}"
+                                                                class="w-100 img-fluid zoom" alt="{{ $product->name }}">
                                                         </div>
                                                     </div>
-                                                @endif
+                                                @endforeach
+
                                             </div>
                                         </div>
+
+                                        {{-- Swiper Navigation --}}
                                         <div class="swiper-buttons">
+
                                             <button type="button"
                                                 class="swiper-prev swiper-prev-big tertiary-btn icon-16 width-32 height-32 position-absolute top-50 translate-middle-y z-1 rounded-circle"
-                                                aria-label="Arrow previous"><i
-                                                    class="ri-arrow-left-line d-block lh-1"></i></button>
+                                                aria-label="Arrow previous">
+
+                                                <i class="ri-arrow-left-line d-block lh-1"></i>
+                                            </button>
+
                                             <button type="button"
                                                 class="swiper-next swiper-next-big tertiary-btn icon-16 width-32 height-32 position-absolute top-50 translate-middle-y z-1 rounded-circle"
-                                                aria-label="Arrow next"><i
-                                                    class="ri-arrow-right-line d-block lh-1"></i></button>
+                                                aria-label="Arrow next">
+
+                                                <i class="ri-arrow-right-line d-block lh-1"></i>
+                                            </button>
+
                                         </div>
                                     </div>
                                     <!-- product-img-big end -->
                                 </div>
                                 <div class="col-12" data-animate="animate__fadeIn">
+
                                     <!-- product-img-small start -->
                                     <div class="product-img-small slider-small-h">
                                         <div class="swiper" id="slider-small-h">
                                             <div class="swiper-wrapper">
-                                                <div class="swiper-slide product-swiper-slide">
-                                                    <div class="product-item-img br-hidden">
-                                                        <a href="javascript:void(0)" class="d-block product-thumbnail">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/product-1.jpg"
-                                                                class="w-100 img-fluid" alt="product-1">
-                                                        </a>
+
+                                                @php
+                                                    $images = is_array($product->images)
+                                                        ? $product->images
+                                                        : json_decode($product->images ?? '[]', true);
+
+                                                    $images = !empty($images)
+                                                        ? $images
+                                                        : [$product->thumbnail ?? 'default.png'];
+                                                @endphp
+
+                                                @foreach ($images as $index => $image)
+                                                    <div class="swiper-slide product-swiper-slide">
+                                                        <div class="product-item-img br-hidden">
+
+                                                            <a href="javascript:void(0)" class="d-block product-thumbnail">
+                                                                <img src="{{ asset('uploads/products/images/' . $image ?? 'default.png') }}"
+                                                                    class="w-100 img-fluid"
+                                                                    alt="{{ $product->name }} - Image {{ $index + 1 }}">
+                                                            </a>
+
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="swiper-slide product-swiper-slide">
-                                                    <div class="product-item-img br-hidden">
-                                                        <a href="javascript:void(0)" class="d-block product-thumbnail">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/product-2.jpg"
-                                                                class="w-100 img-fluid" alt="product-2">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide product-swiper-slide">
-                                                    <div class="product-item-img br-hidden">
-                                                        <a href="javascript:void(0)" class="d-block product-thumbnail">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/product-3.jpg"
-                                                                class="w-100 img-fluid" alt="product-3">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide product-swiper-slide">
-                                                    <div class="product-item-img br-hidden">
-                                                        <a href="javascript:void(0)" class="d-block product-thumbnail">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/product-4.jpg"
-                                                                class="w-100 img-fluid" alt="product-4">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide product-swiper-slide">
-                                                    <div class="product-item-img br-hidden">
-                                                        <a href="javascript:void(0)" class="d-block product-thumbnail">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/product-5.jpg"
-                                                                class="w-100 img-fluid" alt="product-5">
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                @endforeach
+
                                             </div>
                                         </div>
                                     </div>
                                     <!-- product-img-small end -->
+
                                 </div>
                             </div>
                         </div>
@@ -336,7 +329,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if ($product->thumbnail)
+                                    @if (!$product->thumbnail)
                                         <div class="product-action mst-15">
                                             <div class="row btn-row15">
                                                 <div class="col-12 col-md-6">
@@ -1764,10 +1757,11 @@
                                                 <div class="row single-product-wrap">
                                                     <div class="product-image-col">
                                                         <div class="product-image">
-                                                            <a href="product.html" class="pro-img">
-                                                                <img src="{{ asset('frontend') }}/assets/image/product/p-1.jpg"
+                                                            <a href="{{ route('products.show', $product->id) }}"
+                                                                class="pro-img">
+                                                                <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                     class="w-100 img-fluid img1" alt="p-1">
-                                                                <img src="{{ asset('frontend') }}/assets/image/product/p-2.jpg"
+                                                                <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                     class="w-100 img-fluid img2" alt="p-2">
                                                             </a>
                                                             <div class="product-action-wrap">
@@ -1803,7 +1797,7 @@
                                                             <div class="product-title">
                                                                 <span class="d-block meb-7">{{ $product->type }}</span>
                                                                 <span class="d-block heading-weight"><a
-                                                                        href="product.html"
+                                                                        href="{{ route('products.show', $product->id) }}"
                                                                         class="primary-link">{{ $product->name }}</a></span>
                                                             </div>
                                                             <div class="product-price">
@@ -1874,7 +1868,8 @@
                                             <div class="row single-product-wrap">
                                                 <div class="product-image-col">
                                                     <div class="product-image">
-                                                        <a href="product.html" class="pro-img">
+                                                        <a href="{{ route('products.show', $product->id) }}"
+                                                            class="pro-img">
                                                             <img src="{{ asset('frontend') }}/assets/image/product/p-1.jpg"
                                                                 class="w-100 img-fluid img1" alt="p-1">
                                                             <img src="{{ asset('frontend') }}/assets/image/product/p-2.jpg"

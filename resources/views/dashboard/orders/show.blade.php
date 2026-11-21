@@ -135,7 +135,7 @@
                                 <div class="d-flex justify-content-between gap-4">
                                     <h5 class="mb-0 fw-bold">Grand Total:</h5>
                                     <h5 class="mb-0 fw-bold text-success">
-                                        {{ number_format($order->grand_total + $order->shipping_fee, 2) }}
+                                        {{ number_format($order->total, 2) }}
                                     </h5>
                                 </div>
                             </div>

@@ -18,15 +18,15 @@
                                         <div class="single-product" data-cart-id="{{ $product->id }}"
                                             data-cart-name="{{ $product->name }}" data-cart-price="{{ $product->price }}"
                                             data-cart-currency="৳"
-                                            data-cart-image="{{ asset('uploads/products') }}/{{ $product->image ?? 'default.png' }}"
+                                            data-cart-image="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                             data-cart-url="{{ route('products.show', $product->id) }}">
                                             <div class="row single-product-wrap">
                                                 <div class="product-image-col">
                                                     <div class="product-image">
-                                                        <a href="{{ route('home.products.show', $product->id) }}" class="pro-img">
-                                                            <img src="{{ asset('uploads/products') }}/{{ $product->image ?? 'default.png' }}"
+                                                        <a href="{{ route('products.show', $product->id) }}" class="pro-img">
+                                                            <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                 class="w-100 img-fluid img1" alt="p-3">
-                                                            <img src="{{ asset('uploads/products') }}/{{ $product->image ?? 'default.png' }}"
+                                                            <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                 class="w-100 img-fluid img2" alt="p-4">
                                                             <span
                                                                 class="product-label product-label-{{$product->highlight ? 'new' : 'discount'}} product-label-left">{{$product->highlight ?? $product->discount}}</span>
@@ -63,13 +63,13 @@
                                                     <div class="pro-content">
                                                         <div class="product-title">
                                                             <span class="d-block meb-7">{{ $product->category->name }}</span>
-                                                            <span class="d-block heading-weight"><a href="{{ route('home.products.show', $product->id) }}" class="primary-link">{{ $product->name }}</a></span>
+                                                            <span class="d-block heading-weight"><a href="{{ route('products.show', $product->id) }}" class="primary-link">{{ $product->name }}</a></span>
                                                         </div>
                                                         <div class="product-price">
                                                             <div class="price-box heading-weight">
-                                                                <span class="new-price primary-color">৳{{ number_format($product->old_price, 2) }}</span>
+                                                                <span class="new-price primary-color">৳{{ number_format($product->price, 2) }}</span>
                                                                 <span class="old-price"><span class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">৳{{ number_format($product->price, 2) }}</span></span>
+                                                                        class="text-decoration-line-through">৳{{ number_format($product->old_price, 2) }}</span></span>
                                                             </div>
                                                         </div>
                                                         <div class="product-ratting">
@@ -1357,49 +1357,7 @@
                             </div>
                             <!-- shop-grid end -->
                             <!-- paginatoin start -->
-                            <div class="paginatoin-area section-pt" data-animate="animate__fadeIn">
-                                <nav aria-label="Page navigation example">
-                                    <ul
-                                        class="pagination ul-mt5 align-items-center justify-content-center pagination-box">
-                                        <li class="page-item first">
-                                            <a href="javascript:void(0)"
-                                                class="page-link p-0 m-0 bg-transparent border-0 lh-1"
-                                                aria-label="First page">First</a>
-                                        </li>
-                                        <li class="page-item prev">
-                                            <a href="javascript:void(0)"
-                                                class="page-link icon-16 d-flex align-items-center justify-content-center p-0 m-0 bg-transparent border-0 border-radius"
-                                                aria-label="Previous"><i
-                                                    class="ri-arrow-left-line d-block lh-1"></i></a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="javascript:void(0)"
-                                                class="page-link d-flex align-items-center justify-content-center p-0 m-0 heading-weight border-0 border-radius lh-1"
-                                                aria-label="Page number">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="javascript:void(0)"
-                                                class="page-link active d-flex align-items-center justify-content-center p-0 m-0 heading-weight border-0 border-radius lh-1"
-                                                aria-label="Page number">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a href="javascript:void(0)"
-                                                class="page-link d-flex align-items-center justify-content-center p-0 m-0 heading-weight border-0 border-radius lh-1"
-                                                aria-label="Page number">3</a>
-                                        </li>
-                                        <li class="page-item next">
-                                            <a href="javascript:void(0)"
-                                                class="page-link icon-16 d-flex align-items-center justify-content-center p-0 m-0 bg-transparent border-0 border-radius"
-                                                aria-label="Next"><i class="ri-arrow-right-line d-block lh-1"></i></a>
-                                        </li>
-                                        <li class="page-item last">
-                                            <a href="javascript:void(0)"
-                                                class="page-link p-0 m-0 bg-transparent border-0 lh-1"
-                                                aria-label="Last page">Last</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                            {{ $products->onEachSide(1)->links('dashboard.components.homePagination') }}
                             <!-- paginatoin end -->
                         </div>
                     </div>

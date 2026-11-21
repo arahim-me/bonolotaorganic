@@ -1,5 +1,22 @@
 @extends('layouts.master')
 @section('master')
+    <div class="container my-4">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ session('success') }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Warning!</strong> {{ session('error') }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
+
     <main id="main">
         <!-- contact-banner-touch start -->
         <section class="contact-banner-touch section-pt">
@@ -10,7 +27,8 @@
                         <div class="contact-banner">
                             <div class="banner-hover">
                                 <span class="d-block banner-img br-hidden">
-                                    <img src="{{ asset('frontend/assets/image/other/contact.jpg') }}" class="w-100 img-fluid" alt="contact">
+                                    <img src="{{ asset('frontend/assets/image/other/contact.jpg') }}"
+                                        class="w-100 img-fluid" alt="contact">
                                 </span>
                             </div>
                         </div>
@@ -33,7 +51,7 @@
                                         <div class="psl-15">
                                             <span class="d-block heading-color heading-weight">Address</span>
                                             @forelse ($siteInfo->address ?? [] as $address)
-                                                <span class="d-block mst-6">{{$address}}</span>
+                                                <span class="d-block mst-6">{{ $address }}</span>
                                             @empty
                                                 <span class="d-block mst-6">No address added</span>
                                             @endforelse
@@ -46,8 +64,8 @@
                                         <div class="psl-15">
                                             <span class="d-block heading-color heading-weight">Phone</span>
                                             @forelse ($siteInfo->phone ?? [] as $phone)
-                                                <span class="d-block mst-6"><a href="tel:{{$phone}}"
-                                                        class="d-inline-block body-primary-color">{{$phone}}</a></span>
+                                                <span class="d-block mst-6"><a href="tel:{{ $phone }}"
+                                                        class="d-inline-block body-primary-color">{{ $phone }}</a></span>
                                             @empty
                                                 <span class="d-block mst-6">No phone number added</span>
                                             @endforelse
@@ -60,8 +78,8 @@
                                         <div class="psl-15">
                                             <span class="d-block heading-color heading-weight">Email</span>
                                             @forelse ($siteInfo->email ?? [] as $email)
-                                                <span class="d-block mst-6"><a href="mailto:{{$email}}"
-                                                        class="d-inline-block body-primary-color">{{$email}}</a></span>
+                                                <span class="d-block mst-6"><a href="mailto:{{ $email }}"
+                                                        class="d-inline-block body-primary-color">{{ $email }}</a></span>
                                             @empty
                                                 <span class="d-block mst-6">No email address added</span>
                                             @endforelse
@@ -123,42 +141,53 @@
                         <h2 class="section-heading">Reach out today</h2>
                     </div>
                 </div>
-                <form method="post" action="javascript:void(0)">
+                <form method="POST" action="{{ route('dashboard.messages.store') }}">
+                    @csrf
                     <div class="row field-row">
                         <div class="col-12 col-md-6 field-col d-flex">
                             <div class="row field-row">
                                 <div class="col-12 field-col" data-animate="animate__fadeIn">
                                     <label for="name" class="field-label">Name</label>
                                     <input type="text" id="name" name="name" class="w-100"
-                                        placeholder="Full name" autocomplete="name">
+                                        placeholder="Full name" autocomplete="name" required>
                                 </div>
                                 <div class="col-12 field-col" data-animate="animate__fadeIn">
                                     <label for="email" class="field-label">Email</label>
-                                    <input type="email" id="email" name="email" class="w-100"
-                                        placeholder="Email" autocomplete="email">
+                                    <input type="email" id="email" name="email" class="w-100" placeholder="Email"
+                                        autocomplete="email" required>
                                 </div>
                                 <div class="col-12 field-col" data-animate="animate__fadeIn">
                                     <label for="phone" class="field-label">Phone number</label>
                                     <input type="text" id="phone" name="phone" class="w-100"
-                                        placeholder="Phone number" autocomplete="tel">
+                                        placeholder="Phone number" autocomplete="tel" required>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 field-col d-flex" data-animate="animate__fadeIn">
-                            <div class="d-flex flex-column w-100">
-                                <label for="message" class="field-label">Message</label>
-                                <textarea rows="5" id="message" name="message" class="w-100 height-md-100" placeholder="Message"
-                                    autocomplete="off"></textarea>
+                        <div class="col-12 col-md-6 field-col d-flex flex-column" data-animate="animate__fadeIn">
+
+                            {{-- Title --}}
+                            <div class="d-flex flex-column w-100 mb-3">
+                                <label for="title" class="field-label">Title</label>
+                                <input type="text" id="title" name="title" class="w-100" placeholder="Title"
+                                    autocomplete="title" required>
                             </div>
+
+                            {{-- Message --}}
+                            <div class="d-flex flex-column w-100 flex-grow-1">
+                                <label for="message" class="field-label">Message</label>
+                                <textarea id="message" name="message" class="w-100 flex-grow-1" placeholder="Message" autocomplete="off" required></textarea>
+                            </div>
+
                         </div>
                     </div>
                     <div class="contact-form-btn mst-15 mst-md-30">
                         <div class="row">
                             <div class="col-12 col-md-6 meb-11 meb-md-0" data-animate="animate__fadeIn">
                                 <label class="cust-checkbox-label checkbox-agree">
-                                    <input type="checkbox" class="cust-checkbox checkboxbtn">
+                                    <input type="checkbox" name="policy_accepted" value="1"
+                                        class="cust-checkbox checkboxbtn" required>
                                     <span class="d-block cust-check"></span>
-                                    <span class="login-read">I agree to the <a href="{{route('#')}}"
+                                    <span class="login-read">I agree to the <a href="{{ route('home.policies.show', 3) }}"
                                             class="body-secondary-color text-decoration-underline">rules & policies</a> and
                                         acknowledge that my info will be stored safely following the data guidelines.</span>
                                 </label>

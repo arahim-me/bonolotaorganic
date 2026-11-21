@@ -120,7 +120,7 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('categories.index')->with('success', 'Category created successfully!');
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category created successfully!');
     }
 
     public function show(Category $category)
@@ -176,14 +176,14 @@ class CategoryController extends Controller
             }
         }
 
-        return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category updated successfully!');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category deleted successfully!');
     }
 
     public function toggleStatus($id)

@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('reviews.create') }}" class="btn btn-primary">
+                    <a href="{{ route('dashboard.reviews.create') }}" class="btn btn-primary">
                         <i class="bx bx-plus"></i> Add Review
                     </a>
                 </div>
@@ -72,7 +72,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{{ route('reviews.toggle-status', $review->id) }}"
+                                    <a href="{{ route('dashboard.reviews.toggle-status', $review->id) }}"
                                         class="text-decoration-none">
                                         <button type="button" class="btn btn-sm"
                                             style="background-color: {{ $review->is_approved == true ? '#00d084' : '#e74c3c' }}; color: white; border: none;">
@@ -84,11 +84,11 @@
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2">
-                                        <a class="dropdown-item" href="{{ route('reviews.show', $review->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.reviews.show', $review->id) }}"><i
                                                 class="fa-solid fa-eye"></i></a>
-                                        <a class="dropdown-item" href="{{ route('reviews.edit', $review->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.reviews.edit', $review->id) }}"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('reviews.destroy', $review->id) }}" method="POST"
+                                        <form action="{{ route('dashboard.reviews.destroy', $review->id) }}" method="POST"
                                             class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this review?');">
                                             @csrf

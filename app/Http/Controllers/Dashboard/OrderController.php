@@ -127,6 +127,7 @@ class OrderController extends Controller
         $validated = $request->validated();
         $order = DB::transaction(function () use ($validated) {
             $onHoldStatusId = Status::where('slug', 'on-hold')->first()?->id;
+            $user = User::findOrFail($validated['user_id']);
             $requestedItems = collect($validated['items']);
             $productIds = $requestedItems->pluck('product_id')->unique()->values();
             $products = Product::whereKey($productIds)
@@ -158,8 +159,12 @@ class OrderController extends Controller
                 'user_id' => $validated['user_id'],
                 'order_number' => null,
                 'grand_total' => $grandTotal,
+                'total' => $grandTotal + $validated['shipping_fee'],
                 'status_id' => $onHoldStatusId,
                 'shipping_fee' => $validated['shipping_fee'],
+                'name' => $user->name,
+                'phone' => $user->phone,
+                'address' => $user->address,
                 'payment_method' => $validated['payment_method'],
                 'payment_status' => (bool) $validated['payment_status'],
             ]);
@@ -260,8 +265,12 @@ class OrderController extends Controller
                 'payment_method' => $validated['payment_method'],
                 'payment_status' => $validated['payment_status'],
                 'shipping_fee' => $shippingFee,
+                'name' => $order->user->name,
+                'phone' => $order->user->phone,
+                'address' => $order->user->address,
                 'subtotal' => $subtotal,
-                'grand_total' => $subtotal + $shippingFee,
+                'grand_total' => $subtotal,
+                'total' => $subtotal + $shippingFee,
             ]);
 
             // Replace Existing Order Items

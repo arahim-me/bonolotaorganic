@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('categories.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dashboard.categories.index') }}" class="btn btn-secondary">
                         <i class="bx bx-arrow-back"></i> Back
                     </a>
                 </div>
@@ -37,7 +37,7 @@
                     <h5 class="card-title mb-0">Category Information</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('dashboard.categories.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">

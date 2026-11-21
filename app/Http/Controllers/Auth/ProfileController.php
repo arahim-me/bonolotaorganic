@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('dashboard.profile.edit')->with('status', 'profile-updated');
     }
 
     public function updateAvatar(Request $request): RedirectResponse
@@ -58,17 +58,17 @@ class ProfileController extends Controller
         if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $extension = $file->getClientOriginalExtension() ?: 'jpg';
-            $filename = 'avatar-'.now()->timestamp.'-'.Str::random(6).'.'.$extension;
+            $filename = 'avatar-' . now()->timestamp . '-' . Str::random(6) . '.' . $extension;
             $directory = public_path('uploads/users/avatars');
 
-            if (! is_dir($directory)) {
+            if (!is_dir($directory)) {
                 mkdir($directory, 0755, true);
             }
 
             $file->move($directory, $filename);
 
             if ($user->avatar) {
-                $oldPath = public_path('uploads/users/avatars/'.$user->avatar);
+                $oldPath = public_path('uploads/users/avatars/' . $user->avatar);
                 if (file_exists($oldPath)) {
                     unlink($oldPath);
                 }
@@ -78,7 +78,7 @@ class ProfileController extends Controller
             $user->save();
         }
 
-        return Redirect::route('profile.edit')->with('status', 'avatar-updated');
+        return Redirect::route('dashboard.profile.edit')->with('status', 'avatar-updated');
     }
 
     public function updatePassword(Request $request): RedirectResponse
@@ -91,7 +91,7 @@ class ProfileController extends Controller
             'password' => bcrypt($validated['password']),
         ])->save();
 
-        return Redirect::route('profile.edit')->with('status', 'password-updated');
+        return Redirect::route('dashboard.profile.edit')->with('status', 'password-updated');
     }
 
     /**

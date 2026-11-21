@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('reviews.index') }}" class="btn btn-outline-secondary">Back to Reviews</a>
+                    <a href="{{ route('dashboard.reviews.index') }}" class="btn btn-outline-secondary">Back to Reviews</a>
                 </div>
             </div>
         </div>

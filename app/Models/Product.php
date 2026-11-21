@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -38,6 +39,7 @@ class Product extends Model
         'images' => 'array',
         'colors' => 'array',
         'sizes' => 'array',
+        'is_featured' => 'boolean',
     ];
 
     // Relation with Category
@@ -51,6 +53,27 @@ class Product extends Model
     {
         return $this->category?->name;
     }
+    // Relation with 6 new products
+    public function new()
+    {
+        return $this->belongsTo(Product::where('is_published', true)->latest()->paginate(6));
+    }
+    // Relation with 6 trend products
+    public function trend()
+    {
+        return $this->belongsTo(Product::where('is_published', true)->where('views', 'desc')->paginate(6));
+    }
+    // Relation with 6 featured products
+    public function featured()
+    {
+        return $this->belongsTo(Product::where('is_published', true)->where('is_featured', true)->paginate(6));
+    }
+    // Relation with 6 featured products
+    public function publish()
+    {
+        return $this->belongsTo(Product::where('is_published', true)->get());
+    }
+
     // Relation with product sizes
     public function sizes()
     {

@@ -33,6 +33,7 @@ return new class extends Migration {
             $table->integer('views')->default(0);
             $table->integer('sales')->default(0);
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_featured')->default(false);
             $table->foreignId('status_id')->default(1);
             $table->timestamps();
         });

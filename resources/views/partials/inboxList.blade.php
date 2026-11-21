@@ -1,15 +1,18 @@
-{{-- @php
-    $senderName = $message->sender?->name ?? $message->name;
-    $senderEmail = $message->sender?->email ?? $message->email;
-    $senderPhone = $message->sender?->phone ?? $message->phone;
-@endphp --}}
 @forelse($messages as $message)
+    @php
+        $sender = $message->sender;
+
+        $senderName = $sender?->name ?? ($message->name ?? 'Unknown');
+        $senderEmail = $sender?->email ?? ($message->email ?? '');
+        $senderPhone = $sender?->phone ?? ($message->phone ?? '');
+
+        $avatar = $sender?->avatar ?: 'user.png';
+    @endphp
+
     <div class="message-item {{ $message->is_read ? 'is-read' : 'is-unread' }}" data-id="{{ $message->id }}"
-        data-name="{{ $message->sender?->name ?? $message->name }}"
-        data-email="{{ $message->sender?->email ?? $message->email }}"
-        data-phone="{{ $message->sender?->phone ?? $message->phone }}" data-subject="{{ $message->title }}"
-        data-message="{{ $message->message }}"
-        data-avatar="{{ asset('uploads/users/avatars') }}/{{ $message->sender->avatar ?? 'user.png' }}"
+        data-name="{{ $senderName }}" data-email="{{ $senderEmail }}" data-phone="{{ $senderPhone }}"
+        data-subject="{{ $message->title }}" data-message="{{ $message->message }}"
+        data-avatar="{{ asset('uploads/users/avatars/' . $avatar) }}"
         data-date="{{ $message->created_at->format('d M Y, h:i A') }}" data-is-read="{{ $message->is_read ? '1' : '0' }}"
         data-read-by-name="{{ $message->reader?->name ?? '' }}" data-read-at="{{ $message->read_at }}"
         data-read-url="{{ route('dashboard.messages.read', $message->id) }}">
@@ -18,8 +21,7 @@
 
             {{-- Avatar --}}
             <div class="message-avatar">
-                <img src="{{ asset('uploads/users/avatars') }}/{{ $message->sender->avatar ?? 'user.png' }}"
-                    alt="{{ $message->name }}">
+                <img src="{{ asset('uploads/users/avatars/' . $avatar) }}" alt="{{ $senderName }}">
             </div>
 
             {{-- Message Information --}}
@@ -28,7 +30,7 @@
                 <div class="d-flex justify-content-between align-items-center">
 
                     <h6 class="sender-name mb-1">
-                        {{ $message->sender?->name ?? $message->name }}
+                        {{ $senderName }}
                     </h6>
 
                     <small class="text-muted">

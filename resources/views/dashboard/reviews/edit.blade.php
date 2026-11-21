@@ -13,7 +13,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('reviews.update', $review->id) }}" method="POST">
+            <form action="{{ route('dashboard.reviews.update', $review->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="row g-3">
@@ -69,7 +69,7 @@
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Update Review</button>
-                    <a href="{{ route('reviews.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="{{ route('dashboard.reviews.index') }}" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </form>
         </div>

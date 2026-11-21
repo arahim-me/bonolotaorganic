@@ -84,7 +84,7 @@
                     {{-- Pagination --}}
                     <div class="p-2 border-top" id="messagePagination">
 
-                        {{ $messages->links('pagination::bootstrap-5') }}
+                        {{ $messages->links('dashboard.components.pagination') }}
 
                     </div>
 
@@ -203,7 +203,10 @@
                 ?.getAttribute('content');
 
             const messageList = document.getElementById('messageList');
+
+            // Pagination element
             const pagination = document.getElementById('messagePagination');
+
             const searchInput = document.getElementById('messageSearch');
 
             const totalCount = document.getElementById('totalCount');
@@ -230,12 +233,20 @@
                     headers: {
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': csrfToken,
+                        'X-CSRF-TOKEN': csrfToken || '',
                         ...(options.headers || {})
                     }
                 });
 
-                const data = await response.json();
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch (error) {
+                    throw new Error(
+                        'Server returned an invalid response. Please check your route and controller.'
+                    );
+                }
 
                 if (!response.ok) {
                     throw new Error(data.message || 'Something went wrong.');
@@ -248,44 +259,65 @@
             // Update Counters
             function updateCounters(data) {
 
-                totalCount.textContent = data.total_count;
-                unreadCount.textContent = data.unread_count;
+                totalCount.textContent = data.total_count ?? 0;
+                unreadCount.textContent = data.unread_count ?? 0;
 
             }
 
 
             // Load Messages
+            // Load Messages
             async function loadMessages(page = 1) {
 
-                const selectedId = selectedMessage?.dataset.id || null;
+                // Preserve currently selected message
+                const previousSelectedMessage = selectedMessage;
+
+                const selectedId = previousSelectedMessage?.dataset.id || null;
 
                 const params = new URLSearchParams({
-                    search: searchInput.value,
+                    search: searchInput.value.trim(),
                     status: currentFilter,
                     page: page
                 });
 
                 try {
 
-                    const data = await ajaxRequest(`${filterUrl}?${params.toString()}`);
+                    const data = await ajaxRequest(
+                        `${filterUrl}?${params.toString()}`
+                    );
 
+                    // Update Message List
                     messageList.innerHTML = data.html;
+
                     pagination.innerHTML = data.pagination;
 
-                    currentPage = page;
+                    currentPage = data.current_page;
 
+                    // Update Counters
                     updateCounters(data);
 
-                    // Restore selected message after AJAX refresh
+
+                    // Restore Selected Message
                     if (selectedId) {
 
-                        const restored = messageList.querySelector(
-                            `.message-item[data-id="${selectedId}"]`
-                        );
+                        const restored = Array.from(
+                            messageList.querySelectorAll('.message-item')
+                        ).find(item => item.dataset.id === selectedId);
 
                         if (restored) {
 
+                            // Message still exists in current filter
                             selectMessage(restored, false);
+
+                        } else if (
+                            currentFilter === 'unread' &&
+                            previousSelectedMessage &&
+                            previousSelectedMessage.dataset.isRead === '1'
+                        ) {
+
+                            // Message became read, so it disappeared
+                            // from unread list. Keep showing its details.
+                            selectMessage(previousSelectedMessage, false);
 
                         } else {
 
@@ -297,13 +329,13 @@
 
                 } catch (error) {
 
-                    console.error(error);
+                    console.error('Message Loading Error:', error);
+
                     alert(error.message);
 
                 }
 
             }
-
 
             // Clear Details
             function clearDetails() {
@@ -342,7 +374,7 @@
                     item.dataset.phone || 'Phone not provided';
 
                 document.getElementById('detailDate').textContent =
-                    item.dataset.date;
+                    item.dataset.date || '';
 
 
                 // Avatar
@@ -351,8 +383,9 @@
                 if (item.dataset.avatar) {
 
                     const img = document.createElement('img');
+
                     img.src = item.dataset.avatar;
-                    img.alt = item.dataset.name;
+                    img.alt = item.dataset.name || 'Customer';
 
                     avatar.replaceChildren(img);
 
@@ -363,7 +396,7 @@
                     placeholder.className = 'avatar-placeholder';
 
                     placeholder.textContent =
-                        item.dataset.name.charAt(0).toUpperCase();
+                        (item.dataset.name || 'U').charAt(0).toUpperCase();
 
                     avatar.replaceChildren(placeholder);
 
@@ -372,10 +405,10 @@
 
                 // Message Information
                 document.getElementById('detailSubject').textContent =
-                    item.dataset.subject;
+                    item.dataset.subject || '';
 
                 document.getElementById('detailMessage').textContent =
-                    item.dataset.message;
+                    item.dataset.message || '';
 
 
                 updateReadButton();
@@ -384,9 +417,7 @@
 
                 // Automatically Read when opening an Unread Message
                 if (autoRead && item.dataset.isRead === '0') {
-
                     updateReadStatus();
-
                 }
 
             }
@@ -403,6 +434,7 @@
 
                     readButton.disabled = true;
                     readButton.className = 'btn btn-sm btn-success';
+
                     readButton.innerHTML =
                         '<i class="bi bi-check2-all"></i> Already Read';
 
@@ -410,13 +442,16 @@
 
                     readButton.disabled = isUpdating;
                     readButton.className = 'btn btn-sm btn-primary';
+
                     readButton.innerHTML =
                         '<i class="bi bi-check2-circle"></i> Mark as Read';
 
                 }
 
                 document.getElementById('detailStatus').textContent =
-                    isRead ? 'This message has been read.' : 'This message is unread.';
+                    isRead ?
+                    'This message has been read.' :
+                    'This message is unread.';
 
             }
 
@@ -452,9 +487,16 @@
             // Mark as Read - First Reader Only
             async function updateReadStatus() {
 
-                if (!selectedMessage || isUpdating) return;
+                const item = selectedMessage;
 
-                if (selectedMessage.dataset.isRead === '1') return;
+                if (!item || isUpdating) return;
+
+                if (item.dataset.isRead === '1') return;
+
+                if (!item.dataset.readUrl) {
+                    alert('Message read URL is missing.');
+                    return;
+                }
 
                 isUpdating = true;
 
@@ -462,39 +504,44 @@
 
                 try {
 
-                    const data = await ajaxRequest(
-                        selectedMessage.dataset.readUrl, {
-                            method: 'PATCH'
-                        }
-                    );
+                    const data = await ajaxRequest(item.dataset.readUrl, {
+                        method: 'PATCH'
+                    });
 
-                    const result = data.data;
+                    const result = data.data || {};
 
                     // Update selected item
-                    selectedMessage.dataset.isRead = '1';
+                    item.dataset.isRead = '1';
 
-                    selectedMessage.dataset.readByName =
+                    item.dataset.readByName =
                         result.read_by_name || '';
 
-                    selectedMessage.dataset.readAt =
+                    item.dataset.readAt =
                         result.read_at || '';
 
-                    selectedMessage.classList.remove('is-unread');
-                    selectedMessage.classList.add('is-read');
+                    item.classList.remove('is-unread');
+                    item.classList.add('is-read');
 
-                    updateReadButton();
-                    updateAuditInfo();
+
+                    if (selectedMessage === item) {
+
+                        updateReadButton();
+                        updateAuditInfo();
+
+                    }
 
                     // Refresh list and counters
                     await loadMessages(currentPage);
 
                 } catch (error) {
 
+                    console.error('Read Status Error:', error);
                     alert(error.message);
 
                 } finally {
 
                     isUpdating = false;
+
                     updateReadButton();
 
                 }
@@ -561,21 +608,27 @@
 
 
             // AJAX Pagination
-            pagination.addEventListener('click', function(event) {
+            if (pagination) {
 
-                const link = event.target.closest('a');
+                pagination.addEventListener('click', function(event) {
 
-                if (!link) return;
+                    const link = event.target.closest('a[href]');
 
-                event.preventDefault();
+                    if (!link) return;
 
-                const url = new URL(link.href);
+                    event.preventDefault();
 
-                const page = parseInt(url.searchParams.get('page')) || 1;
+                    const url = new URL(link.href, window.location.origin);
 
-                loadMessages(page);
+                    const page = parseInt(url.searchParams.get('page'), 10) || 1;
 
-            });
+                    if (page === currentPage) return;
+
+                    loadMessages(page);
+
+                });
+
+            }
 
         });
     </script>

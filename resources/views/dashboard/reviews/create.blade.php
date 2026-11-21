@@ -10,7 +10,7 @@
             </div>
             <div class="col">
                 <div class="float-end">
-                    <a href="{{ route('reviews.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dashboard.reviews.index') }}" class="btn btn-secondary">
                         <i class="bx bx-arrow-back"></i> Back
                     </a>
                 </div>
@@ -20,7 +20,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('reviews.store') }}" method="POST">
+            <form action="{{ route('dashboard.reviews.store') }}" method="POST">
                 @csrf
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -57,7 +57,7 @@
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">Save Review</button>
-                    <a href="{{ route('reviews.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="{{ route('dashboard.reviews.index') }}" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </form>
         </div>

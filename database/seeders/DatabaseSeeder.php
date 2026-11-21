@@ -75,6 +75,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ShippingFeeSeeder::class,
         ]);
+        // Seed the Courier Seeder
+        $this->call([
+            CourierSeeder::class,
+        ]);
         // Seed the Divisions
         // $this->call([
         //     DivisionSeeder::class,
