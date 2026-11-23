@@ -246,7 +246,7 @@
                             if(HeaderTarget.hasClass("sticky")) {
                                 HeaderTarget.css({"transform": "translateY(-" + targetHeight + "px)"});
                             } else {
-                                HeaderTarget.css({"transform": "translateY(0px)"}); 
+                                HeaderTarget.css({"transform": "translateY(0px)"});
                             }
                             if(HeaderTarget.hasClass("header-sticky")) {
                                 HeaderTarget.find(showHeaderFirst).css({"transform": "translateY(" + targetShowFirst + "px)"});
@@ -676,7 +676,7 @@
             $document.on("click", "button.shop-view-btn", function() {
                 var $shopViewBtn = $("button.shop-view-btn");
                 $shopViewBtn.removeClass("primary-color disabled").addClass("body-color");
-                $(this).addClass("primary-color disabled").removeClass("body-color");                
+                $(this).addClass("primary-color disabled").removeClass("body-color");
                 var $shopProductWrap = $(".shop-product-wrap"),
                     $dataView = $(this).attr("data-view");
                 if($shopProductWrap.hasClass("data-grid") || $shopProductWrap.hasClass("data-list")) {
@@ -1118,7 +1118,7 @@
                     // fill empty stars
                     for(var j = $fullStars + (($halfStar > 0) ? 1 : 0); j < 5; j++) {
                         $productReview.find(".product-star .product-ratting span.review-ratting span.review-star i:eq(" + j + ")").addClass("ri-star-line");
-                    }                    
+                    }
                 }
                 update();
                 // rating functionality
@@ -1785,7 +1785,7 @@
                 $accInfo.find(".acc-edit").addClass("d-none");
                 $accInfo.find(".acc-detail-info").addClass("d-none");
                 $accInfo.find(".acc-detail-form").removeClass("d-none");
-            });            
+            });
             $document.on("click", "form button.acc-save, form button.acc-cancel", function() {
                 var $accDetailForm = $(this).closest(".acc-detail-form");
                 $accDetailForm.addClass("d-none");
@@ -2020,7 +2020,7 @@
                 $attachmentCount.text($fileCount + " attachments");
                 if($fileCount === 0) {
                     $attachmentCount.addClass("d-none");
-                } else {                    
+                } else {
                     $attachmentCount.removeClass("d-none");
                 }
             }

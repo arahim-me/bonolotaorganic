@@ -362,6 +362,9 @@ class ProductController extends Controller
         // Delete product sizes
         $product->sizes()->delete();
 
+        // Delete product reviews
+        $product->reviews()->delete();
+
         if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
             unlink(public_path($product->thumbnail));
         }
@@ -428,4 +431,24 @@ class ProductController extends Controller
             'Product publication status updated successfully.'
         );
     }
+    public function toggleFeatured(Request $request, Product $product)
+    {
+        // return $product->is_featured;
+        $updated = $product->update([
+            'is_featured' => !$product->is_featured,
+        ]);
+
+        if ($updated) {
+            return back()->with(
+                'success',
+                'Product Featured status updated successfully.'
+            );
+        } else {
+            return back()->with(
+                'success',
+                'Product Featured status could not be updated successfully.'
+            );
+        }
+    }
+
 }

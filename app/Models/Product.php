@@ -31,14 +31,13 @@ class Product extends Model
         'views',
         'sales',
         'is_published',
+        'is_featured',
         'status_id',
     ];
 
     // Attribute casting
     protected $casts = [
         'images' => 'array',
-        'colors' => 'array',
-        'sizes' => 'array',
         'is_featured' => 'boolean',
     ];
 
@@ -48,30 +47,16 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    public function relatedProducts(): HasMany
+    {
+        return $this->hasMany(Product::class, 'category_id', 'category_id')
+            ->where('is_published', true)
+            ->where('id', '!=', $this->id);
+    }
     // Accessor for category name
     public function getCategoryNameAttribute(): ?string
     {
         return $this->category?->name;
-    }
-    // Relation with 6 new products
-    public function new()
-    {
-        return $this->belongsTo(Product::where('is_published', true)->latest()->paginate(6));
-    }
-    // Relation with 6 trend products
-    public function trend()
-    {
-        return $this->belongsTo(Product::where('is_published', true)->where('views', 'desc')->paginate(6));
-    }
-    // Relation with 6 featured products
-    public function featured()
-    {
-        return $this->belongsTo(Product::where('is_published', true)->where('is_featured', true)->paginate(6));
-    }
-    // Relation with 6 featured products
-    public function publish()
-    {
-        return $this->belongsTo(Product::where('is_published', true)->get());
     }
 
     // Relation with product sizes
@@ -79,7 +64,8 @@ class Product extends Model
     {
         return $this->hasMany(Size::class, 'product_id', 'id');
     }
-    // Relation with product colors
+
+    // Relation with color
     public function colors()
     {
         return $this->hasMany(Color::class, 'product_id', 'id');

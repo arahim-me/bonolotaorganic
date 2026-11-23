@@ -63,9 +63,13 @@ Route::middleware([AdminRoleMiddleware::class . ':1,2'])->prefix('dashboard')->n
     Route::get('products/filter', [ProductController::class, 'filter'])->name('products.filter');
     Route::resource('products', ProductController::class);
     Route::patch(
-        '/admin/products/{product}/toggle-published',
+        '/products/{product}/toggle-published',
         [ProductController::class, 'togglePublished']
     )->name('products.togglePublished');
+    Route::patch(
+        '/products/{product}/toggle-featured',
+        [ProductController::class, 'toggleFeatured']
+    )->name('products.toggleFeatured');
     Route::post('products/{product}/images', [
         ProductController::class,
         'uploadImages'

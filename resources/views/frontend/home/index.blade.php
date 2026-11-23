@@ -167,7 +167,8 @@
                                                 <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
                                                     class="w-100 img-fluid" alt="collection-1">
                                             </a>
-                                            <a href="{{route('category.products', [$category->id, $category->slug])}}" class="d-block d-xl-none banner-img br-hidden">
+                                            <a href="{{ route('category.products', [$category->id, $category->slug]) }}"
+                                                class="d-block d-xl-none banner-img br-hidden">
                                                 <img src="{{ asset('uploads/categories') }}/{{ $category->image ?? 'default.png' }}"
                                                     class="w-100 img-fluid" alt="collection-1">
                                             </a>
@@ -452,40 +453,67 @@
                             <div class="collection-wrap">
                                 <div class="collection-product-slider swiper" id="trend-product-slider">
                                     <div class="swiper-wrapper">
-                                        @foreach ($trend_products as $trend_product)
+                                        @foreach ($trend_products as $product)
                                             <div class="swiper-slide" data-animate="animate__fadeIn">
                                                 <div class="single-product">
                                                     <div class="row single-product-wrap">
                                                         <div class="product-image-col">
                                                             <div class="product-image">
-                                                                <a href="{{ route('products.show', [$trend_product->id, $trend_product->slug]) }}" class="pro-img">
-                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail ?? 'default.png' }}"
+                                                                <a href="{{ route('products.show', [$product->id, $product->slug]) }}"
+                                                                    class="pro-img">
+                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                         class="w-100 img-fluid img1"
-                                                                        alt="{{ $trend_product->name }}">
-                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $trend_product->thumbnail ?? 'default.png' }}"
+                                                                        alt="{{ $product->name }}">
+                                                                    <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                         class="w-100 img-fluid img2"
-                                                                        alt="{{ $trend_product->name }}">
+                                                                        alt="{{ $product->name }}">
                                                                 </a>
                                                                 <div class="product-action-wrap">
                                                                     <div class="product-action">
                                                                         <a href="javascript:void(0)"
-                                                                            class="add-to-wishlist">
-                                                                            <span class="product-icon"><i
-                                                                                    class="ri-heart-line d-block icon-16 lh-1"></i></span>
+                                                                            class="add-to-wishlist"
+                                                                            data-id="{{ $product->id }}"
+                                                                            data-name="{{ $product->name }}"
+                                                                            data-slug="{{ $product->slug }}"
+                                                                            data-has-variants="{{ $product->sizes->isNotEmpty() || $product->colors->isNotEmpty() ? '1' : '0' }}"
+                                                                            data-url="{{ route('products.show', [$product->id, $product->slug]) }}"
+                                                                            data-price="{{ $product->price }}"
+                                                                            data-image="{{ asset('uploads/products/thumbnails/' . ($product->thumbnail ?? 'default.png')) }}"
+                                                                            data-stock="{{ $product->stock }}">
+
+                                                                            <span class="product-icon">
+                                                                                <i
+                                                                                    class="ri-heart-line d-block icon-16 lh-1"></i>
+                                                                            </span>
+
                                                                             <span class="tooltip-text">wishlist</span>
                                                                         </a>
-                                                                        <a href="javascript:void(0)" class="add-to-cart">
+
+                                                                        <a href="javascript:void(0)" class="add-to-cart"
+                                                                            data-id="{{ $product->id }}"
+                                                                            data-name="{{ $product->name }}"
+                                                                            data-price="{{ (float) $product->price }}"
+                                                                            data-image="{{ asset('uploads/products/thumbnails/' . $product->thumbnail ?? 'default.png') }}"
+                                                                            data-url="{{ route('products.show', $product->id) }}">
+
                                                                             <span class="product-icon">
-                                                                                <span class="product-bag-icon icon-16"><i
-                                                                                        class="ri-shopping-bag-3-line d-block lh-1"></i></span>
-                                                                                <span
-                                                                                    class="product-loader-icon icon-16"><i
-                                                                                        class="ri-loader-4-line d-block lh-1"></i></span>
-                                                                                <span class="product-check-icon icon-16"><i
-                                                                                        class="ri-check-line d-block lh-1"></i></span>
+                                                                                <span class="product-bag-icon icon-16">
+                                                                                    <i
+                                                                                        class="ri-shopping-bag-3-line d-block lh-1"></i>
+                                                                                </span>
+                                                                                <span class="product-loader-icon icon-16">
+                                                                                    <i
+                                                                                        class="ri-loader-4-line d-block lh-1"></i>
+                                                                                </span>
+                                                                                <span class="product-check-icon icon-16">
+                                                                                    <i
+                                                                                        class="ri-check-line d-block lh-1"></i>
+                                                                                </span>
                                                                             </span>
+
                                                                             <span class="tooltip-text">add to cart</span>
                                                                         </a>
+
                                                                         <a href="#quickview-modal" data-bs-toggle="modal"
                                                                             class="quick-view">
                                                                             <span class="product-icon"><i
@@ -500,18 +528,18 @@
                                                             <div class="pro-content">
                                                                 <div class="product-title">
                                                                     <span
-                                                                        class="d-block meb-7">{{ $trend_product->name }}</span>
+                                                                        class="d-block meb-7">{{ $product->name }}</span>
                                                                     <span class="d-block heading-weight"><a
-                                                                            href="{{ route('products.show', [$trend_product->id, $trend_product->slug]) }}"
-                                                                            class="primary-link">{{ $trend_product->type }}</a></span>
+                                                                            href="{{ route('products.show', [$product->id, $product->slug]) }}"
+                                                                            class="primary-link">{{ $product->type }}</a></span>
                                                                 </div>
                                                                 <div class="product-price">
                                                                     <div class="price-box heading-weight">
                                                                         <span
-                                                                            class="new-price primary-color">${{ number_format($trend_product->price, 2) }}</span>
+                                                                            class="new-price primary-color">${{ number_format($product->price, 2) }}</span>
                                                                         <span class="old-price"><span
                                                                                 class="mer-3">~</span><span
-                                                                                class="text-decoration-line-through">${{ number_format($trend_product->old_price, 2) }}</span></span>
+                                                                                class="text-decoration-line-through">${{ number_format($product->old_price, 2) }}</span></span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="product-ratting">
@@ -689,13 +717,14 @@
                                             <div class="row single-product-wrap">
                                                 <div class="product-image-col">
                                                     <div class="product-image">
-                                                        <a href="product.html" class="pro-img">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/p-11.jpg"
+                                                        <a href="{{ route('products.show', $product->id) }}"
+                                                            class="pro-img">
+                                                            <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->thumbnail ?? 'default.png' }}"
                                                                 class="w-100 img-fluid img1" alt="p-11">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/p-12.jpg"
+                                                            <img src="{{ asset('uploads/products/images') }}/{{ $product->images[0] ?? 'default.png' }}"
                                                                 class="w-100 img-fluid img2" alt="p-12">
                                                             <span
-                                                                class="product-label product-label-sale product-label-left">Sale</span>
+                                                                class="product-label product-label-sale product-label-left">{{ $product->highlight }}</span>
                                                         </a>
                                                         <div class="product-action-wrap">
                                                             <div class="product-action">
@@ -728,15 +757,18 @@
                                                 <div class="product-content">
                                                     <div class="pro-content">
                                                         <div class="product-title">
-                                                            <span class="d-block meb-7">Viscose / Sleeveless</span>
-                                                            <span class="d-block heading-weight"><a href="product.html"
-                                                                    class="primary-link">Flowy midi dress</a></span>
+                                                            <span class="d-block meb-7">{{ $product->category->name }} /
+                                                                {{ $product->type }}</span>
+                                                            <span class="d-block heading-weight"><a
+                                                                    href="{{ route('products.show', $product->id) }}"
+                                                                    class="primary-link">{{ $product->name }}</a></span>
                                                         </div>
                                                         <div class="product-price">
                                                             <div class="price-box heading-weight">
-                                                                <span class="new-price primary-color">$79.00</span>
+                                                                <span
+                                                                    class="new-price primary-color">${{ number_format($product->price, 2) }}</span>
                                                                 <span class="old-price"><span class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">$84.00</span></span>
+                                                                        class="text-decoration-line-through">${{ number_format($product->old_price, 2) }}</span></span>
                                                             </div>
                                                         </div>
                                                         <div class="product-ratting">
@@ -898,7 +930,7 @@
                                         </div>
                                     </div>
                                 @endforelse
-                                <div class="swiper-slide" data-animate="animate__fadeIn">
+                                {{-- <div class="swiper-slide" data-animate="animate__fadeIn">
                                     <div class="single-product">
                                         <div class="row single-product-wrap">
                                             <div class="product-image-col">
@@ -1511,7 +1543,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="swiper-buttons">
@@ -1674,8 +1706,7 @@
                                         aria-label="Arrow previous"><i
                                             class="ri-arrow-left-line d-block lh-1"></i></button>
                                     <button type="button" class="swiper-next swiper-next-testi"
-                                        aria-label="Arrow next"><i
-                                            class="ri-arrow-right-line d-block lh-1"></i></button>
+                                        aria-label="Arrow next"><i class="ri-arrow-right-line d-block lh-1"></i></button>
                                 </div>
                             </div>
                             <div class="swiper-dots" data-animate="animate__fadeIn">
@@ -1715,8 +1746,7 @@
                                                             </a>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -1778,8 +1808,7 @@
                                                             </div>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -1823,8 +1852,7 @@
                                                             </a>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -1855,8 +1883,8 @@
                                                             <div class="product-title">
                                                                 <span class="d-block meb-7">Wool blend / Business</span>
                                                                 <span class="d-block heading-weight"><a
-                                                                        href="product.html"
-                                                                        class="primary-link">Tailored blazer
+                                                                        href="product.html" class="primary-link">Tailored
+                                                                        blazer
                                                                         jacket</a></span>
                                                             </div>
                                                             <div class="product-price">
@@ -1887,8 +1915,7 @@
                                                             </div>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -1930,8 +1957,7 @@
                                                             </a>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -1993,8 +2019,7 @@
                                                             </div>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -2039,8 +2064,7 @@
                                                             </a>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -2102,8 +2126,7 @@
                                                             </div>
                                                             <div class="product-action-wrap">
                                                                 <div class="product-action">
-                                                                    <a href="javascript:void(0)"
-                                                                        class="add-to-wishlist">
+                                                                    <a href="javascript:void(0)" class="add-to-wishlist">
                                                                         <span class="product-icon"><i
                                                                                 class="ri-heart-line d-block icon-16 lh-1"></i></span>
                                                                         <span class="tooltip-text">wishlist</span>
@@ -2490,4 +2513,47 @@
         </section>
         <!-- blog-area end -->
     </main>
+    <script>
+        // Wishlist button click
+        document.addEventListener('click', function(event) {
+
+            const button = event.target.closest('.add-to-wishlist');
+
+            if (!button) return;
+
+            event.preventDefault();
+
+            const product = {
+                id: button.dataset.id,
+                name: button.dataset.name,
+                slug: button.dataset.slug,
+                url: button.dataset.url,
+                price: Number(button.dataset.price),
+                image: button.dataset.image,
+                stock: Number(button.dataset.stock)
+            };
+
+            if (!product.id) return;
+
+            toggleWishlist(product);
+
+        });
+
+        function updateWishlistButtons() {
+
+            document.querySelectorAll('.add-to-wishlist').forEach(button => {
+
+                const active = isInWishlist(button.dataset.id);
+                const icon = button.querySelector('i');
+
+                button.classList.toggle('active', active);
+
+                if (icon) {
+                    icon.classList.toggle('ri-heart-fill', active);
+                    icon.classList.toggle('ri-heart-line', !active);
+                }
+
+            });
+        }
+    </script>
 @endsection

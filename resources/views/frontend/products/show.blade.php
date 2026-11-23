@@ -1,16 +1,6 @@
 @extends('layouts.master')
 @section('title', $title ?? 'Product Detail')
 @section('master')
-    <!-- breadcrumb-area start -->
-    <div class="breadcrumb-area ptb-30 bg-img text-center"
-        data-bgimg="{{ asset('frontend') }}/assets/image/other/breadcrumb-bgimg.jpg">
-        <div class="container">
-            <span class="d-block extra-color"><a href="index-2.html" class="extra-color">Products</a> /
-                {{ $product->name }}</span>
-            <h2 class="extra-color font-24 font-xl-32 mst-5 mst-xl-9">{{ $product->name }}</h2>
-        </div>
-    </div>
-    <!-- breadcrumb-area end -->
     <!-- main start -->
     <main id="main">
         <!-- product-detail start -->
@@ -260,44 +250,47 @@
                                                     guide</span></a></span>
                                         <div class="product-option-block size">
                                             <ul class="ul-mt5">
-                                                @if ($product->sizes)
-                                                    @foreach ($product->sizes as $size)
-                                                        <li>
-                                                            <label class="cust-checkbox-label">
-                                                                <input type="radio" name="size"
-                                                                    @if ($loop->first) checked @endif
-                                                                    class="cust-checkbox" value="{{ $size }}">
-                                                                <span
-                                                                    class="d-flex align-items-center justify-content-center cust-check">{{ $size }}</span>
-                                                            </label>
-                                                        </li>
-                                                    @endforeach
-                                                @else
+                                                @forelse ($product->sizes as $size)
+                                                    <li>
+                                                        <label class="cust-checkbox-label">
+                                                            <input type="radio" name="size"
+                                                                @if ($loop->first) checked @endif
+                                                                class="cust-checkbox" value="{{ $size->size }}">
+                                                            <span
+                                                                class="d-flex align-items-center justify-content-center cust-check">{{ $size->size }}</span>
+                                                        </label>
+                                                    </li>
+
+                                                @empty
                                                     <li>No sizes available</li>
-                                                @endif
+                                                @endforelse
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="product-variant-option mst-15">
-                                        <span class="d-inline-block meb-11"><span
-                                                class="heading-color heading-weight">Color:</span> Choose a color</span>
+                                        <span class="d-inline-block meb-11">
+                                            <span class="heading-color heading-weight">Color:</span>
+                                            Choose a color
+                                        </span>
+
                                         <div class="product-option-block color">
                                             <ul class="ul-mt10">
-                                                @if ($product->colors)
-                                                    @foreach ($product->colors as $color)
-                                                        <li>
-                                                            <label class="cust-checkbox-label">
-                                                                <input type="radio" name="color"
-                                                                    @if ($loop->first) checked @endif
-                                                                    class="cust-checkbox" value="{{ $color }}">
-                                                                <span
-                                                                    class="d-block cust-check {{ $color }}"></span>
-                                                            </label>
-                                                        </li>
-                                                    @endforeach
-                                                @else
+                                                @forelse ($product->colors as $color)
+                                                    <li>
+                                                        <label class="cust-checkbox-label">
+                                                            <input type="radio" name="color"
+                                                                value="{{ $color->color }}" @checked($loop->first)
+                                                                class="cust-checkbox">
+
+                                                            <span class="d-block cust-check"
+                                                                style="background-color: {{ strtolower($color->color) }} !important;"
+                                                                title="{{ $color->color }}">
+                                                            </span>
+                                                        </label>
+                                                    </li>
+                                                @empty
                                                     <li>No colors available</li>
-                                                @endif
+                                                @endforelse
                                             </ul>
                                         </div>
                                     </div>
@@ -1027,6 +1020,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- product-detail-info end -->
                         <!-- product-detail-tab start -->
                         <div class="product-detail-tab pst-30 psl-xxl-20">
@@ -1057,22 +1051,19 @@
                                             <li><span class="heading-color heading-weight">Care instructions:</span>
                                                 Machine wash cold, Do not bleach, Hang to dry</li>
                                             <li><span class="heading-color heading-weight">Sizes:</span>
-                                                @if ($product->sizes)
-                                                    @foreach ($product->sizes as $size)
-                                                        {{ $size }},
-                                                    @endforeach
-                                                @else
+
+                                                @forelse ($product->sizes as $size)
+                                                    {{ $size->size }},
+                                                @empty
                                                     Not available
-                                                @endif
+                                                @endforelse
                                             </li>
                                             <li><span class="heading-color heading-weight">Colors:</span>
-                                                @if ($product->colors)
-                                                    @foreach ($product->colors as $color)
-                                                        {{ $color }},
-                                                    @endforeach
-                                                @else
+                                                @forelse ($product->colors as $color)
+                                                    {{ $color->color }},
+                                                @empty
                                                     Not available
-                                                @endif
+                                                @endforelse
                                             </li>
                                         </ul>
                                     </div>
@@ -1336,7 +1327,7 @@
                                                                         <span
                                                                             class="width-48 height-48 primary-color icon-16 d-flex align-items-center justify-content-center overflow-hidden rounded-circle">
                                                                             @if ($review->user?->avatar)
-                                                                                <img src="{{ asset('storage/' . $review->user->avatar) }}"
+                                                                                <img src="{{ asset('uploads/users/avatars/' . $review->user->avatar ?? 'user.png') }}"
                                                                                     class="width-48 height-48 object-fit-cover"
                                                                                     alt="{{ $review->user->name }}">
                                                                             @else
@@ -1739,19 +1730,19 @@
         </section>
         <!-- product-detail end -->
         <!-- related-product start -->
-        <section class="related-area section-ptb">
-            <div class="container">
-                <div class="collection-category">
-                    <div class="section-capture text-center" data-animate="animate__fadeIn">
-                        <div class="section-title">
-                            <h2 class="section-heading">Related product</h2>
+        @if ($product->relatedProducts)
+            <section class="related-area section-ptb">
+                <div class="container">
+                    <div class="collection-category">
+                        <div class="section-capture text-center" data-animate="animate__fadeIn">
+                            <div class="section-title">
+                                <h2 class="section-heading">Related product</h2>
+                            </div>
                         </div>
-                    </div>
-                    <div class="collection-wrap">
-                        <div class="related-slider swiper" id="related-slider">
-                            <div class="swiper-wrapper">
-                                @if ($related_products)
-                                    @foreach ($related_products as $product)
+                        <div class="collection-wrap">
+                            <div class="related-slider swiper" id="related-slider">
+                                <div class="swiper-wrapper">
+                                    @foreach ($product->relatedProducts as $product)
                                         <div class="swiper-slide" data-animate="animate__fadeIn">
                                             <div class="single-product">
                                                 <div class="row single-product-wrap">
@@ -1795,7 +1786,9 @@
                                                     <div class="product-content">
                                                         <div class="pro-content">
                                                             <div class="product-title">
-                                                                <span class="d-block meb-7">{{ $product->type }}</span>
+                                                                <span
+                                                                    class="d-block meb-7">{{ $product->category?->name ?? 'Uncategorized' }}
+                                                                    | {{ $product->type }}</span>
                                                                 <span class="d-block heading-weight"><a
                                                                         href="{{ route('products.show', $product->id) }}"
                                                                         class="primary-link">{{ $product->name }}</a></span>
@@ -1826,7 +1819,8 @@
                                                             <div class="product-description">
                                                                 <p>Lorem Ipsum is simply dummy text of the printing and
                                                                     typesetting
-                                                                    industry It is a long established fact that a will be
+                                                                    industry It is a long established fact that a will
+                                                                    be
                                                                     distracted
                                                                     by the readable of at</p>
                                                             </div>
@@ -1862,131 +1856,25 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                @else
-                                    <div class="swiper-slide" data-animate="animate__fadeIn">
-                                        <div class="single-product">
-                                            <div class="row single-product-wrap">
-                                                <div class="product-image-col">
-                                                    <div class="product-image">
-                                                        <a href="{{ route('products.show', $product->id) }}"
-                                                            class="pro-img">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/p-1.jpg"
-                                                                class="w-100 img-fluid img1" alt="p-1">
-                                                            <img src="{{ asset('frontend') }}/assets/image/product/p-2.jpg"
-                                                                class="w-100 img-fluid img2" alt="p-2">
-                                                        </a>
-                                                        <div class="product-action-wrap">
-                                                            <div class="product-action">
-                                                                <a href="javascript:void(0)" class="add-to-wishlist">
-                                                                    <span class="product-icon"><i
-                                                                            class="ri-heart-line d-block icon-16 lh-1"></i></span>
-                                                                    <span class="tooltip-text">wishlist</span>
-                                                                </a>
-                                                                <a href="javascript:void(0)" class="add-to-cart">
-                                                                    <span class="product-icon">
-                                                                        <span class="product-bag-icon icon-16"><i
-                                                                                class="ri-shopping-bag-3-line d-block lh-1"></i></span>
-                                                                        <span class="product-loader-icon icon-16"><i
-                                                                                class="ri-loader-4-line d-block lh-1"></i></span>
-                                                                        <span class="product-check-icon icon-16"><i
-                                                                                class="ri-check-line d-block lh-1"></i></span>
-                                                                    </span>
-                                                                    <span class="tooltip-text">add to cart</span>
-                                                                </a>
-                                                                <a href="#quickview-modal" data-bs-toggle="modal"
-                                                                    class="quick-view">
-                                                                    <span class="product-icon"><i
-                                                                            class="ri-eye-line d-block icon-16 lh-1"></i></span>
-                                                                    <span class="tooltip-text">quickview</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="pro-content">
-                                                        <div class="product-title">
-                                                            <span class="d-block meb-7">Polyester / Chic</span>
-                                                            <span class="d-block heading-weight"><a href="product.html"
-                                                                    class="primary-link">Pleated skater skirt</a></span>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <div class="price-box heading-weight">
-                                                                <span class="new-price primary-color">$79.00</span>
-                                                                <span class="old-price"><span class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">$89.00</span></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product-ratting">
-                                                            <span class="review-ratting">
-                                                                <span class="review-star">
-                                                                    <i class="ri-star-fill"></i>
-                                                                    <i class="ri-star-fill"></i>
-                                                                    <i class="ri-star-fill"></i>
-                                                                    <i class="ri-star-fill"></i>
-                                                                    <i class="ri-star-line"></i>
-                                                                </span>
-                                                                <span class="review-average">4.0<span
-                                                                        class="review-caption">2
-                                                                        reviews</span></span>
-                                                            </span>
-                                                        </div>
-                                                        <div class="product-description">
-                                                            <p>Lorem Ipsum is simply dummy text of the printing and
-                                                                typesetting
-                                                                industry It is a long established fact that a will be
-                                                                distracted
-                                                                by the readable of at</p>
-                                                        </div>
-                                                        <div class="product-action-wrap">
-                                                            <div class="product-action">
-                                                                <a href="javascript:void(0)" class="add-to-wishlist">
-                                                                    <span class="product-icon"><i
-                                                                            class="ri-heart-line d-block icon-16 lh-1"></i></span>
-                                                                    <span class="tooltip-text">wishlist</span>
-                                                                </a>
-                                                                <a href="javascript:void(0)" class="add-to-cart">
-                                                                    <span class="product-icon">
-                                                                        <span class="product-bag-icon icon-16"><i
-                                                                                class="ri-shopping-bag-3-line d-block lh-1"></i></span>
-                                                                        <span class="product-loader-icon icon-16"><i
-                                                                                class="ri-loader-4-line d-block lh-1"></i></span>
-                                                                        <span class="product-check-icon icon-16"><i
-                                                                                class="ri-check-line d-block lh-1"></i></span>
-                                                                    </span>
-                                                                    <span class="tooltip-text">add to cart</span>
-                                                                </a>
-                                                                <a href="#quickview-modal" data-bs-toggle="modal"
-                                                                    class="quick-view">
-                                                                    <span class="product-icon"><i
-                                                                            class="ri-eye-line d-block icon-16 lh-1"></i></span>
-                                                                    <span class="tooltip-text">quickview</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-buttons">
-                            <div class="swiper-buttons-wrap">
-                                <button type="button" class="swiper-prev swiper-prev-related"
-                                    aria-label="Arrow previous"><i class="ri-arrow-left-line d-block lh-1"></i></button>
-                                <button type="button" class="swiper-next swiper-next-related" aria-label="Arrow next"><i
-                                        class="ri-arrow-right-line d-block lh-1"></i></button>
+                            <div class="swiper-buttons">
+                                <div class="swiper-buttons-wrap">
+                                    <button type="button" class="swiper-prev swiper-prev-related"
+                                        aria-label="Arrow previous"><i
+                                            class="ri-arrow-left-line d-block lh-1"></i></button>
+                                    <button type="button" class="swiper-next swiper-next-related"
+                                        aria-label="Arrow next"><i class="ri-arrow-right-line d-block lh-1"></i></button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-dots" data-animate="animate__fadeIn">
-                            <div class="swiper-pagination swiper-pagination-related"></div>
+                            <div class="swiper-dots" data-animate="animate__fadeIn">
+                                <div class="swiper-pagination swiper-pagination-related"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
         <!-- related-product end -->
     </main>
     <!-- main end -->

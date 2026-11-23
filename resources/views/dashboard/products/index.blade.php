@@ -122,6 +122,7 @@
                             <th>Price</th>
                             <th>Stock</th>
                             <th>Publishable</th>
+                            <th>Featured</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -146,7 +147,8 @@
                                     <span class="badge bg-info">{{ $product->stock ?? 0 }}</span>
                                 </td>
                                 <td>
-                                    <form action="{{ route('dashboard.products.togglePublished', $product->id) }}" method="POST">
+                                    <form action="{{ route('dashboard.products.togglePublished', $product->id) }}"
+                                        method="POST">
                                         @csrf
                                         @method('PATCH')
 
@@ -155,21 +157,30 @@
                                                 name="is_published" value="1" id="published_{{ $product->id }}"
                                                 onchange="this.form.submit()"
                                                 {{ $product->is_published ? 'checked' : '' }}>
-
-                                            <label class="form-check-label" for="published_{{ $product->id }}">
-                                                {{ $product->is_published ? 'Published' : 'Unpublished' }}
-                                            </label>
+                                        </div>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="{{ route('dashboard.products.toggleFeatured', $product->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                name="is_featured" value="1" id="featured_{{ $product->id }}"
+                                                onchange="this.form.submit()" {{ $product->is_featured ? 'checked' : '' }}>
                                         </div>
                                     </form>
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2" width="100px">
-                                        <a class="dropdown-item" href="{{ route('dashboard.products.show', $product->id) }}"><i
+                                        <a class="dropdown-item"
+                                            href="{{ route('dashboard.products.show', $product->id) }}"><i
                                                 class="fa-solid fa-eye"></i></a><a class="dropdown-item"
                                             href="{{ route('dashboard.products.edit', $product->id) }}"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('dashboard.products.destroy', $product->id) }}" method="POST"
-                                            class="m-0"
+                                        <form action="{{ route('dashboard.products.destroy', $product->id) }}"
+                                            method="POST" class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this product?');">
                                             @csrf
                                             @method('DELETE')

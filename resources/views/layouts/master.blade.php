@@ -13,6 +13,9 @@
     <meta name="keywords"
         content="fashion eCommerce template, clothing store HTML5, Bootstrap 5 fashion shop, online boutique HTML, apparel shop website, responsive fashion template">
     <meta name="author" content="spacingtech_webify">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="search-suggestions-url" content="{{ route('products.suggestions') }}">
+    <meta name="cart-products-url" content="{{ route('cart.products') }}">
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
         integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
@@ -31,6 +34,7 @@
     <!-- style css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/style.css">
 </head>
+{{-- @include('frontend.partials.cart-script') --}}
 
 <body>
     <!-- preloader start -->
@@ -214,174 +218,59 @@
                         <div class="col-6 col-xl-4 col-xxl-5 header-element header-icon">
                             <div class="header-icon-block d-flex justify-content-end">
                                 <!-- header-search start -->
+
                                 <div class="header-search w-100 d-none d-xxl-block per-15">
                                     <div class="header-theme-search w-100">
-                                        <form method="get" action="javascript:void(0)" class="search-form w-100">
+
+                                        <form method="GET" action="{{ route('products') }}"
+                                            class="search-form w-100">
+
                                             <div class="search-bar position-relative">
+
                                                 <div class="form-search d-flex">
-                                                    <input type="search" name="search-input"
-                                                        class="w-100 search-input" value=""
-                                                        placeholder="Search product..." required>
+
+                                                    <input type="search" name="q" class="w-100 search-input"
+                                                        value="{{ request('q') }}" placeholder="Search product..."
+                                                        autocomplete="off" required>
+
                                                     <button type="submit"
-                                                        onclick="window.location.href='search-product.html'"
-                                                        class="d-block tertiary-btn plr-15 text-uppercase text-nowrap heading-weight"
-                                                        disabled>Search</button>
+                                                        class="d-block tertiary-btn plr-15 text-uppercase text-nowrap heading-weight search-btn"
+                                                        disabled>
+                                                        Search
+                                                    </button>
+
                                                 </div>
+
                                                 <div
                                                     class="d-none search-results position-absolute top-auto start-0 end-0 body-bg z-2 border-full border-radius box-shadow">
-                                                    <div class="search-for ptb-10 plr-15 beb">Search for <span
-                                                            class="search-text">a</span></div>
-                                                    <ul class="search-ul">
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product1.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product1"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Pleated
-                                                                    skater skirt</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product2.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product2"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Tailored
-                                                                    blazer jacket</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product3.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product3"></span>
-                                                                <span class="width-calc-48 psl-15 text-truncate">Girls
-                                                                    floral ruffle top</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product4.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product4"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Classic
-                                                                    cotton t-shirt</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product5.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product5"></span>
-                                                                <span class="width-calc-48 psl-15 text-truncate">Slim
-                                                                    fit linen shirt</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product6.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product6"></span>
-                                                                <span class="width-calc-48 psl-15 text-truncate">Flowy
-                                                                    midi dress</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product7.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product7"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Distressed
-                                                                    skinny jeans</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product8.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product8"></span>
-                                                                <span class="width-calc-48 psl-15 text-truncate">Hooded
-                                                                    puffer jacket</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product9.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product9"></span>
-                                                                <span class="width-calc-48 psl-15 text-truncate">Chunky
-                                                                    sole sneakers</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product10.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product10"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Quilted
-                                                                    crossbody bag</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product11.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product11"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Stretch
-                                                                    active leggings</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="search-li ptb-5 plr-15 bst">
-                                                            <a href="product.html"
-                                                                class="body-primary-color d-flex flex-wrap align-items-center">
-                                                                <span class="width-48"><img
-                                                                        src="{{ asset('frontend') }}/assets/image/search/search-product12.jpg"
-                                                                        class="w-100 img-fluid border-radius"
-                                                                        alt="search-product12"></span>
-                                                                <span
-                                                                    class="width-calc-48 psl-15 text-truncate">Relaxed
-                                                                    fit joggers</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="search-more ptb-10 plr-15 bst"><a
-                                                            href="search-product.html"
-                                                            class="body-secondary-color text-decoration-underline">See
-                                                            all results (12)</a></div>
-                                                    <div class="search-fail ptb-10 plr-15">Search not found</div>
+
+                                                    <div class="search-for ptb-10 plr-15 beb">
+                                                        Search for <span class="search-text"></span>
+                                                    </div>
+
+                                                    {{-- Dynamic Products --}}
+                                                    <div class="search-products"></div>
+
+                                                    <div class="search-more ptb-10 plr-15 bst">
+                                                        <a href="{{ route('products') }}"
+                                                            class="body-secondary-color text-decoration-underline">
+                                                            See all results (<span class="search-total">0</span>)
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="search-fail ptb-10 plr-15 d-none">
+                                                        Search not found
+                                                    </div>
+
                                                 </div>
+
                                             </div>
+
                                         </form>
+
                                     </div>
                                 </div>
+
                                 <!-- header-search end -->
                                 <ul class="ul-mt15 flex-nowrap align-items-center header-icon-element">
                                     <li class="header-icon-wrap toggler-wrap d-xl-none">
@@ -415,26 +304,6 @@
                                             </a>
                                         </div>
                                     </li>
-                                    <li class="header-icon-wrap wishlist-wrap d-md-block d-none">
-                                        <div class="header-icon-wrapper">
-                                            <a href="wishlist.html" class="d-block header-icon-wishlist">
-                                                <span class="primary-link ul-mt5 flex-nowrap align-items-center">
-                                                    <span class="d-block">
-                                                        <span
-                                                            class="d-block header-block-icon-wrap position-relative per-8">
-                                                            <span
-                                                                class="d-block header-block-icon font-16 font-xl-20"><i
-                                                                    class="ri-heart-line"></i></span>
-                                                            <span
-                                                                class="header-block-counter wishlist-counter extra-color font-10 position-absolute end-0 d-flex align-items-center justify-content-center primary-bg rounded-circle">4</span>
-                                                        </span>
-                                                    </span>
-                                                    <span
-                                                        class="d-none d-xl-block header-text-content text-uppercase text-nowrap heading-weight">Wishlist</span>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </li>
                                     <li class="header-icon-wrap cart-wrap d-md-block d-none">
                                         <div class="header-icon-wrapper">
                                             <a href="javascript:void(0)"
@@ -447,7 +316,8 @@
                                                                 class="d-block header-block-icon font-16 font-xl-20"><i
                                                                     class="ri-shopping-bag-3-line"></i></span>
                                                             <span
-                                                                class="header-block-counter cart-counter extra-color font-10 position-absolute end-0 d-flex align-items-center justify-content-center primary-bg rounded-circle">0</span>
+                                                                class="header-block-counter cart-counter extra-color font-10 position-absolute end-0 d-flex align-items-center justify-content-center primary-bg rounded-circle cart-count"
+                                                                data-cart-count>0</span>
                                                         </span>
                                                     </span>
                                                     <span
@@ -684,7 +554,7 @@
     </footer>
     <!-- footer end -->
     <!-- quickview-modal start -->
-    <div class="quickview-modal modal fade" id="quickview-modal" data-bs-backdrop="static">
+    {{-- <div class="quickview-modal modal fade" id="quickview-modal" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content body-bg border-0 br-hidden">
                 <div class="modal-body ptb-30 plr-15 plr-md-30">
@@ -1133,7 +1003,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- quickview-modal end -->
     <!-- mobile-menu start -->
     <div class="mobile-menu d-xl-none position-fixed top-0 bottom-0 body-bg z-index-5 invisible box-shadow"
@@ -1146,899 +1016,25 @@
             <div class="mobilemenu-content beb">
                 <div class="main-wrap">
                     <ul class="menu-ul">
-                        <li class="menu-li bst">
-                            <div class="menu-btn d-flex flex-row-reverse">
-                                <button type="button" class="width-48 icon-16 ptb-10 bsl" data-bs-toggle="collapse"
-                                    data-bs-target="#menu-home" aria-expanded="false" aria-label="Menu accordion"><i
-                                        class="ri-add-line d-block lh-1"></i></button>
-                                <span class="width-calc-48 ptb-10 plr-15"><a href="index-2.html"
-                                        class="d-inline-block body-color">Home</a></span>
-                            </div>
-                            <div class="menu-dropdown collapse" id="menu-home">
-                                <ul class="menudrop-ul">
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="index-2.html"
-                                                class="d-inline-block body-color">01 Classic fashion</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="index2.html"
-                                                class="d-inline-block body-color">02 Modern fashion</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="index3.html"
-                                                class="d-inline-block body-color">03 Elegant boutique</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="index4.html"
-                                                class="d-inline-block body-color">04 Minimal clothing</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="index5.html"
-                                                class="d-inline-block body-color">05 Lifestyle & Support</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="index6.html"
-                                                class="d-inline-block body-color">06 Visual fashion</a></span>
-                                    </li>
-                                </ul>
-                            </div>
+                        <li class="menudrop-li bst">
+                            <span class="d-block ptb-10 psl-20 per-15"><a href="{{ route('home') }}"
+                                    class="d-inline-block body-color">Home</a></span>
                         </li>
-                        <li class="menu-li bst">
-                            <div class="menu-btn d-flex flex-row-reverse">
-                                <button type="button" class="width-48 icon-16 ptb-10 bsl" data-bs-toggle="collapse"
-                                    data-bs-target="#menu-product" aria-expanded="false"
-                                    aria-label="Menu accordion"><i class="ri-add-line d-block lh-1"></i></button>
-                                <span class="width-calc-48 ptb-10 plr-15"><a href="product.html"
-                                        class="d-inline-block body-color">Product</a></span>
-                            </div>
-                            <div class="menu-dropdown collapse" id="menu-product">
-                                <ul class="menudrop-ul">
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection.html"
-                                                class="d-inline-block body-color">01 Classic card style</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection2.html"
-                                                class="d-inline-block body-color">02 Modern card style</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection3.html"
-                                                class="d-inline-block body-color">03 Elegant card style</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection4.html"
-                                                class="d-inline-block body-color">04 Minimal card style</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection5.html"
-                                                class="d-inline-block body-color">05 Lifestyle card style</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection6.html"
-                                                class="d-inline-block body-color">06 Visual card style</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collections.html"
-                                                class="d-inline-block body-color">Collections</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection-category.html"
-                                                class="d-inline-block body-color">Collection category</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection-without.html"
-                                                class="d-inline-block body-color">Collection full</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection.html"
-                                                class="d-inline-block body-color">Collection left</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection-right.html"
-                                                class="d-inline-block body-color">Collection right</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a
-                                                href="collection-list-without.html"
-                                                class="d-inline-block body-color">Collection-list full</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="collection-list.html"
-                                                class="d-inline-block body-color">Collection-list left</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a
-                                                href="collection-list-right.html"
-                                                class="d-inline-block body-color">Collection-list right</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="search-empty.html"
-                                                class="d-inline-block body-color">Search empty</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="search-product.html"
-                                                class="d-inline-block body-color">Search product</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-productlayout1"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="collection.html"
-                                                    class="d-inline-block body-color">Product layout</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-productlayout1">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product.html"
-                                                            class="d-inline-block body-color">01 Bottom thumbnail
-                                                            details</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product2.html"
-                                                            class="d-inline-block body-color">02 Left thumbnail
-                                                            accordion</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product3.html"
-                                                            class="d-inline-block body-color">03 Right thumbnail simple
-                                                            layout</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product4.html"
-                                                            class="d-inline-block body-color">04 Single grid thumbnail
-                                                            details</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product5.html"
-                                                            class="d-inline-block body-color">05 Two grid thumbnail
-                                                            accordion</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product6.html"
-                                                            class="d-inline-block body-color">06 Solo thumbnail tab
-                                                            details</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product7.html"
-                                                            class="d-inline-block body-color">07 Creative
-                                                            template</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product8.html"
-                                                            class="d-inline-block body-color">08 Classic full
-                                                            layout</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="product9.html"
-                                                            class="d-inline-block body-color">09 Modern full
-                                                            layout</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product-comparison.html"
-                                                            class="d-inline-block body-color">Product
-                                                            comparision</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-productfeatures"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="product.html"
-                                                    class="d-inline-block body-color">Product features</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-productfeatures">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Special promotions
-                                                            offers</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Size guide</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product9.html"
-                                                            class="d-inline-block body-color">Back in stock</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Quick buy now
-                                                            button</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product
-                                                            wishlist</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product compare
-                                                            option</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Ask a
-                                                            question</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Top social
-                                                            buzz</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product8.html"
-                                                            class="d-inline-block body-color">Pre-order</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Pincode service
-                                                            availability</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Frequently bought
-                                                            together</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Pickup availability
-                                                            option</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product warranty
-                                                            info</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Delivery options
-                                                            details</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Trusted payment
-                                                            badge</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Recommended
-                                                            product</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-productdetails"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="product.html"
-                                                    class="d-inline-block body-color">Product details</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-productdetails">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Currently views
-                                                            count</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Deal count down
-                                                            timer</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Stock count
-                                                            down</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Items sold
-                                                            count</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product short
-                                                            description</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Color swatch
-                                                            option</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product2.html"
-                                                            class="d-inline-block body-color">Image swatch
-                                                            option</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product3.html"
-                                                            class="d-inline-block body-color">Dropdown select
-                                                            option</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product sku
-                                                            code</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product flat inline
-                                                            description</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product2.html"
-                                                            class="d-inline-block body-color">Accordian
-                                                            description</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product3.html"
-                                                            class="d-inline-block body-color">Product detailed inline
-                                                            description</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product6.html"
-                                                            class="d-inline-block body-color">Tab
-                                                            description</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product7.html"
-                                                            class="d-inline-block body-color">Vertical-tab
-                                                            description</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product video</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="product.html"
-                                                            class="d-inline-block body-color">Product
-                                                            review</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                        <li class="menudrop-li bst">
+                            <span class="d-block ptb-10 psl-20 per-15"><a href="{{ route('categories') }}"
+                                    class="d-inline-block body-color">Categories</a></span>
                         </li>
-                        <li class="menu-li bst">
-                            <div class="menu-btn d-flex flex-row-reverse">
-                                <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                    data-bs-toggle="collapse" data-bs-target="#menu-shop" aria-expanded="false"
-                                    aria-label="Menu accordion"><i class="ri-add-line d-block lh-1"></i></button>
-                                <span class="width-calc-48 ptb-10 plr-15"><a href="collection.html"
-                                        class="d-inline-block body-color">Shop</a></span>
-                            </div>
-                            <div class="menu-dropdown collapse" id="menu-shop">
-                                <ul class="menudrop-ul">
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-account"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a
-                                                    href="javascript:void(0)"
-                                                    class="d-inline-block body-color">Account</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-account">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="login.html"
-                                                            class="d-inline-block body-color">Login</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="forgot-password.html"
-                                                            class="d-inline-block body-color">Forgot
-                                                            password</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="register.html"
-                                                            class="d-inline-block body-color">Register</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-other"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a
-                                                    href="cart-page.html"
-                                                    class="d-inline-block body-color">Other</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-other">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="cancellation.html"
-                                                            class="d-inline-block body-color">404</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="cart-empty.html"
-                                                            class="d-inline-block body-color">Cart empty</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="cart-page.html"
-                                                            class="d-inline-block body-color">Cart</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="checkout.html"
-                                                            class="d-inline-block body-color">Checkout</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="coming-soon.html"
-                                                            class="d-inline-block body-color">Comingsoon</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="invoice.html"
-                                                            class="d-inline-block body-color">Invoice</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-order"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="order.html"
-                                                    class="d-inline-block body-color">Order</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-order">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-complete.html"
-                                                            class="d-inline-block body-color">Order
-                                                            complete</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="order.html"
-                                                            class="d-inline-block body-color">Order</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info.html"
-                                                            class="d-inline-block body-color">Order info</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-default.html"
-                                                            class="d-inline-block body-color">Order default</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-unfulfilled.html"
-                                                            class="d-inline-block body-color">Order
-                                                            unfulfilled</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-fulfilled.html"
-                                                            class="d-inline-block body-color">Order
-                                                            fulfilled</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-inprogress.html"
-                                                            class="d-inline-block body-color">Order
-                                                            inprogress</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-intransit.html"
-                                                            class="d-inline-block body-color">Order
-                                                            intransit</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-indelivery.html"
-                                                            class="d-inline-block body-color">Order
-                                                            indelivery</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-delivered.html"
-                                                            class="d-inline-block body-color">Order
-                                                            delivered</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-pickup.html"
-                                                            class="d-inline-block body-color">Order pickup</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="order-info-cancel.html"
-                                                            class="d-inline-block body-color">Order cancel</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-profile"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="profile.html"
-                                                    class="d-inline-block body-color">Profile</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-profile">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile.html"
-                                                            class="d-inline-block body-color">Profile</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-address.html"
-                                                            class="d-inline-block body-color">Profile
-                                                            address</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-notification.html"
-                                                            class="d-inline-block body-color">Profile
-                                                            notification</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-order.html"
-                                                            class="d-inline-block body-color">Profile order</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-order-empty.html"
-                                                            class="d-inline-block body-color">Profile order
-                                                            empty</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-ticket.html"
-                                                            class="d-inline-block body-color">Profile
-                                                            ticket</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-ticket-empty.html"
-                                                            class="d-inline-block body-color">Profile ticket
-                                                            empty</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-wishlist.html"
-                                                            class="d-inline-block body-color">Profile
-                                                            wishlist</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="profile-wishlist-empty.html"
-                                                            class="d-inline-block body-color">Profile wishlist
-                                                            empty</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-ticket"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="ticket.html"
-                                                    class="d-inline-block body-color">Ticket</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-ticket">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="ticket.html"
-                                                            class="d-inline-block body-color">Ticket</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="ticket-create.html"
-                                                            class="d-inline-block body-color">Ticket create</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="ticket-edit.html"
-                                                            class="d-inline-block body-color">Ticket edit</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="ticket-info.html"
-                                                            class="d-inline-block body-color">Ticket info</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-policies"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a
-                                                    href="javascript:void(0)"
-                                                    class="d-inline-block">Policies</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-policies">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="cancellation.html"
-                                                            class="d-inline-block body-color">Cancellation</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="cookie.html"
-                                                            class="d-inline-block body-color">Cookie</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="legal.html"
-                                                            class="d-inline-block body-color">Legal</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="payment-policy.html"
-                                                            class="d-inline-block body-color">Payment
-                                                            policy</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="privacy-policy.html"
-                                                            class="d-inline-block body-color">Privacy
-                                                            policy</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="return-policy.html"
-                                                            class="d-inline-block body-color">Return policy</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="shipping-policy.html"
-                                                            class="d-inline-block body-color">Shipping
-                                                            policy</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="terms-condition.html"
-                                                            class="d-inline-block body-color">Terms &
-                                                            condition</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-features"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a
-                                                    href="javascript:void(0)"
-                                                    class="d-inline-block body-color">Features</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-features">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a href="button.html"
-                                                            class="d-inline-block body-color">Button</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="cart-drawer-empty.html"
-                                                            class="d-inline-block body-color">Cart drawer
-                                                            empty</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                        <li class="menudrop-li bst">
+                            <span class="d-block ptb-10 psl-20 per-15"><a href="{{ route('products') }}"
+                                    class="d-inline-block body-color">Products</a></span>
                         </li>
-                        <li class="menu-li bst">
-                            <div class="menu-btn d-flex flex-row-reverse">
-                                <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                    data-bs-toggle="collapse" data-bs-target="#menu-blog" aria-expanded="false"
-                                    aria-label="Menu accordion"><i class="ri-add-line d-block lh-1"></i></button>
-                                <span class="width-calc-48 ptb-10 plr-15"><a href="blog.html"
-                                        class="d-inline-block body-color">Blog</a></span>
-                            </div>
-                            <div class="menu-dropdown collapse" id="menu-blog">
-                                <ul class="menudrop-ul">
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="blog-without.html"
-                                                class="d-inline-block body-color">Blog</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="blog.html"
-                                                class="d-inline-block body-color">Blog left</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="blog-right.html"
-                                                class="d-inline-block body-color">Blog right</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="article-without.html"
-                                                class="d-inline-block body-color">Article</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="article.html"
-                                                class="d-inline-block body-color">Article left</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="article-right.html"
-                                                class="d-inline-block body-color">Article right</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="search-blog.html"
-                                                class="d-inline-block body-color">Search blog</a></span>
-                                    </li>
-                                </ul>
-                            </div>
+                        <li class="menudrop-li bst">
+                            <span class="d-block ptb-10 psl-20 per-15"><a href="{{ route('about') }}"
+                                    class="d-inline-block body-color">About</a></span>
                         </li>
-                        <li class="menu-li bst">
-                            <div class="menu-btn d-flex flex-row-reverse">
-                                <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                    data-bs-toggle="collapse" data-bs-target="#menu-page" aria-expanded="false"
-                                    aria-label="Menu accordion"><i class="ri-add-line d-block lh-1"></i></button>
-                                <span class="width-calc-48 ptb-10 plr-15"><a href="javascript:void(0)"
-                                        class="d-inline-block body-color">Page</a></span>
-                            </div>
-                            <div class="menu-dropdown collapse" id="menu-page">
-                                <ul class="menudrop-ul">
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-about"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="about-us.html"
-                                                    class="d-inline-block body-color">About us</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-about">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="about-us.html"
-                                                            class="d-inline-block body-color">01 Modern
-                                                            aboutus</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="about-us2.html"
-                                                            class="d-inline-block body-color">02 Creative
-                                                            aboutus</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-contact"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a
-                                                    href="contact-us.html" class="d-inline-block body-color">Contact
-                                                    us</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-contact">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="contact-us.html"
-                                                            class="d-inline-block body-color">01 Creative
-                                                            contactus</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="contact-us2.html"
-                                                            class="d-inline-block body-color">02 Standard
-                                                            contactus</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="faqs.html"
-                                                class="d-inline-block body-color">Faqs</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="sitemap.html"
-                                                class="d-inline-block body-color">Sitemap</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="store.html"
-                                                class="d-inline-block body-color">Store</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <span class="d-block ptb-10 psl-20 per-15"><a href="track-order.html"
-                                                class="d-inline-block body-color">Track order</a></span>
-                                    </li>
-                                    <li class="menudrop-li bst">
-                                        <div class="menu-btn d-flex flex-row-reverse">
-                                            <button type="button" class="width-48 icon-16 ptb-10 bsl"
-                                                data-bs-toggle="collapse" data-bs-target="#menu-wishlist"
-                                                aria-expanded="false" aria-label="Menu accordion"><i
-                                                    class="ri-add-line d-block lh-1"></i></button>
-                                            <span class="width-calc-48 ptb-10 psl-20 per-15"><a href="wishlist.html"
-                                                    class="d-inline-block body-color">Wishlist</a></span>
-                                        </div>
-                                        <div class="menusub-dropdown collapse" id="menu-wishlist">
-                                            <ul class="menusub-ul">
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="wishlist.html"
-                                                            class="d-inline-block body-color">Wishlist</a></span>
-                                                </li>
-                                                <li class="menusub-li bst">
-                                                    <span class="d-block ptb-10 psl-25 per-15"><a
-                                                            href="wishlist-empty.html"
-                                                            class="d-inline-block body-color">Wishlist
-                                                            empty</a></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                        <li class="menudrop-li bst">
+                            <span class="d-block ptb-10 psl-20 per-15"><a href="{{ route('contact') }}"
+                                    class="d-inline-block body-color">contact</a></span>
                         </li>
                     </ul>
                 </div>
@@ -2057,163 +1053,51 @@
                                 <button type="button" class="d-block search-close body-secondary-color icon-16"
                                     data-bs-dismiss="modal" aria-label="Close"><i
                                         class="ri-close-large-line d-block lh-1"></i></button>
-                                <form method="get" action="javascript:void(0)" class="search-form w-100">
+
+                                <form method="GET" action="{{ route('products') }}" class="search-form w-100">
+
                                     <div class="search-bar position-relative">
+
                                         <div class="form-search d-flex flex-row-reverse">
-                                            <input type="search" name="search-input"
+
+                                            <input type="search" name="q"
                                                 class="search-input w-100 h-auto ptb-0 plr-15 bg-transparent border-0"
-                                                value="" placeholder="Search here" required>
+                                                value="{{ request('q') }}" placeholder="Search here"
+                                                autocomplete="off" required>
+
                                             <button type="submit"
-                                                onclick="window.location.href='search-product.html'"
                                                 class="d-block search-btn body-secondary-color icon-16"
-                                                aria-label="Go to search" disabled><i
-                                                    class="ri-search-line d-block lh-1"></i></button>
+                                                aria-label="Go to search" disabled>
+                                                <i class="ri-search-line d-block lh-1"></i>
+                                            </button>
+
                                         </div>
+
                                         <div
-                                            class="d-none search-results position-absolute top-100 start-0 end-0 body-bg z-1 border-full border-radius box-shadow">
-                                            <div class="search-for ptb-10 plr-15 beb">Search for <span
-                                                    class="search-text">a</span></div>
-                                            <ul class="search-ul">
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product1.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product1"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Pleated
-                                                            skater skirt</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product2.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product2"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Tailored
-                                                            blazer jacket</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product3.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product3"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Girls floral
-                                                            ruffle top</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product4.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product4"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Classic
-                                                            cotton t-shirt</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product5.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product5"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Slim fit
-                                                            linen shirt</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product6.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product6"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Flowy midi
-                                                            dress</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product7.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product7"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Distressed
-                                                            skinny jeans</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product8.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product8"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Hooded puffer
-                                                            jacket</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product9.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product9"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Chunky sole
-                                                            sneakers</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product10.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product10"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Quilted
-                                                            crossbody bag</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product11.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product11"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Stretch
-                                                            active leggings</span>
-                                                    </a>
-                                                </li>
-                                                <li class="search-li ptb-5 plr-15 bst">
-                                                    <a href="product.html"
-                                                        class="body-primary-color d-flex flex-wrap align-items-center">
-                                                        <span class="width-48"><img
-                                                                src="{{ asset('frontend') }}/assets/image/search/search-product12.jpg"
-                                                                class="w-100 img-fluid border-radius"
-                                                                alt="search-product12"></span>
-                                                        <span class="width-calc-48 psl-15 text-truncate">Relaxed fit
-                                                            joggers</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="search-more ptb-10 plr-15 bst"><a href="search-product.html"
-                                                    class="body-secondary-color text-decoration-underline">See all
-                                                    results (12)</a></div>
-                                            <div class="search-fail ptb-10 plr-15">Search not found</div>
+                                            class="search-results d-none position-absolute top-100 start-0 end-0 body-bg z-1 border-full border-radius box-shadow">
+
+                                            <div class="search-for ptb-10 plr-15 beb">
+                                                Search for <span class="search-text"></span>
+                                            </div>
+
+                                            <div class="search-products"></div>
+
+                                            <div class="search-more ptb-10 plr-15 bst">
+                                                <a href="{{ route('products') }}"
+                                                    class="body-secondary-color text-decoration-underline">
+                                                    See all results (<span class="search-total">0</span>)
+                                                </a>
+                                            </div>
+
+                                            <div class="search-fail ptb-10 plr-15 d-none">
+                                                Search not found
+                                            </div>
+
                                         </div>
+
                                     </div>
                                 </form>
+
                             </div>
                             <div class="search-example-text mst-15">Trending search: a, e, cotton...</div>
                         </div>
@@ -2224,210 +1108,85 @@
     </div>
     <!-- search-modal end -->
     <!-- cart-drawer start -->
+
     <div class="cart-drawer position-fixed top-0 bottom-0 body-bg z-index-5 invisible box-shadow" id="cart-drawer">
-        <form method="post" action="javascript:void(0)" class="drawer-contents d-flex flex-column">
+
+        <form method="POST" action="javascript:void(0)" class="drawer-contents d-flex flex-column">
+
+            {{-- Header --}}
             <div class="drawer-fixed-header ptb-10 plr-15 beb">
                 <div class="drawer-header d-flex align-items-center justify-content-between">
                     <h6 class="font-18">My shopping cart</h6>
+
                     <div class="drawer-close">
                         <button type="button" class="drawer-close-btn body-secondary-color icon-16"
-                            aria-label="Close"><i class="ri-close-large-line d-block lh-1"></i></button>
+                            aria-label="Close">
+                            <i class="ri-close-large-line d-block lh-1"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="pst-10 plr-15 text-center">
-                <div class="extra-color font-14 ptb-6 plr-15 primary-bg">First order? Get 11% off with code <span
-                        class="heading-weight blinking">11%OFF</span>.</div>
-            </div>
-            <div class="drawer-cart-empty d-none h-100 ptb-30 plr-15">
+
+            {{-- Promotion --}}
+            {{-- <div class="pst-10 plr-15 text-center">
+                <div class="extra-color font-14 ptb-6 plr-15 primary-bg">
+                    First order? Get 11% off with code
+                    <span class="heading-weight blinking">11%OFF</span>.
+                </div>
+            </div> --}}
+
+            {{-- Empty Cart --}}
+            <div class="drawer-cart-empty d-none h-100 ptb-30 plr-15" id="cart-empty">
+
                 <div
-                    class="drawer-scrollable h-100 d-flex flex-column align-items-center justify-content-center text-center">
-                    <span class="heading-color icon-32 meb-24"><i
-                            class="ri-shopping-bag-3-line d-block lh-1"></i></span>
-                    <h2 class="font-24">No items in your shopping cart - yet!</h2>
-                    <a href="{{ route('products') }}" class="btn-style secondary-btn mst-24">Continue shopping</a>
+                    class="drawer-scrollable h-100 d-flex flex-column
+                        align-items-center justify-content-center text-center">
+
+                    <span class="heading-color icon-32 meb-24">
+                        <i class="ri-shopping-bag-3-line d-block lh-1"></i>
+                    </span>
+
+                    <h2 class="font-24">
+                        No items in your shopping cart - yet!
+                    </h2>
+
+                    <a href="{{ route('products') }}" class="btn-style secondary-btn mst-24">
+                        Continue shopping
+                    </a>
                 </div>
             </div>
-            <div class="drawer-inner h-100 d-flex flex-column justify-content-between overflow-hidden">
+
+            {{-- Cart Content --}}
+            <div class="drawer-inner h-100 d-flex flex-column
+                    justify-content-between overflow-hidden"
+                id="cart-content">
+
                 <div class="drawer-scrollable h-100 overflow-auto">
+
+                    {{-- Dynamic Cart Items --}}
                     <div class="cart-drawer-table plr-15" id="cart-items">
-                        <div class="cart-drawer-info ptb-15 bst">
-                            <div class="cart-drawer-content d-flex flex-wrap">
-                                <div class="cart-drawer-image width-88">
-                                    <a href="product.html" class="d-block br-hidden"><img
-                                            src="{{ asset('frontend') }}/assets/image/cart/cart-1.jpg"
-                                            class="w-100 img-fluid" alt="cart-1"></a>
-                                </div>
-                                <div class="cart-drawer-info width-calc-88 psl-15">
-                                    <div class="cart-drawer-detail">
-                                        <a href="product.html" class="primary-link heading-weight">Pleated skater
-                                            skirt</a>
-                                        <span class="d-block mst-7">XS / Aliceblue</span>
-                                        <span class="d-block mst-7">Polyester</span>
-                                    </div>
-                                    <div class="heading-color heading-weight mst-7">$79.00</div>
-                                    <div
-                                        class="cart-drawer-qty-remove d-flex align-items-end justify-content-between mst-16">
-                                        <div class="js-qty-wrapper">
-                                            <div class="js-qty-wrap d-flex body-bg border-full br-hidden">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-minus body-color icon-16"
-                                                    aria-label="Remove item"><i
-                                                        class="ri-subtract-line d-block lh-1"></i></button>
-                                                <input type="number" name="pleated-skater-skirt-xs-aliceblue"
-                                                    class="js-qty-num p-0 text-center border-0" value="1"
-                                                    min="1">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-plus body-color icon-16"
-                                                    aria-label="Add item"><i
-                                                        class="ri-add-line d-block lh-1"></i></button>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="cart-drawer-remove text-danger icon-16"
-                                            aria-label="Remove item"><i
-                                                class="ri-delete-bin-line d-block lh-1"></i></button>
-                                    </div>
-                                    <div class="text-danger font-14 mst-7"><i
-                                            class="ri-error-warning-line mer-4"></i>Hurry! Only <span
-                                            class="heading-weight">15</span> in stock.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cart-drawer-info ptb-15 bst">
-                            <div class="cart-drawer-content d-flex flex-wrap">
-                                <div class="cart-drawer-image width-88">
-                                    <a href="product.html" class="d-block br-hidden"><img
-                                            src="{{ asset('frontend') }}/assets/image/cart/cart-2.jpg"
-                                            class="w-100 img-fluid" alt="cart-2"></a>
-                                </div>
-                                <div class="cart-drawer-info width-calc-88 psl-15">
-                                    <div class="cart-drawer-detail">
-                                        <a href="product.html" class="primary-link heading-weight">Tailored blazer
-                                            jacket</a>
-                                        <span class="d-block mst-7">38 / Azure</span>
-                                        <span class="d-block mst-7">Wool blend</span>
-                                    </div>
-                                    <div class="heading-color heading-weight mst-7">$49.00</div>
-                                    <div
-                                        class="cart-drawer-qty-remove d-flex align-items-end justify-content-between mst-16">
-                                        <div class="js-qty-wrapper">
-                                            <div class="js-qty-wrap d-flex body-bg border-full br-hidden">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-minus body-color icon-16"
-                                                    aria-label="Remove item"><i
-                                                        class="ri-subtract-line d-block lh-1"></i></button>
-                                                <input type="number" name="tailored-blazer-jacket-38-azure"
-                                                    class="js-qty-num p-0 text-center border-0" value="1"
-                                                    min="1">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-plus body-color icon-16"
-                                                    aria-label="Add item"><i
-                                                        class="ri-add-line d-block lh-1"></i></button>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="cart-drawer-remove text-danger icon-16"
-                                            aria-label="Remove item"><i
-                                                class="ri-delete-bin-line d-block lh-1"></i></button>
-                                    </div>
-                                    <div class="text-danger font-14 mst-7"><i
-                                            class="ri-error-warning-line mer-4"></i>Hurry! Only <span
-                                            class="heading-weight">9</span> in stock.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cart-drawer-info ptb-15 bst">
-                            <div class="cart-drawer-content d-flex flex-wrap">
-                                <div class="cart-drawer-image width-88">
-                                    <a href="product.html" class="d-block br-hidden"><img
-                                            src="{{ asset('frontend') }}/assets/image/cart/cart-3.jpg"
-                                            class="w-100 img-fluid" alt="cart-3"></a>
-                                </div>
-                                <div class="cart-drawer-info width-calc-88 psl-15">
-                                    <div class="cart-drawer-detail">
-                                        <a href="product.html" class="primary-link heading-weight">Girls floral
-                                            ruffle top</a>
-                                        <span class="d-block mst-7">2Y / Aliceblue</span>
-                                        <span class="d-block mst-7">Cotton</span>
-                                    </div>
-                                    <div class="heading-color heading-weight mst-7">$69.00</div>
-                                    <div
-                                        class="cart-drawer-qty-remove d-flex align-items-end justify-content-between mst-16">
-                                        <div class="js-qty-wrapper">
-                                            <div class="js-qty-wrap d-flex body-bg border-full br-hidden">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-minus body-color icon-16"
-                                                    aria-label="Remove item"><i
-                                                        class="ri-subtract-line d-block lh-1"></i></button>
-                                                <input type="number" name="girls-floral-ruffle-top-2y-aliceblue"
-                                                    class="js-qty-num p-0 text-center border-0" value="1"
-                                                    min="1">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-plus body-color icon-16"
-                                                    aria-label="Add item"><i
-                                                        class="ri-add-line d-block lh-1"></i></button>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="cart-drawer-remove text-danger icon-16"
-                                            aria-label="Remove item"><i
-                                                class="ri-delete-bin-line d-block lh-1"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cart-drawer-info ptb-15 bst">
-                            <div class="cart-drawer-content d-flex flex-wrap">
-                                <div class="cart-drawer-image width-88">
-                                    <a href="product.html" class="d-block br-hidden"><img
-                                            src="{{ asset('frontend') }}/assets/image/cart/cart-4.jpg"
-                                            class="w-100 img-fluid" alt="cart-4"></a>
-                                </div>
-                                <div class="cart-drawer-info width-calc-88 psl-15">
-                                    <div class="cart-drawer-detail">
-                                        <a href="product.html" class="primary-link heading-weight">Classic cotton
-                                            t-shirt</a>
-                                        <span class="d-block mst-7">S / Azure</span>
-                                        <span class="d-block mst-7">Cotton</span>
-                                    </div>
-                                    <div class="heading-color heading-weight mst-7">$49.00</div>
-                                    <div
-                                        class="cart-drawer-qty-remove d-flex align-items-end justify-content-between mst-16">
-                                        <div class="js-qty-wrapper">
-                                            <div class="js-qty-wrap d-flex body-bg border-full br-hidden">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-minus body-color icon-16"
-                                                    aria-label="Remove item"><i
-                                                        class="ri-subtract-line d-block lh-1"></i></button>
-                                                <input type="number" name="classic-cotton-t-shirt-s-azure"
-                                                    class="js-qty-num p-0 text-center border-0" value="1"
-                                                    min="1">
-                                                <button type="button"
-                                                    class="js-qty-adjust js-qty-adjust-plus body-color icon-16"
-                                                    aria-label="Add item"><i
-                                                        class="ri-add-line d-block lh-1"></i></button>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="cart-drawer-remove text-danger icon-16"
-                                            aria-label="Remove item"><i
-                                                class="ri-delete-bin-line d-block lh-1"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{-- JavaScript will render cart items here --}}
                     </div>
-                    <div class="drawer-recommended-product ptb-15 plr-15 bst">
+
+                    {{-- Recommended Products --}}
+                    {{-- <div class="drawer-recommended-product ptb-15 plr-15 bst">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div class="heading-color"><i class="ri-thumb-up-line icon-16 mer-4"></i>Recommended for
-                                you</div>
+                            <div class="heading-color">
+                                <i class="ri-thumb-up-line icon-16 mer-4"></i>
+                                Recommended for you
+                            </div>
+
                             <div class="swiper-buttons lh-1">
                                 <div class="swiper-buttons-wrap">
                                     <button type="button"
-                                        class="swiper-prev swiper-prev-drawer-recommended-product primary-link icon-16"
-                                        aria-label="Arrow previous"><i
-                                            class="ri-arrow-left-line d-block lh-1"></i></button>
+                                        class="swiper-prev swiper-prev-drawer-recommended-product primary-link icon-16">
+                                        <i class="ri-arrow-left-line"></i>
+                                    </button>
+
                                     <button type="button"
-                                        class="swiper-next swiper-next-drawer-recommended-product primary-link icon-16"
-                                        aria-label="Arrow next"><i
-                                            class="ri-arrow-right-line d-block lh-1"></i></button>
+                                        class="swiper-next swiper-next-drawer-recommended-product primary-link icon-16">
+                                        <i class="ri-arrow-right-line"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -2435,192 +1194,129 @@
                             <div class="drawer-recommended-product-slider swiper"
                                 id="drawer-recommended-product-slider">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="drawer-recommended-product">
-                                            <div class="row drawer-recommended-single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="product.html" class="pro-img"><img
-                                                            src="{{ asset('frontend') }}/assets/image/product/p-1.jpg"
-                                                            class="w-100 img-fluid" alt="p-1"></a>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="pro-content">
-                                                        <div class="product-title">
-                                                            <span class="d-block font-14"><a href="product.html"
-                                                                    class="d-block w-100 text-truncate heading-weight">Pleated
-                                                                    skater skirt</a></span>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <div class="price-box font-14 heading-weight">
-                                                                <span class="new-price primary-color">$79.00</span>
-                                                                <span class="old-price"><span
-                                                                        class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">$89.00</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="drawer-recommended-product">
-                                            <div class="row drawer-recommended-single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="product.html" class="pro-img"><img
-                                                            src="{{ asset('frontend') }}/assets/image/product/p-3.jpg"
-                                                            class="w-100 img-fluid" alt="p-3"></a>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="pro-content">
-                                                        <div class="product-title">
-                                                            <span class="d-block font-14"><a href="product.html"
-                                                                    class="d-block w-100 text-truncate heading-weight">Tailored
-                                                                    blazer jacket</a></span>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <div class="price-box font-14 heading-weight">
-                                                                <span class="new-price primary-color">$49.00</span>
-                                                                <span class="old-price"><span
-                                                                        class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">$59.00</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="drawer-recommended-product">
-                                            <div class="row drawer-recommended-single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="product.html" class="pro-img"><img
-                                                            src="{{ asset('frontend') }}/assets/image/product/p-5.jpg"
-                                                            class="w-100 img-fluid" alt="p-5"></a>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="pro-content">
-                                                        <div class="product-title">
-                                                            <span class="d-block font-14"><a href="product.html"
-                                                                    class="d-block w-100 text-truncate heading-weight">Girls
-                                                                    floral ruffle top</a></span>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <div class="price-box font-14 heading-weight">
-                                                                <span class="new-price primary-color">$69.00</span>
-                                                                <span class="old-price"><span
-                                                                        class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">$79.00</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="drawer-recommended-product">
-                                            <div class="row drawer-recommended-single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="product.html" class="pro-img"><img
-                                                            src="{{ asset('frontend') }}/assets/image/product/p-7.jpg"
-                                                            class="w-100 img-fluid" alt="p-7"></a>
-                                                </div>
-                                                <div class="product-content">
-                                                    <div class="pro-content">
-                                                        <div class="product-title">
-                                                            <span class="d-block font-14"><a href="product.html"
-                                                                    class="d-block w-100 text-truncate heading-weight">Classic
-                                                                    cotton t-shirt</a></span>
-                                                        </div>
-                                                        <div class="product-price">
-                                                            <div class="price-box font-14 heading-weight">
-                                                                <span class="new-price primary-color">$49.00</span>
-                                                                <span class="old-price"><span
-                                                                        class="mer-3">~</span><span
-                                                                        class="text-decoration-line-through">$54.00</span></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    {{-- Seller Note --}}
                     <div class="drawer-instruction ptb-15 plr-15 bst">
+
                         <a href="#collapse-drawer-note"
                             class="d-flex flex-wrap align-items-center justify-content-between"
                             data-bs-toggle="collapse" aria-expanded="true">
-                            <span class="drawer-instruction-title width-calc-16"><i
-                                    class="ri-edit-line icon-16 mer-4"></i>Type a note for the seller</span>
-                            <span class="drawer-instruction-icon width-16 icon-16"><i
-                                    class="ri-arrow-down-s-line"></i></span>
+
+                            <span class="drawer-instruction-title width-calc-16">
+                                <i class="ri-edit-line icon-16 mer-4"></i>
+                                Type a note for the seller
+                            </span>
+
+                            <span class="drawer-instruction-icon width-16 icon-16">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </span>
                         </a>
+
                         <div class="collapse show" id="collapse-drawer-note">
                             <div class="pst-15">
-                                <textarea rows="3" id="drawernote" name="drawernote" class="w-100" placeholder="Write your message..."
-                                    autocomplete="off"></textarea>
+                                <textarea rows="3" id="drawernote" class="w-100" placeholder="Write your message..."></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="drawer-instruction ptb-15 plr-15 bst">
+
+                    {{-- Discount --}}
+                    {{-- <div class="drawer-instruction ptb-15 plr-15 bst">
+
                         <a href="#collapse-drawer-discount"
                             class="d-flex flex-wrap align-items-center justify-content-between"
                             data-bs-toggle="collapse" aria-expanded="true">
-                            <span class="drawer-instruction-title width-calc-16"><i
-                                    class="ri-discount-percent-line icon-16 mer-4"></i>Have a code? Apply here</span>
-                            <span class="drawer-instruction-icon width-16 icon-16"><i
-                                    class="ri-arrow-down-s-line"></i></span>
+
+                            <span class="drawer-instruction-title width-calc-16">
+                                <i class="ri-discount-percent-line icon-16 mer-4"></i>
+                                Have a code? Apply here
+                            </span>
+
+                            <span class="drawer-instruction-icon width-16 icon-16">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </span>
                         </a>
+
                         <div class="collapse show" id="collapse-drawer-discount">
                             <div class="pst-15">
                                 <div class="d-flex flex-wrap height-48 extra-bg br-hidden">
-                                    <input type="text" id="drawerdiscount" name="drawerdiscount"
+                                    <input type="text" id="drawerdiscount"
                                         class="width-calc-48 h-auto rounded-0" placeholder="Type your code here"
-                                        autocomplete="off" required>
+                                        autocomplete="off">
+
                                     <button type="button" class="width-48 icon-16 primary-link drawer-dis-btn"
-                                        aria-label="Discount code button"><i
-                                            class="ri-arrow-right-up-line"></i></button>
+                                        aria-label="Apply discount">
+                                        <i class="ri-arrow-right-up-line"></i>
+                                    </button>
                                 </div>
+
+                                <small id="discount-message"></small>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
                 </div>
+
+                {{-- Footer --}}
                 <div class="drawer-footer ptb-15 plr-15 bst">
+
                     <div class="drawer-total d-flex justify-content-between">
                         <span>Subtotal</span>
-                        <span class="heading-color heading-weight" data-cart-subtotal>৳0.00</span>
+
+                        <span class="heading-color heading-weight" data-cart-subtotal>
+                            ৳0.00
+                        </span>
                     </div>
-                    <div class="font-12 mst-8">Shipping, taxes, and discount codes calculated at checkout</div>
+
+                    <div class="font-12 mst-8">
+                        Shipping, taxes, and discount codes calculated at checkout
+                    </div>
+
                     <div class="drawer-cart-checkout mst-12">
+
                         <div class="drawer-cart-box meb-11">
                             <label class="cust-checkbox-label checkbox-agree">
-                                <input type="checkbox" id="drawer-terms" name="drawer-terms"
-                                    class="cust-checkbox checkboxbtn">
+
+                                <input type="checkbox" id="drawer-terms" class="cust-checkbox checkboxbtn">
+
                                 <span class="d-block cust-check"></span>
-                                <span class="login-read">I have agree with the <a href="terms-condition.html"
-                                        class="body-secondary-color text-decoration-underline">terms &
-                                        conditions</a>.</span>
+
+                                <span class="login-read">
+                                    I agree with the
+                                    <a href="{{ url('/terms-condition') }}"
+                                        class="body-secondary-color text-decoration-underline">
+                                        terms & conditions
+                                    </a>.
+                                </span>
                             </label>
                         </div>
+
                         <div class="row btn-row15">
+
                             <div class="col-12 col-md-6">
-                                <a href="cart-page.html" class="w-100 btn-style quaternary-btn">View cart</a>
+                                <a href="#" class="w-100 btn-style quaternary-btn">
+                                    View cart
+                                </a>
                             </div>
+
                             <div class="col-12 col-md-6">
-                                <a href="checkout.html"
-                                    class="w-100 btn-style secondary-btn hide-btn opacity-50 disabled pe-none">Checkout</a>
+                                <a href="{{ url('/checkout') }}" id="cart-checkout-btn"
+                                    class="w-100 btn-style secondary-btn hide-btn
+                                      opacity-50 disabled pe-none">
+                                    Checkout
+                                </a>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+
     <!-- cart-drawer end -->
     <!-- bottom-menu start -->
     <div class="bottom-menu d-md-none position-sticky bottom-0 body-bg z-1 box-shadow">
@@ -2641,24 +1337,14 @@
                 </a>
             </div>
             <div class="col">
-                <a href="collection.html" class="d-flex flex-column align-items-center ptb-10 text-center">
+                <a href="{{ route('products') }}" class="d-flex flex-column align-items-center ptb-10 text-center">
                     <span class="bottom-menu-icon heading-color icon-16"><i
                             class="ri-layout-grid-line d-block lh-1"></i></span>
-                    <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Shop</span>
+                    <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Products</span>
                 </a>
             </div>
             <div class="col">
-                <a href="wishlist.html" class="d-flex flex-column align-items-center ptb-10 text-center">
-                    <span class="bottom-menu-icon-wrap position-relative per-8">
-                        <span class="d-block bottom-menu-icon heading-color icon-16"><i
-                                class="ri-heart-line d-block lh-1"></i></span>
-                        <span
-                            class="bottom-menu-counter wishlist-counter extra-color font-10 position-absolute end-0 primary-bg d-flex align-items-center justify-content-center rounded-circle">5</span>
-                    </span>
-                    <span class="bottom-menu-title body-color font-10 mst-4 text-uppercase lh-1">Wishlist</span>
-                </a>
-            </div>
-            <div class="col">
+
                 <a href="javascript:void(0)"
                     class="js-cart-drawer d-flex flex-column align-items-center ptb-10 text-center">
                     <span class="bottom-menu-icon-wrap position-relative per-8">
@@ -2683,6 +1369,8 @@
     <script src="{{ asset('frontend') }}/assets/js/plugin.js"></script>
     <!-- theme js -->
     <script src="{{ asset('frontend') }}/assets/js/theme.js"></script>
+    <script src="{{ asset('frontend/assets/js/cart.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/search.js') }}"></script>
     @vite('resources/js/app.js')
 </body>
 
