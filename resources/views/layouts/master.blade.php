@@ -1126,15 +1126,6 @@
                     </div>
                 </div>
             </div>
-
-            {{-- Promotion --}}
-            {{-- <div class="pst-10 plr-15 text-center">
-                <div class="extra-color font-14 ptb-6 plr-15 primary-bg">
-                    First order? Get 11% off with code
-                    <span class="heading-weight blinking">11%OFF</span>.
-                </div>
-            </div> --}}
-
             {{-- Empty Cart --}}
             <div class="drawer-cart-empty d-none h-100 ptb-30 plr-15" id="cart-empty">
 
@@ -1158,7 +1149,7 @@
 
             {{-- Cart Content --}}
             <div class="drawer-inner h-100 d-flex flex-column
-                    justify-content-between overflow-hidden"
+                 overflow-hidden"
                 id="cart-content">
 
                 <div class="drawer-scrollable h-100 overflow-auto">
@@ -1167,97 +1158,6 @@
                     <div class="cart-drawer-table plr-15" id="cart-items">
                         {{-- JavaScript will render cart items here --}}
                     </div>
-
-                    {{-- Recommended Products --}}
-                    {{-- <div class="drawer-recommended-product ptb-15 plr-15 bst">
-                        <div class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div class="heading-color">
-                                <i class="ri-thumb-up-line icon-16 mer-4"></i>
-                                Recommended for you
-                            </div>
-
-                            <div class="swiper-buttons lh-1">
-                                <div class="swiper-buttons-wrap">
-                                    <button type="button"
-                                        class="swiper-prev swiper-prev-drawer-recommended-product primary-link icon-16">
-                                        <i class="ri-arrow-left-line"></i>
-                                    </button>
-
-                                    <button type="button"
-                                        class="swiper-next swiper-next-drawer-recommended-product primary-link icon-16">
-                                        <i class="ri-arrow-right-line"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="drawer-recommended-product-wrap pst-15">
-                            <div class="drawer-recommended-product-slider swiper"
-                                id="drawer-recommended-product-slider">
-                                <div class="swiper-wrapper">
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
-                    {{-- Seller Note --}}
-                    <div class="drawer-instruction ptb-15 plr-15 bst">
-
-                        <a href="#collapse-drawer-note"
-                            class="d-flex flex-wrap align-items-center justify-content-between"
-                            data-bs-toggle="collapse" aria-expanded="true">
-
-                            <span class="drawer-instruction-title width-calc-16">
-                                <i class="ri-edit-line icon-16 mer-4"></i>
-                                Type a note for the seller
-                            </span>
-
-                            <span class="drawer-instruction-icon width-16 icon-16">
-                                <i class="ri-arrow-down-s-line"></i>
-                            </span>
-                        </a>
-
-                        <div class="collapse show" id="collapse-drawer-note">
-                            <div class="pst-15">
-                                <textarea rows="3" id="drawernote" class="w-100" placeholder="Write your message..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Discount --}}
-                    {{-- <div class="drawer-instruction ptb-15 plr-15 bst">
-
-                        <a href="#collapse-drawer-discount"
-                            class="d-flex flex-wrap align-items-center justify-content-between"
-                            data-bs-toggle="collapse" aria-expanded="true">
-
-                            <span class="drawer-instruction-title width-calc-16">
-                                <i class="ri-discount-percent-line icon-16 mer-4"></i>
-                                Have a code? Apply here
-                            </span>
-
-                            <span class="drawer-instruction-icon width-16 icon-16">
-                                <i class="ri-arrow-down-s-line"></i>
-                            </span>
-                        </a>
-
-                        <div class="collapse show" id="collapse-drawer-discount">
-                            <div class="pst-15">
-                                <div class="d-flex flex-wrap height-48 extra-bg br-hidden">
-                                    <input type="text" id="drawerdiscount"
-                                        class="width-calc-48 h-auto rounded-0" placeholder="Type your code here"
-                                        autocomplete="off">
-
-                                    <button type="button" class="width-48 icon-16 primary-link drawer-dis-btn"
-                                        aria-label="Apply discount">
-                                        <i class="ri-arrow-right-up-line"></i>
-                                    </button>
-                                </div>
-
-                                <small id="discount-message"></small>
-                            </div>
-                        </div>
-                    </div> --}}
-
                 </div>
 
                 {{-- Footer --}}
@@ -1280,7 +1180,7 @@
                         <div class="drawer-cart-box meb-11">
                             <label class="cust-checkbox-label checkbox-agree">
 
-                                <input type="checkbox" id="drawer-terms" class="cust-checkbox checkboxbtn">
+                                <input type="checkbox" id="drawer-terms" class="cust-checkbox checkboxbtn" checked>
 
                                 <span class="d-block cust-check"></span>
 
@@ -1295,21 +1195,13 @@
                         </div>
 
                         <div class="row btn-row15">
-
-                            <div class="col-12 col-md-6">
-                                <a href="#" class="w-100 btn-style quaternary-btn">
-                                    View cart
-                                </a>
-                            </div>
-
-                            <div class="col-12 col-md-6">
+                            <div class="ms-auto col-md-6">
                                 <a href="{{ url('/checkout') }}" id="cart-checkout-btn"
                                     class="w-100 btn-style secondary-btn hide-btn
-                                      opacity-50 disabled pe-none">
+                                      opacity-50 disabled pe-none ms-auto">
                                     Checkout
                                 </a>
                             </div>
-
                         </div>
                     </div>
                 </div>
