@@ -16,6 +16,7 @@ use App\Http\Controllers\Dashboard\PolicyTypeController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProductSectionController;
 use App\Http\Controllers\Dashboard\ReviewController;
+use App\Http\Controllers\Dashboard\SectionImageController;
 use App\Http\Controllers\Dashboard\ShippingFeeController;
 use App\Http\Controllers\Dashboard\SiteInfoController;
 use App\Http\Controllers\Dashboard\TagController;
@@ -74,6 +75,9 @@ Route::middleware([AdminRoleMiddleware::class . ':1,2'])->prefix('dashboard')->n
         ProductController::class,
         'uploadImages'
     ])->name('products.images.upload');
+    // Dropzone Delete
+    Route::delete('/products/{product}/images/delete', [ProductController::class, 'deleteImage'])
+        ->name('products.images.delete');
 
     // Product Brand Management Routes
     Route::get('brands/filter', [
@@ -87,6 +91,12 @@ Route::middleware([AdminRoleMiddleware::class . ':1,2'])->prefix('dashboard')->n
     ])->name('brands.togglePublished');
 
     // Section Management Routes
+    Route::patch(
+        'section-images/{sectionImage}/toggle-published',
+        [SectionImageController::class, 'togglePublished']
+    )->name('section-images.toggle-published');
+    Route::resource('section-images', SectionImageController::class);
+
     Route::get('product-sections/{section}/toggle-status', [
         ProductSectionController::class,
         'toggleStatus'

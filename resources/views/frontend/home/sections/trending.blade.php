@@ -3,7 +3,7 @@
         <div class="collection-category">
             <div class="section-capture text-center">
                 <div class="section-title" data-animate="animate__fadeIn">
-                    <h2 class="section-heading">Trending product</h2>
+                    <h2 class="section-heading">{{ $section->name }}</h2>
                 </div>
             </div>
             <div class="row row-mtm100 flex-lg-row-reverse">
@@ -153,25 +153,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 col-xl-5">
-                    <!-- category-product-banner start -->
-                    <div class="category-product-banner height-lg-100 position-relative banner-hover br-hidden">
-                        <a href="collection.html" class="d-block height-lg-100 banner-img"><img
-                                src="{{ asset('frontend') }}/assets/image/index/product-banner1.jpg"
-                                class="w-100 height-lg-100 img-fluid" alt="product-banner1"></a>
-                        <div
-                            class="position-absolute bottom-0 start-0 end-0 meb-30 meb-xl-50 mlr-15 mlr-md-30 mlr-xxl-50">
+                @if ($section->sectionImages)
+                    @php
+                        $image = $section->sectionImages->first();
+                    @endphp
+                    <div class="col-12 col-lg-6 col-xl-5">
+                        <!-- category-product-banner start -->
+                        <div class="category-product-banner height-lg-100 position-relative banner-hover br-hidden">
+                            <a href="collection.html" class="d-block height-lg-100 banner-img"><img
+                                    src="{{ asset('uploads/section-images/' . $image->image ?? 'default.png') }}"
+                                    class="w-100 height-lg-100 img-fluid" alt="product-banner1"></a>
                             <div
-                                class="category-product-banner-content d-flex flex-wrap align-items-center justify-content-between">
-                                <h2
-                                    class="font-24 font-xl-40 section-heading-family section-heading-text section-heading-weight section-heading-lh">
-                                    Men fashion</h2>
-                                <a href="collection.html" class="btn-style tertiary-btn">Shop now</a>
+                                class="position-absolute bottom-0 start-0 end-0 meb-30 meb-xl-50 mlr-15 mlr-md-30 mlr-xxl-50">
+                                <div
+                                    class="category-product-banner-content d-flex flex-wrap align-items-center justify-content-between">
+                                    <h2
+                                        class="font-24 font-xl-40 section-heading-family section-heading-text section-heading-weight section-heading-lh">
+                                        {{ $image->title }}</h2>
+                                    <a href="collection.html"
+                                        class="btn-style tertiary-btn">{{ $image->button ?? 'Shop Now' }}</a>
+                                </div>
                             </div>
                         </div>
+                        <!-- category-product-banner start -->
                     </div>
-                    <!-- category-product-banner start -->
-                </div>
+                @endif
             </div>
         </div>
     </div>

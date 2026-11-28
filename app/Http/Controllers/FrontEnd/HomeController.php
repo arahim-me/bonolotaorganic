@@ -15,13 +15,13 @@ class HomeController extends Controller
     {
         $title = 'Home';
         $active_id = Status::where('name', 'like', '%active%')->first();
-        $sections = ProductSection::where('is_published', true)->get();
+        // $sections = ProductSection::where('is_published', true)->get();
         $featured_products = Product::where('is_published', true)->where('is_featured', true)->latest()->paginate(10);
         $trend_products = Product::orderBy('views', 'desc')->where('is_published', true)->latest()->paginate(10);
         $new_products = Product::where('is_published', true)->latest()->paginate(10);
         $categories = Category::where('is_published', true)->latest()->take(5)->get();
         $products = Product::where('is_published', true)->latest()->take(10)->get();
-        return view('frontend.home.index', compact(['title', 'products', 'sections', 'featured_products', 'trend_products', 'new_products', 'categories']));
+        return view('frontend.home.index', compact(['title', 'products', 'featured_products', 'trend_products', 'new_products', 'categories']));
     }
 
     public function showPolicy($policyType)

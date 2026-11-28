@@ -6,39 +6,66 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Throwable;
 
 class CategoryController extends Controller
 {
+    private const IMAGE_DIR = 'uploads/categories';
+
+    private const DEFAULT_IMAGE = 'default.png';
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Category Index
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
         $title = 'Categories Management';
+
         $statuses = Status::all();
-        $categories = Category::latest()->paginate(15);
-        return view('dashboard.categories.index', compact(['categories', 'title', 'statuses']));
+
+        $categories = Category::with('status')
+            ->withCount('products')
+            ->latest()
+            ->paginate(15);
+
+        return view(
+            'dashboard.categories.index',
+            compact('categories', 'title', 'statuses')
+        );
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Category Filter
+    |--------------------------------------------------------------------------
+    */
+
     public function filter(Request $request)
     {
-        $title = 'Category filter';
-        // Validate Filter
-        $valitadate = $request->validate([
+        $title = 'Category Filter';
+
+        $request->validate([
             'is_published' => 'nullable|boolean',
-            'status_id' => 'nullable|integer',
+            'status_id' => 'nullable|integer|exists:statuses,id',
             'search' => 'nullable|string|max:255',
             'productCount' => 'nullable|integer|min:0',
         ]);
 
-
         $categories = Category::query()
 
-            // Load Relationships
             ->with('status')
 
-            // Count Products
             ->withCount('products')
 
-            // Published / Unpublished Filter
+            // Published Filter
             ->when($request->filled('is_published'), function ($query) use ($request) {
                 $query->where(
                     'is_published',
@@ -64,7 +91,7 @@ class CategoryController extends Controller
                 });
             })
 
-            // Product Count Filter (Exact Match)
+            // Product Count Filter
             ->when($request->filled('productCount'), function ($query) use ($request) {
 
                 $query->having(
@@ -75,122 +102,365 @@ class CategoryController extends Controller
 
             })
 
-            // Latest Categories First
             ->latest()
 
-            // Pagination
             ->paginate(10)
 
             ->withQueryString();
 
-        // Get Status List
         $statuses = Status::all();
 
-        return view('dashboard.categories.index', compact(
-            'categories',
-            'statuses',
-            'title'
-        ));
+        return view(
+            'dashboard.categories.index',
+            compact('categories', 'statuses', 'title')
+        );
     }
 
 
-
+    /*
+    |--------------------------------------------------------------------------
+    | Create Category
+    |--------------------------------------------------------------------------
+    */
 
     public function create()
     {
         $statuses = Status::all();
+
         $title = 'Create Category';
-        return view('dashboard.categories.create', compact('title', 'statuses'));
+
+        return view(
+            'dashboard.categories.create',
+            compact('title', 'statuses')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store Category
+    |--------------------------------------------------------------------------
+    */
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:5120',
+            'status_id' => 'nullable|exists:statuses,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'is_published' => 'nullable|boolean',
         ]);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = $file->hashName();
-            $file->move(public_path('uploads/categories'), $filename);
-            $validated['image'] = $filename;
+        $uploadedImage = null;
+
+        try {
+
+            if ($request->hasFile('image')) {
+
+                $uploadedImage = $this->storeCategoryImage(
+                    $request->file('image')
+                );
+
+                $validated['image'] = $uploadedImage;
+            }
+
+            $validated['is_published'] = $request->boolean('is_published');
+
+            Category::create($validated);
+
+            return redirect()
+                ->route('dashboard.categories.index')
+                ->with('success', 'Category created successfully!');
+
+        } catch (Throwable $e) {
+
+            if ($uploadedImage) {
+                $this->deleteCategoryImage($uploadedImage);
+            }
+
+            report($e);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Category creation failed!');
         }
-
-        Category::create($validated);
-
-        return redirect()->route('dashboard.categories.index')->with('success', 'Category created successfully!');
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Show Category
+    |--------------------------------------------------------------------------
+    */
 
     public function show(Category $category)
     {
         $title = 'Category Details: ' . $category->name;
-        return view('dashboard.categories.show', compact(['category', 'title']));
+
+        $category->load('status');
+
+        $category->loadCount('products');
+
+        return view(
+            'dashboard.categories.show',
+            compact('category', 'title')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Category
+    |--------------------------------------------------------------------------
+    */
 
     public function edit(Category $category)
     {
         $title = 'Edit ' . $category->name;
-        return view('dashboard.categories.edit', compact('category', 'title'));
+
+        $statuses = Status::all();
+
+        return view(
+            'dashboard.categories.edit',
+            compact('category', 'title', 'statuses')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update Category
+    |--------------------------------------------------------------------------
+    */
 
     public function update(Request $request, Category $category)
     {
-        $user = auth()->user()?->id ?? null;
-        $previousImage = $category->image;
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'status_id' => 'nullable|integer|in:1,2',
-            'image' => 'nullable|image|max:5120',
+            'status_id' => 'nullable|exists:statuses,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'is_published' => 'nullable|boolean',
         ]);
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension() ?: 'jpg';
-            $filename = 'uid' . $user . '-' . time() . '-' . random_int(10, 100) . '.' . $extension;
-            $file->move(public_path('uploads/categories'), $filename);
-            $validated['image'] = $filename;
-        }
+        $previousImage = $category->image;
 
-        if (!$category->update($validated)) {
-            return redirect()->back()->with('error', 'Category update failed. Please try again.');
-        }
+        $newImage = null;
 
-        if (
-            $request->hasFile('image')
-            && $previousImage
-            && $previousImage !== $validated['image']
-            && $previousImage !== 'default.png'
-            && basename($previousImage) === $previousImage
-            && !Category::where('image', $previousImage)
-                ->where($category->getKeyName(), '!=', $category->getKey())
-                ->exists()
-        ) {
-            $previousImagePath = public_path('uploads/categories/' . $previousImage);
+        try {
 
-            if (is_file($previousImagePath) && !unlink($previousImagePath)) {
-                throw new \RuntimeException('Unable to delete the previous category image.');
+            /*
+            |--------------------------------------------------------------------------
+            | Upload New Image
+            |--------------------------------------------------------------------------
+            */
+
+            if ($request->hasFile('image')) {
+
+                $newImage = $this->storeCategoryImage(
+                    $request->file('image')
+                );
+
+                $validated['image'] = $newImage;
             }
-        }
 
-        return redirect()->route('dashboard.categories.index')->with('success', 'Category updated successfully!');
+            $validated['is_published'] = $request->boolean('is_published');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Update Database
+            |--------------------------------------------------------------------------
+            */
+
+            DB::transaction(function () use ($category, $validated) {
+
+                $category->update($validated);
+
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | Delete Previous Image
+            |--------------------------------------------------------------------------
+            */
+
+            if ($newImage && $previousImage !== $newImage) {
+
+                $this->deleteCategoryImageIfUnused(
+                    $previousImage,
+                    $category->id
+                );
+            }
+
+            return redirect()
+                ->route('dashboard.categories.index')
+                ->with('success', 'Category updated successfully!');
+
+        } catch (Throwable $e) {
+
+            // Delete newly uploaded image if update fails
+            if ($newImage) {
+                $this->deleteCategoryImage($newImage);
+            }
+
+            report($e);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Category update failed. Please try again.');
+        }
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Category
+    |--------------------------------------------------------------------------
+    */
 
     public function destroy(Category $category)
     {
-        $category->delete();
+        $image = $category->image;
 
-        return redirect()->route('dashboard.categories.index')->with('success', 'Category deleted successfully!');
+        try {
+
+            DB::transaction(function () use ($category) {
+
+                $category->delete();
+
+            });
+
+            // Delete image only if no other category uses it
+            $this->deleteCategoryImageIfUnused(
+                $image,
+                $category->id
+            );
+
+            return redirect()
+                ->route('dashboard.categories.index')
+                ->with('success', 'Category deleted successfully!');
+
+        } catch (Throwable $e) {
+
+            report($e);
+
+            return back()
+                ->with('error', 'Category deletion failed!');
+        }
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Toggle Published Status
+    |--------------------------------------------------------------------------
+    */
 
     public function toggleStatus($id)
     {
         $category = Category::findOrFail($id);
-        $category->is_published = !$category->is_published;
-        $category->save();
-        return redirect()->back()->with('success', 'Category publishable status updated successfully!');
+
+        $category->update([
+            'is_published' => !$category->is_published,
+        ]);
+
+        return back()->with(
+            'success',
+            'Category publication status updated successfully!'
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store Category Image
+    |--------------------------------------------------------------------------
+    */
+
+    private function storeCategoryImage($file): string
+    {
+        $extension = strtolower(
+            $file->getClientOriginalExtension()
+        );
+
+        if (!in_array($extension, ['jpg', 'jpeg', 'png', 'webp'])) {
+            $extension = 'jpg';
+        }
+
+        $userId = auth()->id() ?? 0;
+
+        $filename = 'uid' . $userId
+            . '-' . time()
+            . '-' . rand(0, 100)
+            . '.' . $extension;
+
+        $directory = public_path(self::IMAGE_DIR);
+
+        File::ensureDirectoryExists($directory);
+
+        $file->move($directory, $filename);
+
+        return $filename;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Category Image
+    |--------------------------------------------------------------------------
+    */
+
+    private function deleteCategoryImage(?string $filename): void
+    {
+        if (!$filename) {
+            return;
+        }
+
+        $filename = basename($filename);
+
+        // Never delete default image
+        if ($filename === self::DEFAULT_IMAGE) {
+            return;
+        }
+
+        $imagePath = public_path(
+            self::IMAGE_DIR . '/' . $filename
+        );
+
+        if (File::exists($imagePath) && File::isFile($imagePath)) {
+            File::delete($imagePath);
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete Image If Not Used By Other Categories
+    |--------------------------------------------------------------------------
+    */
+
+    private function deleteCategoryImageIfUnused(
+        ?string $filename,
+        int $categoryId
+    ): void {
+
+        if (!$filename) {
+            return;
+        }
+
+        $filename = basename($filename);
+
+        if ($filename === self::DEFAULT_IMAGE) {
+            return;
+        }
+
+        $isUsed = Category::where('image', $filename)
+            ->where('id', '!=', $categoryId)
+            ->exists();
+
+        if (!$isUsed) {
+            $this->deleteCategoryImage($filename);
+        }
     }
 }

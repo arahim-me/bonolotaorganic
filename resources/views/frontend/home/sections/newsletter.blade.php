@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row align-items-lg-center justify-content-lg-center">
             <div class="col-12 col-lg-5 col-xxl-4 meb-23 meb-lg-0 text-center">
-                <h2 class="section-heading">{{ $newsletter->name ?? 'Subscribe to Our Newsletter' }}</h2>
+                <h2 class="section-heading">{{ $section->name }}</h2>
             </div>
             <div class="col-12 col-lg-7 col-xl-6">
                 <form method="post" class="news-form">

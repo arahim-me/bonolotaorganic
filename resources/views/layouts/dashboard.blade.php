@@ -113,6 +113,11 @@
                                             <span class="menu-text">Brands</span>
                                         </a>
                                     </li>
+                                    <li class="menu-item">
+                                        <a class='menu-link' href='{{ route('dashboard.brands.index') }}'>
+                                            <span class="menu-text">Models</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -141,8 +146,8 @@
                                         </a>
                                     </li>
                                     <li class="menu-item">
-                                        <a class='menu-link' href='{{ route('dashboard.products.index') }}'>
-                                            <span class="menu-text">Product Management</span>
+                                        <a class='menu-link' href='{{ route('dashboard.section-images.index') }}'>
+                                            <span class="menu-text">Section Management</span>
                                         </a>
                                     </li>
                                 </ul>

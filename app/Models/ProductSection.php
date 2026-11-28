@@ -16,4 +16,9 @@ class ProductSection extends Model
         'is_publised',
     ];
 
+    public function sectionImages()
+    {
+        return $this->hasMany(SectionImage::class, 'section_id');
+    }
+
 }

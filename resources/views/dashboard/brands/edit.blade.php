@@ -1,75 +1,133 @@
+
 @extends('layouts.dashboard')
 
-@section('title', 'Edit Review')
+@section('title', $title ?? 'Edit Brand')
 
 @section('content')
     <div class="py-3 py-lg-4">
         <div class="row align-items-center">
-            <div class="col-sm-6">
-                <h4 class="page-title mb-0">Edit Review</h4>
+            <div class="col">
+                <h4 class="page-title mb-0">
+                    {{ $title ?? 'Edit Brand' }}
+                </h4>
+            </div>
+
+            <div class="col">
+                <div class="float-end">
+                    <a href="{{ route('dashboard.brands.index') }}" class="btn btn-secondary">
+                        <i class="bx bx-arrow-back"></i> Back
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Edit Brand Information</h5>
+        </div>
+
         <div class="card-body">
-            <form action="{{ route('reviews.update', $review->id) }}" method="POST">
+            <form action="{{ route('dashboard.brands.update', $brand->id) }}" method="POST">
                 @csrf
                 @method('PUT')
+
                 <div class="row g-3">
+
+                    {{-- Brand Name --}}
                     <div class="col-md-6">
-                        <label class="form-label">User</label>
-                        <select name="user_id" class="form-select" required>
-                            <option value="">Select user</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id', $review->user_id) == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <label class="form-label">
+                            Brand Name <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control @error('name') is-invalid @enderror"
+                            value="{{ old('name', $brand->name) }}"
+                            maxlength="255"
+                            required
+                        >
+
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    {{-- Slug --}}
                     <div class="col-md-6">
-                        <label class="form-label">Product</label>
-                        <select name="product_id" class="form-select" required>
-                            <option value="">Select product</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}" {{ old('product_id', $review->product_id) == $product->id ? 'selected' : '' }}>
-                                    {{ $product->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <label class="form-label">
+                            Slug <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="slug"
+                            class="form-control @error('slug') is-invalid @enderror"
+                            value="{{ old('slug', $brand->slug) }}"
+                            maxlength="255"
+                        >
+
+                        @error('slug')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Title</label>
-                        <input type="text" name="title" class="form-control" value="{{ old('title', $review->title) }}" maxlength="255">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Rating</label>
-                        <select name="rating" class="form-select" required>
-                            @for($i = 1; $i <= 5; $i++)
-                                <option value="{{ $i }}" {{ old('rating', $review->rating) == $i ? 'selected' : '' }}>{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
+
+                    {{-- Description --}}
                     <div class="col-12">
                         <label class="form-label">Description</label>
-                        <textarea name="description" rows="4" class="form-control">{{ old('description', $review->description) }}</textarea>
+
+                        <textarea
+                            name="description"
+                            rows="4"
+                            class="form-control @error('description') is-invalid @enderror"
+                        >{{ old('description', $brand->description) }}</textarea>
+
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    {{-- Published Status --}}
                     <div class="col-md-6">
-                        <label class="form-label">Status</label>
-                        <select name="status_id" class="form-select">
-                            @foreach($statuses as $status)
-                                <option value="{{ $status->id }}" {{ old('status_id', $review->status_id) == $status->id ? 'selected' : '' }}>
-                                    {{ $status->name }}
-                                </option>
-                            @endforeach
+                        <label class="form-label">Published Status</label>
+
+                        <select
+                            name="is_published"
+                            class="form-select @error('is_published') is-invalid @enderror"
+                        >
+                            <option value="1"
+                                {{ (string) old('is_published', $brand->is_published) === '1' ? 'selected' : '' }}>
+                                Published
+                            </option>
+
+                            <option value="0"
+                                {{ (string) old('is_published', $brand->is_published) === '0' ? 'selected' : '' }}>
+                                Unpublished
+                            </option>
                         </select>
+
+                        @error('is_published')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
+
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Update Review</button>
-                    <a href="{{ route('reviews.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-save"></i> Update Brand
+                    </button>
+
+                    <a href="{{ route('dashboard.brands.show', $brand->id) }}"
+                       class="btn btn-outline-info">
+                        <i class="bx bx-show"></i> View Brand
+                    </a>
+
+                    <a href="{{ route('dashboard.brands.index') }}"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
                 </div>
             </form>
         </div>

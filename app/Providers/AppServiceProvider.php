@@ -8,6 +8,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Policy_type;
 use App\Models\Product;
+use App\Models\ProductSection;
 use App\Models\Review;
 use App\Models\SiteInfo;
 use App\Models\Status;
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         View::share('siteInfo', Schema::hasTable('site_infos') ? SiteInfo::first() : null);
+        view::share('sections', Schema::hasTable('product_sections') ? ProductSection::where('is_published', true)->get() : null);
         View::share('publishedPolicies', Schema::hasTable('policy_types') ? Policy_type::where('is_published', true)->get() : collect());
         View::share('unreadMessagesCount', Schema::hasTable('messages') ? Message::where('is_read', false)->count() : 0);
         View::share('notApprovedReviewsCount', Schema::hasTable('reviews') ? Review::where('is_approved', false)->count() : 0);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -34,25 +35,29 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:brands,slug',
+            'slug' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'is_published' => 'required|boolean',
         ]);
 
-        $slug = $request->input('slug');
-        if (empty($slug)) {
-            $slug = \Str::slug($request->input('name'));
-            $request->merge(['slug' => $slug]);
+        $slug = Str::slug($validated['slug'] ?: $validated['name']);
+
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (Brand::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
         }
 
-        $created = Brand::create($request->only('name', 'slug', 'description'));
+        $validated['slug'] = $slug;
 
-        if (!$created) {
-            return redirect()->back()->with('error', 'Failed to create brand. Please try again.');
-        } else {
-            return redirect()->route('brands.index')->with('success', 'Brand created successfully.');
-        }
+        Brand::create($validated);
+
+        return redirect()
+            ->route('dashboard.brands.index')
+            ->with('success', 'Brand created successfully.');
     }
 
     /**
@@ -60,7 +65,8 @@ class BrandController extends Controller
      */
     public function show(Brand $brand)
     {
-        //
+        $title = 'Brand details of ' . $brand->name;
+        return view('dashboard.brands.show', compact('title', 'brand'));
     }
 
     /**
@@ -68,15 +74,45 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
-        //
+        $title = 'Brand edit of ' . $brand->name;
+        return view('dashboard.brands.edit', compact('title', 'brand'));
     }
 
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, Brand $brand)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:brands,slug,' . $brand->id,
+            'description' => 'nullable|string',
+            'is_published' => 'required|boolean',
+        ]);
+
+        // Slug না থাকলে Brand Name অনুযায়ী তৈরি হবে
+        $validated['slug'] = !empty($validated['slug'])
+            ? Str::slug($validated['slug'])
+            : Str::slug($validated['name']);
+
+        // Slug unique কিনা পুনরায় নিশ্চিত করা
+        $originalSlug = $validated['slug'];
+        $counter = 1;
+
+        while (
+            Brand::where('slug', $validated['slug'])
+                ->where('id', '!=', $brand->id)
+                ->exists()
+        ) {
+            $validated['slug'] = $originalSlug . '-' . $counter++;
+        }
+
+        $brand->update($validated);
+
+        return redirect()
+            ->route('dashboard.brands.index')
+            ->with('success', 'Brand updated successfully.');
     }
 
     /**

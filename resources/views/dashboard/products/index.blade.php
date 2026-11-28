@@ -136,6 +136,7 @@
                                 </td>
                                 <td>
                                     <strong>{{ $product->name ?? 'N/A' }}</strong>
+                                    <p>{{ $product->brand->name ?? 'N/A' }}</p>
                                 </td>
                                 <td>
                                     {{ $product->category_name ?? '-' }}

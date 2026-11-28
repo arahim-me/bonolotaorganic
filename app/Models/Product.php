@@ -39,6 +39,7 @@ class Product extends Model
     protected $casts = [
         'images' => 'array',
         'is_featured' => 'boolean',
+        'is_published' => 'boolean',
     ];
 
     // Relation with Category

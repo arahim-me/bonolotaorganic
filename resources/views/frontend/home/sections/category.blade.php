@@ -3,7 +3,7 @@
         <div class="cat-category">
             <div class="section-capture text-center">
                 <div class="section-title" data-animate="animate__fadeIn">
-                    <h2 class="section-heading">Every best category</h2>
+                    <h2 class="section-heading">{{ $section->name }}</h2>
                 </div>
             </div>
             <div class="cat-wrap">
@@ -83,8 +83,8 @@
                 <div class="swiper-dots" data-animate="animate__fadeIn">
                     <div class="swiper-pagination swiper-pagination-cat"></div>
                 </div>
-                <div class="view-button d-none" data-animate="animate__fadeIn">
-                    <a href="collections.html" class="btn-style tertiary-btn">See more</a>
+                <div class="view-button" data-animate="animate__fadeIn">
+                    <a href="{{ route('categories') }}" class="btn-style tertiary-btn">See more</a>
                 </div>
             </div>
         </div>

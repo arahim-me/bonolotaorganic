@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('product-sections.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('dashboard.product-sections.index') }}" class="btn btn-secondary">
                         <i class="bx bx-arrow-back"></i> Back
                     </a>
                 </div>
@@ -34,7 +34,7 @@
         <div class="col-xl-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('product-sections.update', $productSection->id) }}" method="POST"
+                    <form action="{{ route('dashboard.product-sections.update', $productSection->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

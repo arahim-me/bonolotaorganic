@@ -14,31 +14,38 @@ class ProductSectionSeeder extends Seeder
     {
         $sections = [
             [
+                'name' => 'Top Section',
+                'slug' => 'top',
+                'description' => 'Information will be displayed about top navigation on the homepage.',
+                'position' => 1,
+                'is_published' => true,
+            ],
+            [
                 'name' => 'Service Section',
                 'slug' => 'service',
                 'description' => 'Information will be displayed about our services on the homepage.',
-                'position' => 1,
+                'position' => 2,
                 'is_published' => true,
             ],
             [
                 'name' => 'Hero Section',
                 'slug' => 'hero',
                 'description' => 'Items will be displayed with a Slider in the hero section of the homepage.',
-                'position' => 1,
+                'position' => 3,
                 'is_published' => true,
             ],
             [
                 'name' => 'Category Section',
                 'slug' => 'category',
                 'description' => 'All items of this section will be displayed in the category section of the homepage which is active.',
-                'position' => 2,
+                'position' => 4,
                 'is_published' => true,
             ],
             [
                 'name' => 'Brand Section',
                 'slug' => 'brand',
                 'description' => 'Brands will be displayed in the homepage.',
-                'position' => 10,
+                'position' => 5,
                 'is_published' => false,
 
             ],
@@ -46,14 +53,14 @@ class ProductSectionSeeder extends Seeder
                 'name' => 'Trending Section',
                 'slug' => 'trending',
                 'description' => 'Trending products will be displayed in the homepage.',
-                'position' => 3,
+                'position' => 6,
                 'is_published' => true,
             ],
             [
                 'name' => 'Deal Section',
                 'slug' => 'deal',
                 'description' => 'Special deals will be displayed in the homepage.',
-                'position' => 4,
+                'position' => 7,
                 'is_published' => false,
 
             ],
@@ -61,7 +68,7 @@ class ProductSectionSeeder extends Seeder
                 'name' => 'Featured Section',
                 'slug' => 'featured',
                 'description' => 'Featured products will be displayed in the homepage.',
-                'position' => 5,
+                'position' => 8,
                 'is_published' => true,
             ],
             [
@@ -76,7 +83,7 @@ class ProductSectionSeeder extends Seeder
                 'name' => 'Testimonial Section',
                 'slug' => 'testimonial',
                 'description' => 'Customer testimonials will be displayed in the homepage.',
-                'position' => 6,
+                'position' => 10,
                 'is_published' => false,
 
             ],
@@ -84,7 +91,7 @@ class ProductSectionSeeder extends Seeder
                 'name' => 'New Product Section',
                 'slug' => 'new',
                 'description' => 'New products will be displayed in the homepage.',
-                'position' => 8,
+                'position' => 11,
                 'is_published' => true,
 
             ],
@@ -92,7 +99,7 @@ class ProductSectionSeeder extends Seeder
                 'name' => 'Blog Section',
                 'slug' => 'blog',
                 'description' => 'Latest blog posts will be displayed in the homepage.',
-                'position' => 7,
+                'position' => 12,
                 'is_published' => false,
 
             ],
@@ -100,7 +107,7 @@ class ProductSectionSeeder extends Seeder
                 'name' => 'Best Match Product Section',
                 'slug' => 'match',
                 'description' => 'Best match products will be displayed in the homepage.',
-                'position' => 11,
+                'position' => 13,
                 'is_published' => true,
 
             ],

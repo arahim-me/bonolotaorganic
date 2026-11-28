@@ -10,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="float-end d-none d-sm-block">
-                    <a href="{{ route('brands.create') }}" class="btn btn-primary">
+                    <a href="{{ route('dashboard.brands.create') }}" class="btn btn-primary">
                         <i class="bx bx-plus"></i> Add Brand
                     </a>
                 </div>
@@ -33,6 +33,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Slug</th>
                             <th>Description</th>
                             <th>Product Count</th>
                             <th>Status</th>
@@ -45,6 +46,9 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <strong>{{ $brand->name ?? 'Unnamed brand' }}</strong>
+                                </td>
+                                <td>
+                                    <p>{{ $brand->slug }}</p>
                                 </td>
                                 <td>{{ Str::limit($brand->description, 45) ?? 'N/A' }}</td>
                                 <td>{{ $brand->products->count() }}</td>
@@ -62,11 +66,11 @@
                                 </td>
                                 <td width="100px">
                                     <div class="d-flex gap-2">
-                                        <a class="dropdown-item" href="{{ route('brands.show', $brand->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.brands.show', $brand->id) }}"><i
                                                 class="fa-solid fa-eye"></i></a>
-                                        <a class="dropdown-item" href="{{ route('brands.edit', $brand->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('dashboard.brands.edit', $brand->id) }}"><i
                                                 class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('brands.destroy', $brand->id) }}" method="POST"
+                                        <form action="{{ route('dashboard.brands.destroy', $brand->id) }}" method="POST"
                                             class="m-0"
                                             onsubmit="return confirm('Are you sure you want to delete this brand?');">
                                             @csrf
